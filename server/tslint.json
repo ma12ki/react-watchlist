@@ -1,0 +1,23 @@
+{
+  "extends": "tslint:recommended",
+  "rules": {
+    "no-console": false,
+    "no-unused-variable": [
+      true,
+      "check-parameters",
+      {"ignore-pattern": "^_"}
+    ],
+    "object-literal-sort-keys": false,
+    "ordered-imports": false,
+    "quotemark": [
+      "single"
+    ],
+    "variable-name": [
+      true,
+      "ban-keywords",
+      "check-format",
+      "allow-leading-underscore",
+      "allow-pascal-case"
+    ]
+  }
+}
