@@ -1,6 +1,6 @@
 const seasonsTokens = {
-    seasonsService: Symbol('seasonsService'),
-    seasonsController: Symbol('seasonsController'),
+  seasonsService: Symbol('seasonsService'),
+  seasonsController: Symbol('seasonsController'),
 };
 
 export { seasonsTokens };

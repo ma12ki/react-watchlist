@@ -9,12 +9,12 @@ import { ISeason } from '../../entities/season';
 @controller('/seasons')
 @injectable()
 export class SeasonsController implements interfaces.Controller {
-    constructor(
-      @inject(seasonsTokens.seasonsService) private seasonsService: ISeasonsService,
-    ) {}
+  constructor(
+    @inject(seasonsTokens.seasonsService) private seasonsService: ISeasonsService,
+  ) {}
 
-    @httpGet('/')
-    public async getSeasons(@response() res: express.Response): Promise<ISeason[]> {
-      return this.seasonsService.getSeasons();
-    }
+  @httpGet('/')
+  public async getSeasons(@response() res: express.Response): Promise<ISeason[]> {
+    return this.seasonsService.getSeasons();
+  }
 }
