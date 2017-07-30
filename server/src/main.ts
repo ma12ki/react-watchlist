@@ -6,8 +6,9 @@ import * as helmet from 'helmet';
 import * as morgan from 'morgan';
 
 import { port, production } from './config';
-import { getConnection as getDbConnection } from './db';
+import { db } from './db';
 import { bearerToken, extractUser, logger } from './helpers';
+import { app } from './app';
 
 interface IMainOptions {
   production: boolean;
@@ -15,18 +16,6 @@ interface IMainOptions {
 }
 
 export async function main(options: IMainOptions) {
-  const app = express();
-
-  app.use(helmet());
-  app.use(morgan('combined'));
-
-  app.use(cors());
-  // app.use(bearerToken);
-  // app.use(extractUser);
-  app.use(bodyParser.json());
-
-  app.get('/ping', (req, res) => res.send('pong'));
-
   const serverStart = () => new Promise((resolve, reject) => {
     const server = app.listen(options.port, () => {
       logger.info(`server listening on port ${port}`);
@@ -39,7 +28,7 @@ export async function main(options: IMainOptions) {
     });
   });
 
-  return Promise.all([serverStart() as any, getDbConnection() as any]);
+  return Promise.all([serverStart() as any, db.getConnection() as any]);
 }
 
 main({
