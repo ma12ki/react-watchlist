@@ -12,10 +12,8 @@
       "node_modules/@types"
     ]
   },
-  "files": [
-    "src/main.ts"
-  ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "src/**/*spec.ts"
   ]
 }

@@ -1,15 +1,55 @@
-import * as mongoose from 'mongoose';
+import * as path from 'path';
+import { createConnection, Connection } from 'typeorm';
 
-(mongoose as any).Promise = global.Promise;
+import {
+  dbHost,
+  dbPort,
+  dbName,
+  dbUser,
+  dbPass,
+} from '../config';
+import { logger } from '../helpers';
+import {
+  Show,
+  Season,
+  Episode,
+} from '../entities';
 
-const connect = (uri) => {
-  console.log(`Attempting to connect to db at ${uri}...`);
-  return mongoose.connect(uri)
-    .then(() => {
-      console.log('Successfully connected to db');
+let connection: Connection;
+
+const getConnection: () => Promise<Connection> = async () => {
+  if (connection) {
+    return connection;
+  }
+
+  try {
+    connection = await createConnection({
+      driver: {
+        type: 'mysql',
+        host: dbHost,
+        port: dbPort,
+        username: dbUser,
+        password: dbPass,
+        database: dbName,
+      },
+      entities: [
+        Show,
+        Season,
+        Episode,
+      ],
+      autoSchemaSync: true,
     });
+
+    logger.info(`connected to db at ${dbHost}:${dbPort}`);
+  } catch (connectionError) {
+    logger.error('Unable to connect to the db!', (connectionError as Error).message)
+    logger.error((connectionError as Error).stack);
+    throw connectionError;
+  }
+
+  return connection;
 };
 
 export {
-  connect,
+  getConnection,
 };

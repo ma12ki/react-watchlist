@@ -1,73 +1,50 @@
+import 'reflect-metadata';
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
-import { graphqlExpress, graphiqlExpress } from 'graphql-server-express';
 import * as cors from 'cors';
 import * as helmet from 'helmet';
 import * as morgan from 'morgan';
 
-import { config } from './config';
-import { connect as dbConnect } from './db';
-import { Schema } from './schema';
-import { bearerToken, extractUser } from './helpers';
-
-export const GRAPHQL_ROUTE = '/graphql';
-export const GRAPHIQL_ROUTE = '/graphiql';
-const { port, production, mongoUri } = config;
+import { port, production } from './config';
+import { getConnection as getDbConnection } from './db';
+import { bearerToken, extractUser, logger } from './helpers';
 
 interface IMainOptions {
   production: boolean;
   port: number;
-  mongoUri: string;
 }
 
-main({
-  production,
-  port,
-  mongoUri,
-}).then(() => {
-  console.log('////////// All services started successfully. \\\\\\\\\\');
-});
-
-export function main(options: IMainOptions) {
+export async function main(options: IMainOptions) {
   const app = express();
 
   app.use(helmet());
   app.use(morgan('combined'));
 
-  app.use(GRAPHQL_ROUTE, cors());
-  app.use(GRAPHQL_ROUTE, bearerToken);
-  app.use(GRAPHQL_ROUTE, extractUser);
-  app.use(GRAPHQL_ROUTE, bodyParser.json(), graphqlExpress((request) => {
-    const { user } = request as any;
-    return {
-      context: {
-        user,
-      },
-      schema: Schema,
-    };
-  }));
+  app.use(cors());
+  // app.use(bearerToken);
+  // app.use(extractUser);
+  app.use(bodyParser.json());
 
-  if (!production) {
-    app.use(GRAPHIQL_ROUTE, graphiqlExpress({ endpointURL: GRAPHQL_ROUTE }));
-  }
+  app.get('/ping', (req, res) => res.send('pong'));
 
   const serverStart = () => new Promise((resolve, reject) => {
     const server = app.listen(options.port, () => {
-      verbosePrint(!production);
+      logger.info(`server listening on port ${port}`);
 
       resolve(server);
     }).on('error', (err: Error) => {
+      logger.error(err.message);
+
       reject(err);
     });
   });
 
-  return Promise.all([serverStart() as any, dbConnect(options.mongoUri) as any]);
+  return Promise.all([serverStart() as any, getDbConnection() as any]);
 }
 
-/* istanbul ignore next: no need to test verbose print */
-function verbosePrint(enableGraphiql) {
-  console.log(`GraphQL Server is now running on http://localhost:${port}${GRAPHQL_ROUTE}`);
-  if (true === enableGraphiql) {
-    console.log(`GraphiQL Server is now running on http://localhost:${port}${GRAPHIQL_ROUTE}`);
-  }
-}
+main({
+  production,
+  port,
+}).then(() => {
+  logger.success('######### All services started successfully #########');
+});

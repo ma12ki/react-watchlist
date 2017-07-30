@@ -1,22 +1,31 @@
+import * as path from 'path';
 import { config as dotenvConfig } from 'dotenv';
 
-const env = dotenvConfig();
+import { logger } from '../helpers';
 
+const env = dotenvConfig({
+  path: path.resolve('./', '..', '.env'),
+});
+
+logger.info('Read .env file:');
 console.log(env);
 
-const config = {
-  get production(): boolean {
-    return process.env.NODE_ENV === 'production';
-  },
-  get mongoUri(): string {
-    return process.env.WL_MONGO_URI;
-  },
-  get port(): number {
-    return process.env.WL_PORT;
-  },
-  get jwtSecret(): string {
-    return process.env.WL_JWT_SECRET;
-  },
-};
+const production = process.env.NODE_ENV === 'production';
+const dbHost = process.env.MYSQL_HOST;
+const dbPort = Number(process.env.WL_DB_PORT);
+const dbName = process.env.MYSQL_DATABASE;
+const dbUser = process.env.MYSQL_USER;
+const dbPass = process.env.MYSQL_PASSWORD;
+const port = Number(process.env.WL_SERVER_PORT);
+const jwtSecret = process.env.WL_JWT_SECRET;
 
-export { config };
+export {
+  production,
+  dbHost,
+  dbPort,
+  dbName,
+  dbUser,
+  dbPass,
+  port,
+  jwtSecret,
+};

@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryColumn, OneToMany, ManyToOne } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToOne } from 'typeorm';
 
 import { Frequency } from '../../../common/dictionary';
 import { Show, IShow } from './show';
@@ -14,13 +14,13 @@ export interface ISeason {
 
 @Entity()
 export class Season implements ISeason {
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn()
   public id: number;
-  @ManyToOne(type => Show, show => show.seasons, {
+  @ManyToOne((type) => Show, (show) => show.seasons, {
     cascadeAll: true,
   })
   public show: Show;
-  @OneToMany(type => Episode, episode => episode.season, {
+  @OneToMany((type) => Episode, (episode) => episode.season, {
     cascadeInsert: true,
     cascadeUpdate: true,
   })
@@ -30,6 +30,9 @@ export class Season implements ISeason {
     length: 10,
   })
   public frequency: Frequency;
-  @Column()
+  @Column({
+    type: 'int',
+    length: 2,
+  })
   public number: number;
 }

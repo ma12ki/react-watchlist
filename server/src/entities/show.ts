@@ -30,7 +30,7 @@ export class Show implements IShow {
     length: 256,
   })
   public downloadUrl: string;
-  @OneToMany(type => Season, season => season.show, {
+  @OneToMany((type) => Season, (season) => season.show, {
     cascadeInsert: true,
     cascadeUpdate: true,
   })
