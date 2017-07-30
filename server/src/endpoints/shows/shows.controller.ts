@@ -10,11 +10,11 @@ import { IShow } from '../../entities/show';
 @injectable()
 export class ShowsController implements interfaces.Controller {
     constructor(
-        @inject(showsTokens.showsService) private showsService: IShowsService,
+      @inject(showsTokens.showsService) private showsService: IShowsService,
     ) {}
 
     @httpGet('/')
     public async getShows(@response() res: express.Response): Promise<IShow[]> {
-        return this.showsService.getShows();
+      return this.showsService.getShows();
     }
 }
