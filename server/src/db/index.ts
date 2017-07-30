@@ -40,9 +40,9 @@ const getConnection: () => Promise<Connection> = async () => {
       autoSchemaSync: true,
     });
 
-    logger.info(`connected to db at ${dbHost}:${dbPort}`);
+    logger.info(`Connected to db at ${dbHost}:${dbPort}`);
   } catch (connectionError) {
-    logger.error('Unable to connect to the db!', (connectionError as Error).message)
+    logger.error('Unable to connect to the db!', (connectionError as Error).message);
     logger.error((connectionError as Error).stack);
     throw connectionError;
   }
