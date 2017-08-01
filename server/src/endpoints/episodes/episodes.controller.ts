@@ -3,7 +3,7 @@ import { injectable, inject } from 'inversify';
 import { interfaces, controller, httpGet, response } from 'inversify-express-utils';
 
 import { episodesTokens } from './episodes.tokens';
-import { IEpisodesService } from './episodes.service';
+import { IEpisodesService, IEpisodeWithShow } from './episodes.service';
 import { IEpisode } from '../../entities/episode';
 
 @controller('/episodes')
@@ -14,7 +14,17 @@ export class EpisodesController implements interfaces.Controller {
   ) {}
 
   @httpGet('/')
-  public async getepisodes(@response() res: express.Response): Promise<IEpisode[]> {
+  public async getEpisodes(@response() res: express.Response): Promise<IEpisode[]> {
     return this.episodesService.getEpisodes();
+  }
+
+  @httpGet('/available')
+  public async getAvailable(@response() res: express.Response): Promise<IEpisodeWithShow[]> {
+    return this.episodesService.getAvailable();
+  }
+
+  @httpGet('/upcoming')
+  public async getUpcoming(@response() res: express.Response): Promise<IEpisodeWithShow[]> {
+    return this.episodesService.getUpcoming();
   }
 }
