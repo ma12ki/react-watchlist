@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 
 import { ShowsWidget } from './shows';
+import { AvailableWidget, UpcomingWidget } from './episodes';
 
 class App extends Component {
   render() {
@@ -16,6 +17,8 @@ class App extends Component {
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
         <ShowsWidget />
+        <AvailableWidget />
+        <UpcomingWidget />
       </div>
     );
   }
