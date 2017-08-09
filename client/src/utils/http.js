@@ -1,42 +1,52 @@
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
+import _ from 'lodash/fp';
 
 import { apiUrl } from '../config';
 
-const httpMethods = {
-  GET: 'GET',
-  POST: 'POST',
-  PUT: 'PUT',
-  DELETE: 'DELETE',
+const fromPromise$ = Observable.fromPromise;
+
+const apiAxios = axios.create({
+  baseURL: apiUrl,
+  timeout: 5000,
+  responseType: 'json',
+});
+
+const get = (path) => {
+  return apiAxios.get({
+    url: path,
+  });
 };
 
-const apiFetch = (path, method = httpMethods.GET) => {
-    const headers = new Headers();
-    headers.append('Accept', 'application/json');
-    const config = {
-        method,
-        headers,
-        mode: 'cors',
-        cache: 'no-store',
-    };
-    return fetch(`${apiUrl}${path}`, config).then((response) => {
-        if (response.ok) {
-            return response.json();
-        }
-        throw new Error(response);
-    });
+const post = (path, data) => {
+  return apiAxios.post({
+    url: path,
+    data,
+  });
 };
 
-const apiFetch$ = (path, method = httpMethods.GET) => {
-    const promise = apiFetch(path, method);
-    return Observable.fromPromise(promise);
+const put = (path, data) => {
+  return apiAxios.put({
+    url: path,
+    data,
+  });
 };
 
-const get$ = (path) => {
-    return apiFetch$(path, httpMethods.GET);
+const remove = (path) => {
+  return apiAxios.delete({
+    url: path,
+  });
 };
+
+const get$ = _.compose(fromPromise$, get);
+const post$ = _.compose(fromPromise$, post);
+const put$ = _.compose(fromPromise$, put);
+const delete$ = _.compose(fromPromise$, remove);
 
 const http = {
-    get$,
+  get$,
+  post$,
+  put$,
+  delete$,
 };
 
 export { http };
