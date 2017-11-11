@@ -1,1 +1,1 @@
-export * from './menus';
+export * as components from './components';
