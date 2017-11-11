@@ -1,6 +1,7 @@
 import React from 'react';
 import cn from 'classnames';
 
+import { ThemePicker } from '../../../themes/components';
 import styles from './Home.css';
 
 const Home = () => (
@@ -11,6 +12,7 @@ const Home = () => (
       <aside className={cn(styles.aside, styles.box)}>aside</aside>
       <article className={cn(styles.article1, styles.box)}>article 1</article>
       <article className={cn(styles.article2, styles.box)}>article 2</article>
+      <ThemePicker />
     </div>
   </div>
 );

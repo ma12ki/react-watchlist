@@ -6,8 +6,9 @@ import { connectRoutes } from 'redux-first-router';
 import routes from './routes';
 import options from './routerOptions';
 import reducers from './reducers';
+import initialState from './initialState';
 
-const configureStoreProd = (initialState) => {
+const configureStoreProd = () => {
   const {
     reducer,
     middleware,
@@ -21,7 +22,7 @@ const configureStoreProd = (initialState) => {
   return createStore(rootReducer, initialState, enhancers);
 };
 
-const configureStoreDev = (initialState) => {
+const configureStoreDev = () => {
   const {
     reducer,
     middleware,
