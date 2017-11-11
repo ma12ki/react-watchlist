@@ -1,3 +1,16 @@
 :root[theme=light] {
-  --bg: #EEE;
+  --bg: #ddd;
+  --bg-complementary: #1d1d1d;
+  --bg-lighter: #eee;
+  --bg-complementary-lighter: #303030;
+  --bg-lightest: #fff;
+  --bg-complementary-lightest: #414141;
+  --bg-darker: #cecece;
+  --bg-complementary-darker: #060606;
+  --bg-darkest: #bfbfbf;
+  --bg-complementary-darkest: #000;
+
+  --text: #111;
+  --text-complementary: #eee;
+
 }

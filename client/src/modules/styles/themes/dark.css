@@ -1,3 +1,15 @@
 :root[theme=dark] {
-  --bg: #313131;
+  --bg: #1d1d1d;
+  --bg-complementary: #ddd;
+  --bg-lighter: #303030;
+  --bg-complementary-lighter: #eee;
+  --bg-lightest: #414141;
+  --bg-complementary-lightest: #fff;
+  --bg-darker: #060606;
+  --bg-complementary-darker: #cecece;
+  --bg-darkest: #000;
+  --bg-complementary-darkest: #bfbfbf;
+
+  --text: #EEE;
+  --text-complementary: #111;
 }
