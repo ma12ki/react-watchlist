@@ -1,3 +1,3 @@
-:root.dark {
+:root:global(.light) {
   --bg: #EEE;
 }

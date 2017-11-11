@@ -120,8 +120,11 @@ export default {
               ident: 'postcss',
               plugins: () => [
                 require('postcss-import'),
-                require('postcss-cssnext'),
-                require('postcss-modules-values'),
+                require('postcss-cssnext')({
+                  features: {
+                    customProperties: false,
+                  }
+                }),
               ],
               sourceMap: true
             }
