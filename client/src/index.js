@@ -5,10 +5,9 @@ import React from 'react';
 import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 
-import './config';
 import { store as configureStore } from './root';
 import { components } from './modules/core';
-import './styles/base.css';
+import './modules/styles/base.css';
 
 require('./favicon.ico');
 
