@@ -7,8 +7,7 @@ import { AppContainer } from 'react-hot-loader';
 
 import { store as configureStore } from './root';
 import { components } from './modules/core';
-import './modules/styles/themes';
-import './modules/styles/base.css';
+import './styles';
 
 require('./favicon.ico');
 

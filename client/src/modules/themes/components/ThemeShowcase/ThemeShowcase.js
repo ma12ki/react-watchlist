@@ -15,11 +15,11 @@ const ThemeShowcase = () => {
 
       return (
         <div key={group + variant} className={styles[`${group}${variant}`]}>
+          lorem ipsum dolor sit amet
           {texts}
         </div>
       );
     });
-
     return (
       <div key={group + i} className={styles.row}>
         {cols}

@@ -1,0 +1,17 @@
+:root {
+  --nav-width: 50px;
+  --nav-height: 100vh;
+
+  --content-margin-top: 0;
+  --content-margin-left: var(--nav-width);
+}
+
+@media (--phone) {
+  :root {
+    --nav-width: 100vw;
+    --nav-height: 40px;
+
+    --content-margin-top: var(--nav-height);
+    --content-margin-left: 0;
+  }
+}

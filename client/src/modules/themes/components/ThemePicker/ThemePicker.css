@@ -1,0 +1,15 @@
+.button {
+  width: 40px;
+  height: 40px;
+  border: none;
+  margin: 3px;
+  padding: 0;
+  cursor: pointer;
+}
+
+.icon.icon {
+  width: 40px;
+  height: 40px;
+  color: black;
+}
+

@@ -125,7 +125,10 @@ export default {
                     customProperties: false,
                     customMedia: {
                       extensions: {
-                        '--mobile': '(max-width: 600px)',
+                        '--phone': '(width <= 600px)',
+                        '--tablet': '(width > 600px) and (width <= 1000px)',
+                        '--phone-and-tablet': '(width <= 1000px)',
+                        '--desktop': '(width > 1000px)',
                       }
                     },
                   }

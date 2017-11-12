@@ -9,3 +9,15 @@ body {
 * {
   box-sizing: border-box;
 }
+
+a,
+button {
+  cursor: pointer;
+  outline: none;
+  color: var(--primary);
+  text-decoration: none;
+
+  &:hover {
+    color: var(--primary-light);
+  }
+}

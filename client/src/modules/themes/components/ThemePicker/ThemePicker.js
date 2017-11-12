@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import CheckIcon from 'material-ui-icons/Check';
 
 import { themes } from '../../constants';
 import { getCurrentTheme } from '../../selectors';
@@ -12,10 +13,11 @@ const ThemePicker = ({ currentTheme, setTheme }) => {
     .map((theme) => (
         <button
           key={theme}
-          className={currentTheme === theme ? styles.active : ''}
+          className={styles.button}
           style={{ backgroundColor: themes[theme] }}
           onClick={() => setTheme(theme)}
-        />
+        >{currentTheme === theme && <CheckIcon className={styles.icon} />}
+        </button>
       )
     );
 

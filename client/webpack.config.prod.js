@@ -172,7 +172,19 @@ export default {
                 ident: 'postcss',
                 plugins: () => [
                   require('postcss-import'),
-                  require('postcss-cssnext'),
+                  require('postcss-cssnext')({
+                    features: {
+                      customProperties: false,
+                      customMedia: {
+                        extensions: {
+                          '--phone': '(width <= 600px)',
+                          '--tablet': '(width > 600px) and (width <= 1000px)',
+                          '--phone-and-tablet': '(width <= 1000px)',
+                          '--desktop': '(width > 1000px)',
+                        }
+                      },
+                    }
+                  }),
                 ],
                 sourceMap: true
               }
