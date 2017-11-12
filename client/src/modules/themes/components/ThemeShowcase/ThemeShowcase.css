@@ -12,82 +12,62 @@
   }
 }
 
-.bgLowest {
-  background-color: var(--bg-lowest);
-}
-
-.bgLower {
-  background-color: var(--bg-lower);
+.bgDark {
+  background-color: var(--bg-dark);
+  color: var(--bg-text);
 }
 
 .bg {
   background-color: var(--bg);
+  color: var(--bg-text);
 }
 
-.bgHigher {
-  background-color: var(--bg-higher);
+.bgLight {
+  background-color: var(--bg-light);
+  color: var(--bg-text);
 }
 
-.bgHighest {
-  background-color: var(--bg-highest);
-}
-
-.primaryLowest {
-  background-color: var(--primary-lowest);
-}
-
-.primaryLower {
-  background-color: var(--primary-lower);
+.primaryDark {
+  background-color: var(--primary-dark);
+  color: var(--primary-text);
 }
 
 .primary {
   background-color: var(--primary);
+  color: var(--primary-text);
 }
 
-.primaryHigher {
-  background-color: var(--primary-higher);
+.primaryLight {
+  background-color: var(--primary-light);
+  color: var(--primary-text);
 }
 
-.primaryHighest {
-  background-color: var(--primary-highest);
-}
-
-.secondaryLowest {
-  background-color: var(--secondary-lowest);
-}
-
-.secondaryLower {
-  background-color: var(--secondary-lower);
+.secondaryDark {
+  background-color: var(--secondary-dark);
+  color: var(--secondary-text);
 }
 
 .secondary {
   background-color: var(--secondary);
+  color: var(--secondary-text);
 }
 
-.secondaryHigher {
-  background-color: var(--secondary-higher);
+.secondaryLight {
+  background-color: var(--secondary-light);
+  color: var(--secondary-text);
 }
 
-.secondaryHighest {
-  background-color: var(--secondary-highest);
-}
-
-.tertiaryLowest {
-  background-color: var(--tertiary-lowest);
-}
-
-.tertiaryLower {
-  background-color: var(--tertiary-lower);
+.tertiaryDark {
+  background-color: var(--tertiary-dark);
+  color: var(--tertiary-text);
 }
 
 .tertiary {
   background-color: var(--tertiary);
+  color: var(--tertiary-text);
 }
 
-.tertiaryHigher {
-  background-color: var(--tertiary-higher);
-}
-
-.tertiaryHighest {
-  background-color: var(--tertiary-highest);
+.tertiaryLight {
+  background-color: var(--tertiary-light);
+  color: var(--tertiary-text);
 }
