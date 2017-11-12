@@ -1,6 +1,5 @@
 .row {
   width: 100%;
-  height: 100px;
   display: flex;
   flex-direction: row;
   align-items: stretch;
@@ -9,6 +8,12 @@
   & > div {
     padding: 10px;
     flex-grow: 1;
+  }
+
+  & p {
+    padding: 0;
+    margin: 0;
+    line-height: 110%;
   }
 }
 
@@ -70,4 +75,54 @@
 .tertiaryLight {
   background-color: var(--tertiary-light);
   color: var(--tertiary-text);
+}
+
+/*** ***/
+
+.bgDarkText {
+  color: var(--bg-dark);
+}
+
+.bgText {
+  color: var(--bg);
+}
+
+.bgLightText {
+  color: var(--bg-light);
+}
+
+.primaryDarkText {
+  color: var(--primary-dark);
+}
+
+.primaryText {
+  color: var(--primary);
+}
+
+.primaryLightText {
+  color: var(--primary-light);
+}
+
+.secondaryDarkText {
+  color: var(--secondary-dark);
+}
+
+.secondaryText {
+  color: var(--secondary);
+}
+
+.secondaryLightText {
+  color: var(--secondary-light);
+}
+
+.tertiaryDarkText {
+  color: var(--tertiary-dark);
+}
+
+.tertiaryText {
+  color: var(--tertiary);
+}
+
+.tertiaryLightText {
+  color: var(--tertiary-light);
 }

@@ -2,18 +2,20 @@ import React from 'react';
 
 import styles from './ThemeShowcase.css';
 
-const groups = ['bg', 'primary', 'bg', 'secondary', 'bg', 'tertiary'];
+const groups = ['bg', 'primary', 'secondary', 'tertiary'];
 const variants = ['Dark', '', 'Light'];
 
 const ThemeShowcase = () => {
   return groups.map((group, i) => {
 
     const cols = variants.map((variant) => {
-      // const texts = variants.map((variant) => <p key={variant} className={`${group}${variant}Text`}>text</p>);
-      // const containers =
+      const texts = groups.map((g) => {
+        return variants.map((v) => <p key={g + v} className={styles[`${g}${v}Text`]}>lorem ipsum dolor sit amet</p>);
+      });
+
       return (
         <div key={group + variant} className={styles[`${group}${variant}`]}>
-          <p className={styles[`${group}Text`]}>text</p>
+          {texts}
         </div>
       );
     });
