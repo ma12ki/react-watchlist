@@ -1,0 +1,93 @@
+.row {
+  width: 100%;
+  height: 100px;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  align-content: stretch;
+
+  & > div {
+    padding: 10px;
+    flex-grow: 1;
+  }
+}
+
+.bgLowest {
+  background-color: var(--bg-lowest);
+}
+
+.bgLower {
+  background-color: var(--bg-lower);
+}
+
+.bg {
+  background-color: var(--bg);
+}
+
+.bgHigher {
+  background-color: var(--bg-higher);
+}
+
+.bgHighest {
+  background-color: var(--bg-highest);
+}
+
+.primaryLowest {
+  background-color: var(--primary-lowest);
+}
+
+.primaryLower {
+  background-color: var(--primary-lower);
+}
+
+.primary {
+  background-color: var(--primary);
+}
+
+.primaryHigher {
+  background-color: var(--primary-higher);
+}
+
+.primaryHighest {
+  background-color: var(--primary-highest);
+}
+
+.secondaryLowest {
+  background-color: var(--secondary-lowest);
+}
+
+.secondaryLower {
+  background-color: var(--secondary-lower);
+}
+
+.secondary {
+  background-color: var(--secondary);
+}
+
+.secondaryHigher {
+  background-color: var(--secondary-higher);
+}
+
+.secondaryHighest {
+  background-color: var(--secondary-highest);
+}
+
+.tertiaryLowest {
+  background-color: var(--tertiary-lowest);
+}
+
+.tertiaryLower {
+  background-color: var(--tertiary-lower);
+}
+
+.tertiary {
+  background-color: var(--tertiary);
+}
+
+.tertiaryHigher {
+  background-color: var(--tertiary-higher);
+}
+
+.tertiaryHighest {
+  background-color: var(--tertiary-highest);
+}

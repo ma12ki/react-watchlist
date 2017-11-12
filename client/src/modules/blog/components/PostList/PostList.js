@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import { ThemeShowcase, ThemePicker } from '../../../themes/components';
 import { getPosts } from '../../selectors';
 import PostItem from '../PostItem';
 
@@ -10,6 +11,8 @@ const PostList = ({ posts }) => {
 
   return (
     <div>
+      <ThemePicker />
+      <ThemeShowcase />
       {postNodes}
     </div>
   );

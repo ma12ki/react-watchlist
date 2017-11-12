@@ -1,16 +1,27 @@
 :root[theme=light] {
+  --bg-lowest: #bfbfbf;
+  --bg-lower: #cecece;
   --bg: #ddd;
-  --bg-complementary: #1d1d1d;
-  --bg-lighter: #eee;
-  --bg-complementary-lighter: #303030;
-  --bg-lightest: #fff;
-  --bg-complementary-lightest: #414141;
-  --bg-darker: #cecece;
-  --bg-complementary-darker: #060606;
-  --bg-darkest: #bfbfbf;
-  --bg-complementary-darkest: #000;
+  --bg-higher: #eee;
+  --bg-highest: #fff;
+
+  --primary-lowest: #f70046;
+  --primary-lower: #e20041;
+  --primary: #b20033;
+  --primary-higher: #8a0027;
+  --primary-highest: #550018;
+
+  --secondary-lowest: #00ea47;
+  --secondary-lower: #00ba38;
+  --secondary: #00922c;
+  --secondary-higher: #007222;
+  --secondary-highest: #004615;
+
+  --tertiary-lowest: #350de6;
+  --tertiary-lower: #290cad;
+  --tertiary: #230c89;
+  --tertiary-higher: #1c0a6a;
+  --tertiary-highest: #100641;
 
   --text: #111;
-  --text-complementary: #eee;
-
 }
