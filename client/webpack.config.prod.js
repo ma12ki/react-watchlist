@@ -179,6 +179,13 @@ export default {
             },
           ]
         })
+      },
+      {
+        test: /\.css$/,
+        include: /node_modules/,
+        use: ExtractTextPlugin.extract({
+          use: [ 'css-loader' ]
+        })
       }
     ]
   }

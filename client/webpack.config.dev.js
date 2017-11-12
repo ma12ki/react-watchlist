@@ -123,12 +123,25 @@ export default {
                 require('postcss-cssnext')({
                   features: {
                     customProperties: false,
+                    customMedia: {
+                      extensions: {
+                        '--mobile': '(max-width: 600px)',
+                      }
+                    },
                   }
                 }),
               ],
               sourceMap: true
             }
           }
+        ]
+      },
+      {
+        test: /\.css$/,
+        include: /node_modules/,
+        use: [
+          'style-loader',
+          'css-loader',
         ]
       }
     ]
