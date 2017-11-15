@@ -6149,6 +6149,13 @@ react-test-renderer@16.0.0:
     fbjs "^0.8.16"
     object-assign "^4.1.1"
 
+react-toastify@2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/react-toastify/-/react-toastify-2.2.0.tgz#eff7b598f94e50167912afcd878d38e56b9e8292"
+  dependencies:
+    prop-types "^15.6.0"
+    react-transition-group "^2.2.1"
+
 react-transform-catch-errors@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/react-transform-catch-errors/-/react-transform-catch-errors-1.0.2.tgz#1b4d4a76e97271896fc16fe3086c793ec88a9eeb"

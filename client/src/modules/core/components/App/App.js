@@ -1,10 +1,10 @@
-/* eslint-disable import/no-named-as-default */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { routes } from '../../../../root';
 import Layout from '../Layout';
+import ToastContainer from '../ToastContainer';
 import { ResizeWatcher } from '../../../screen/components';
 
 // This is a class-based component because the current
@@ -19,6 +19,7 @@ export class App extends Component {
     return (
       <div>
         <ResizeWatcher />
+        <ToastContainer />
         <Layout>
           {component}
         </Layout>
