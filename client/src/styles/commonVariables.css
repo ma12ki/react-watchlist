@@ -4,6 +4,8 @@
 
   --content-margin-top: 0;
   --content-margin-left: var(--nav-width);
+
+  --min-container-width: 360px;
 }
 
 @media (--phone) {

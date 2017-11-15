@@ -54,6 +54,7 @@
   .nav {
     flex-direction: row;
     padding: 0;
+    min-width: var(--min-container-width);
   }
 
   .item {

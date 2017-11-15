@@ -1,0 +1,22 @@
+.container {
+  min-height: 100vh;
+  width: 100%;
+  min-width: var(--min-container-width);
+}
+
+.contentWrapper {
+  min-height: 100vh;
+  width: 100%;
+  padding-top: var(--content-margin-top);
+  padding-left: var(--content-margin-left);
+}
+
+.content {
+  padding: 8px;
+}
+
+@media (--phone) {
+  .content {
+    padding: 8px 0;
+  }
+}

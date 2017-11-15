@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { routes } from '../../../../root';
-import Nav from '../Nav';
+import Layout from '../Layout';
 import { ResizeWatcher } from '../../../screen/components';
 
 // This is a class-based component because the current
@@ -19,8 +19,9 @@ export class App extends Component {
     return (
       <div>
         <ResizeWatcher />
-        <Nav />
-        {component}
+        <Layout>
+          {component}
+        </Layout>
       </div>
     );
   }
