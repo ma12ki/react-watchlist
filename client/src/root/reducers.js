@@ -1,9 +1,11 @@
-import { constants as blogConstants, reducers as blogReducers } from '../modules/blog';
-import { constants as nestedConstants, reducers as nestedReducers } from '../modules/nested';
+import * as blogModule from '../modules/blog';
+import * as nestedModule from '../modules/nested';
 import * as themesModule from '../modules/themes';
+import * as screenModule from '../modules/screen';
 
 export default {
-  [blogConstants.moduleName]: blogReducers,
-  [nestedConstants.moduleName]: nestedReducers,
+  [blogModule.constants.moduleName]: blogModule.reducers,
+  [nestedModule.constants.moduleName]: nestedModule.reducers,
   [themesModule.constants.moduleName]: themesModule.reducers,
+  [screenModule.constants.moduleName]: screenModule.reducers,
 };
