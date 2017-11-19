@@ -29,6 +29,7 @@
   "author": "mz",
   "license": "MIT",
   "dependencies": {
+    "antd": "2.13.10",
     "classnames": "2.2.5",
     "history": "4.7.2",
     "lodash": "4.17.4",
@@ -54,6 +55,7 @@
     "babel-eslint": "7.2.3",
     "babel-jest": "20.0.3",
     "babel-loader": "7.1.1",
+    "babel-plugin-import": "1.6.2",
     "babel-plugin-transform-react-constant-elements": "6.23.0",
     "babel-plugin-transform-react-remove-prop-types": "0.4.6",
     "babel-polyfill": "6.23.0",
@@ -128,6 +130,15 @@
           "react",
           "react-hmre",
           "stage-1"
+        ],
+        "plugins": [
+          [
+            "import",
+            {
+              "libraryName": "antd",
+              "style": "css"
+            }
+          ]
         ]
       },
       "production": {
@@ -148,6 +159,13 @@
           "stage-1"
         ],
         "plugins": [
+          [
+            "import",
+            {
+              "libraryName": "antd",
+              "style": "css"
+            }
+          ],
           "transform-react-constant-elements",
           "transform-react-remove-prop-types"
         ]

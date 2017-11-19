@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { routes } from '../../../../root';
+import LocaleProvider from '../LocaleProvider';
 import Layout from '../Layout';
 import ToastContainer from '../ToastContainer';
 import { ResizeWatcher } from '../../../screen/components';
@@ -20,9 +21,11 @@ export class App extends Component {
       <div>
         <ResizeWatcher />
         <ToastContainer />
-        <Layout>
-          {component}
-        </Layout>
+        <LocaleProvider>
+          <Layout>
+            {component}
+          </Layout>
+        </LocaleProvider>
       </div>
     );
   }
