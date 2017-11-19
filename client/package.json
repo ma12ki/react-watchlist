@@ -45,7 +45,9 @@
     "redux-first-router": "0.0.4-rudy",
     "redux-first-router-link": "0.0.2-rudy",
     "redux-first-router-restore-scroll": "1.2.1",
+    "redux-observable": "0.17.0",
     "redux-thunk": "2.1.0",
+    "rxjs": "5.5.2",
     "whatwg-fetch": "2.0.3"
   },
   "devDependencies": {
