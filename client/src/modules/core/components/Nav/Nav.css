@@ -25,6 +25,7 @@
   text-align: center;
   padding: 5px;
   transition: all 0.2s ease;
+  cursor: pointer;
 
   &:hover,
   &.active {
@@ -50,6 +51,33 @@
   flex-grow: 1;
 }
 
+.themePickerItem {
+  position: relative;
+}
+
+.themePickerLink {
+  z-index: 9;
+  position: relative;
+  background-color: var(--bg-dark);
+}
+
+.themePicker {
+  position: absolute;
+  top: 0;
+  left: calc(var(--nav-width) - 3px);
+  background-color: var(--bg-dark);
+  display: flex;
+  transform: translateX(-100%);
+  opacity: 0;
+  z-index: 8;
+  transition: all 0.2s ease;
+
+  &.open {
+    transform: translateX(0%);
+    opacity: 1;
+  }
+}
+
 @media (--phone) {
   .nav {
     flex-direction: row;
@@ -66,5 +94,16 @@
     width: auto;
     border-left: none;
     border-top: 3px solid transparent;
+  }
+
+  .themePicker {
+    top: calc(var(--nav-height) - 3px);
+    left: 0;
+    flex-direction: column;
+    transform: translate(0%, -100%);
+
+    &.open {
+      transform: translate(0%, 0%);
+    }
   }
 }

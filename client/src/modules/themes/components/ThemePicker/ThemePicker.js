@@ -2,13 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import CheckIcon from 'material-ui-icons/Check';
+import cn from 'classnames';
 
 import { themes } from '../../constants';
 import { getCurrentTheme } from '../../selectors';
 import { setTheme } from '../../actions';
 import styles from './ThemePicker.css';
 
-const ThemePicker = ({ currentTheme, setTheme }) => {
+const ThemePicker = ({ currentTheme, setTheme, className }) => {
   const options = Object.keys(themes)
     .map((theme) => (
         <button
@@ -22,7 +23,7 @@ const ThemePicker = ({ currentTheme, setTheme }) => {
     );
 
   return (
-    <div className={styles.picker}>
+    <div className={cn(styles.picker, className)}>
       {options}
     </div>
   );
@@ -31,6 +32,7 @@ const ThemePicker = ({ currentTheme, setTheme }) => {
 ThemePicker.propTypes = {
   currentTheme: PropTypes.string.isRequired,
   setTheme: PropTypes.func.isRequired,
+  className: PropTypes.string,
 };
 
 const mapState = (state) => ({
