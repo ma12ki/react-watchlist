@@ -10,6 +10,7 @@ export const setScreenMeta = (meta) => ({ type: SET_SCREEN_META, payload: meta }
 // selectors
 //
 const moduleSel = (state) => state[moduleName];
+export const metaSel = moduleSel;
 export const modeSel = (state) => moduleSel(state).mode;
 export const isPhoneSel = (state) => modeSel(state) === phone;
 export const isTabletSel = (state) => modeSel(state) === tablet;

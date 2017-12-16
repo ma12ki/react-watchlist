@@ -78,7 +78,7 @@
   }
 }
 
-@media (--phone) {
+@media (--at-most-tablet) {
   .nav {
     flex-direction: row;
     padding: 0;

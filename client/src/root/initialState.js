@@ -1,9 +1,9 @@
 import * as themesModule from '../modules/themes';
-import * as screenModule from '../modules/screen';
+import { moduleName as screenModuleName, services as screenServices } from '../modules/screen';
 
 export default {
   [themesModule.constants.moduleName]: {
     currentTheme: themesModule.service.restoreTheme(),
   },
-  [screenModule.constants.moduleName]: screenModule.service.getScreenMeta(),
+  [screenModuleName]: screenServices.getScreenMeta(),
 };

@@ -176,11 +176,11 @@ export default {
                       customProperties: false,
                       customMedia: {
                         extensions: {
-                          '--phone': '(width <= 600px)',
-                          '--tablet': '(width > 600px) and (width <= 1000px)',
-                          '--phone-and-tablet': '(width <= 1000px)',
-                          '--tablet-and-desktop': '(width > 600px)',
-                          '--desktop': '(width > 1000px)',
+                          '--phone': '(width <= 480px)',
+                          '--tablet': '(width > 480px) and (width <= 992px)',
+                          '--at-least-tablet': '(width > 480px)',
+                          '--at-most-tablet': '(width <= 992px)',
+                          '--desktop': '(width > 992px)',
                         }
                       },
                     }

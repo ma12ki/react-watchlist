@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { throttle } from 'lodash';
 
-import { setScreenMeta } from '../../actions';
-import { getModule } from '../../selectors';
-import service from '../../service';
+import { metaSel, setScreenMeta } from '../../duck';
+import { getScreenMeta } from '../../services';
 
 class ResizeWatcher extends React.PureComponent {
   constructor(props) {
@@ -20,7 +19,7 @@ class ResizeWatcher extends React.PureComponent {
 
   updateMeta() {
     const { meta } = this.props;
-    const newMeta = service.getScreenMeta();
+    const newMeta = getScreenMeta();
 
     if (JSON.stringify(meta) !== JSON.stringify(newMeta)) {
       this.props.onSetMeta(newMeta);
@@ -38,7 +37,7 @@ ResizeWatcher.propTypes = {
 };
 
 const mapState = (state) => ({
-  meta: getModule(state),
+  meta: metaSel(state),
 });
 
 const mapDispatch = (dispatch) => ({
