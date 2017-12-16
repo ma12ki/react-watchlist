@@ -2,13 +2,10 @@ import { phone, tablet, desktop, phoneMaxWidth, tabletMaxWidth } from './constan
 
 const getScreenMeta = () => {
   const width = window.innerWidth;
-  const height = window.innerWidth;
   const mode = getMode(width);
 
   return {
     mode,
-    width,
-    height,
   };
 };
 
@@ -22,6 +19,6 @@ const getMode = (width) => {
   return desktop;
 };
 
-export default {
+export {
   getScreenMeta,
 };
