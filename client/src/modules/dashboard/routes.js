@@ -4,12 +4,12 @@
 import React from 'react';
 
 import * as actionTypes from './actionTypes';
-import { Home } from './components';
+import { DashboardPage } from './components';
 
 const routes = {
   [actionTypes.ROUTE_HOME]: {
     path: '/',
-    component: () => <Home />,
+    component: () => <DashboardPage />,
   },
 };
 
