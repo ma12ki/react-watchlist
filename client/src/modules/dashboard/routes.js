@@ -3,11 +3,11 @@
 
 import React from 'react';
 
-import * as actionTypes from './actionTypes';
+import { ROUTE_DASHBOARD } from './duck';
 import { DashboardPage } from './components';
 
 const routes = {
-  [actionTypes.ROUTE_HOME]: {
+  [ROUTE_DASHBOARD]: {
     path: '/',
     component: () => <DashboardPage />,
   },
