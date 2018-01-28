@@ -1,3 +1,5 @@
 import { combineEpics } from 'redux-observable';
 
-export default combineEpics();
+import { epics as dashboardEpics } from '../modules/dashboard';
+
+export default combineEpics(dashboardEpics);
