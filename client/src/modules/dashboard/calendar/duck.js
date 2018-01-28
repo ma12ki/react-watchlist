@@ -113,20 +113,23 @@ export const epics = combineEpics(
   refreshEpisodesEpic$,
 );
 
-const mockEpisodes = range(10)
-  .map(() => {
-    return {
-      showId: faker.random.uuid(),
-      episodeId: faker.random.uuid(),
-      title: faker.name.jobTitle(),
-      premiereDate: faker.date.between(moment().subtract(10, 'days'), moment().add(10, 'days')),
-      season: faker.random.number({ min: 1, max: 10 }),
-      episode: faker.random.number({ min: 1, max: 100 }),
-      type: faker.random.arrayElement([ 'movie', 'show', 'anime', 'comic' ]),
-    };
-  });
-
 //
 // services
 //
-const getEpisodes$ = (/*dateFrom, dateTo*/) => Observable.of(mockEpisodes).delay(1000);
+const getEpisodes$ = (dateFrom, dateTo) => Observable.of(getMockEpisodes(dateFrom, dateTo)).delay(1000);
+
+const getMockEpisodes = (dateFrom, dateTo) => {
+  return range(10)
+    .map(() => {
+      return {
+        showId: faker.random.uuid(),
+        episodeId: faker.random.uuid(),
+        title: faker.name.jobTitle(),
+        premiereDate: faker.date.between(moment(dateFrom), moment(dateTo)),
+        season: faker.random.number({ min: 1, max: 10 }),
+        episode: faker.random.number({ min: 1, max: 100 }),
+        type: faker.random.arrayElement([ 'movie', 'show', 'anime', 'comic' ]),
+      };
+    });
+};
+
