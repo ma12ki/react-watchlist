@@ -1,28 +1,45 @@
-import { API_URL } from '../config';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/fromPromise';
+import 'rxjs/add/operator/switchMap';
+
 import http from './http';
 
-const baseUrl = API_URL;
-const baseOptions = {
-  headers: {
-    'Content-Type': 'application/json',
-  },
+const getBaseOptions = () => {
+  return {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
 };
 
 const apiCalls = {
+  get$: (endpoint, options) => apiCall$(http.get, endpoint, options),
+  post$: (endpoint, body, options) => apiCall$(http.post, endpoint, body, options),
+  put$: (endpoint, body, options) => apiCall$(http.put, endpoint, body, options),
+  patch$: (endpoint, body, options) => apiCall$(http.patch, endpoint, body, options),
+  delete$: (endpoint, body, options) => apiCall$(http.delete, endpoint, body, options),
+
   get: (endpoint, options) => apiCall(http.get, endpoint, options),
-  post: (endpoint, options) => apiCall(http.post, endpoint, options),
-  put: (endpoint, options) => apiCall(http.put, endpoint, options),
-  patch: (endpoint, options) => apiCall(http.patch, endpoint, options),
-  delete: (endpoint, options) => apiCall(http.delete, endpoint, options),
+  post: (endpoint, body, options) => apiCall(http.post, endpoint, body, options),
+  put: (endpoint, body, options) => apiCall(http.put, endpoint, body, options),
+  patch: (endpoint, body, options) => apiCall(http.patch, endpoint, body, options),
+  delete: (endpoint, body, options) => apiCall(http.delete, endpoint, body, options),
 };
 
-const apiCall = async (method, endpoint, options) => {
-  const response = await method(baseUrl + endpoint, {
-    ...baseOptions,
-    ...options
-  });
+const apiCall$ = (method, endpoint, body, options) =>
+  Observable.fromPromise(method(endpoint, mergeOptions(body, options)))
+    .switchMap(response => response.json());
+
+const apiCall = async (method, endpoint, body, options) => {
+  const response = await method(endpoint, mergeOptions(body, options));
 
   return response.json();
 };
+
+const mergeOptions = (body, options) => ({
+  ...getBaseOptions(),
+  body: JSON.stringify(body),
+  ...options,
+});
 
 export default apiCalls;
