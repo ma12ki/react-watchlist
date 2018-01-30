@@ -19,5 +19,5 @@
 :global(.ant-card-body) {
   background-color: var(--bg-light);
   color: var(--bg-text);
-  font-size: 1.2rem;
+  font-size: 1.4rem;
 }

@@ -7,6 +7,7 @@ import LocaleProvider from '../LocaleProvider';
 import Layout from '../Layout';
 import ToastContainer from '../ToastContainer';
 import { ResizeWatcher } from '../../../screen/components';
+import styles from './App.css';
 
 // This is a class-based component because the current
 // version of hot reloading won't hot reload a stateless
@@ -18,7 +19,7 @@ export class App extends Component {
     const component = routes[page].component();
 
     return (
-      <div>
+      <div className={styles.app}>
         <ResizeWatcher />
         <ToastContainer />
         <LocaleProvider>

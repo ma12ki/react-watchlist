@@ -14,6 +14,7 @@ import moment from 'moment';
 // import { apiService } from '../../utils';
 import { MARK_WATCHED_RESPONSE } from '../../episodeActions';
 import { isCurrentLocationSel } from '../../location';
+import { showTypes } from '../../shared';
 import { dashboardModuleName, ROUTE_DASHBOARD } from '../common';
 import { moduleName } from './constants';
 
@@ -135,7 +136,7 @@ const getMockEpisodes = (dateFrom, dateTo) => {
         premiereDate: faker.date.between(moment(dateFrom), moment(dateTo)),
         season: faker.random.number({ min: 1, max: 10 }),
         episode: faker.random.number({ min: 1, max: 100 }),
-        type: faker.random.arrayElement([ 'movie', 'show', 'anime', 'comic' ]),
+        type: faker.random.arrayElement(showTypes),
         watched: false,
       };
     });
