@@ -16,7 +16,7 @@ const Layout = ({ children }) => {
           <button onClick={() => toast('omg')}>default</button>
           <button onClick={() => toast.success('omg')}>success</button>
           <button onClick={() => toast.warn('omg')}>warn</button>
-          <button onClick={() => toast.info('omg')}>ingo</button>
+          <button onClick={() => toast.info('omg')}>info</button>
           <button onClick={() => toast.error('omg')}>error</button>
         </div>
       </div>
