@@ -1,4 +1,4 @@
-import { moduleName } from '../constants';
+import { moduleName } from './constants';
 
 const moduleSel = (state) => state[moduleName];
 export const pathnameSel = (state) => moduleSel(state).pathname;

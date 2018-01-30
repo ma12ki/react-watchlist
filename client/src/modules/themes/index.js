@@ -1,4 +1,6 @@
-export * as components from './components';
-export * as constants from './constants';
-export * as service from './service';
-export { default as reducers } from './reducers';
+import * as services from './services';
+
+export * from './components';
+export { moduleName } from './constants';
+export { services };
+export { default as reducers } from './duck';

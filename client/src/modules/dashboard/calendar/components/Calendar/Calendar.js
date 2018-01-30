@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-import { Calendar as BaseCalendar } from '../../../../shared';
+import { Card, Calendar as BaseCalendar } from '../../../../shared';
 import { episodesRequest, setCalendarDates, episodesSel, loadingSel, datesSel } from '../../duck';
 
 class Calendar extends React.Component {
@@ -45,12 +45,14 @@ class Calendar extends React.Component {
     const { loading } = this.props;
 
     return (
-      <BaseCalendar
-        onPanelChange={this.handleDateChange}
-        onSelect={this.handleDateChange}
-        disabledDate={() => loading}
-        dateCellRender={this.renderCell}
-      />
+      <Card>
+        <BaseCalendar
+          onPanelChange={this.handleDateChange}
+          onSelect={this.handleDateChange}
+          disabledDate={() => loading}
+          dateCellRender={this.renderCell}
+        />
+      </Card>
     );
   }
 }

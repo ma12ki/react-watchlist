@@ -9,29 +9,50 @@ import { getCurrentTheme } from '../../selectors';
 import { setTheme } from '../../actions';
 import styles from './ThemePicker.css';
 
-const ThemePicker = ({ currentTheme, setTheme, className }) => {
-  const options = Object.keys(themes)
-    .map((theme) => (
-        <button
-          key={theme}
-          className={styles.button}
-          style={{ backgroundColor: themes[theme] }}
-          onClick={() => setTheme(theme)}
-        >{currentTheme === theme && <CheckIcon className={styles.icon} />}
-        </button>
-      )
-    );
+class ThemePicker extends React.Component {
+  constructor(props) {
+    super(props);
 
-  return (
-    <div className={cn(styles.picker, className)}>
-      {options}
-    </div>
-  );
-};
+    this.applyTheme(props.currentTheme);
+  }
+
+  handleSetTheme = e => {
+    const { name: theme } = e.target;
+    this.applyTheme(theme);
+    this.onSetTheme(theme);
+  }
+
+  applyTheme = theme => {
+    document.documentElement.setAttribute('theme', theme);
+  }
+
+  render() {
+    const { currentTheme, className } = this.props;
+
+    const options = Object.keys(themes)
+      .map((theme) => (
+          <button
+            key={theme}
+            name={theme}
+            className={styles.button}
+            style={{ backgroundColor: themes[theme] }}
+            onClick={this.handleSetTheme}
+          >{currentTheme === theme && <CheckIcon className={styles.icon} />}
+          </button>
+        )
+      );
+
+    return (
+      <div className={cn(styles.picker, className)}>
+        {options}
+      </div>
+    );
+  }
+}
 
 ThemePicker.propTypes = {
   currentTheme: PropTypes.string.isRequired,
-  setTheme: PropTypes.func.isRequired,
+  onSetTheme: PropTypes.func.isRequired,
   className: PropTypes.string,
 };
 
@@ -40,7 +61,7 @@ const mapState = (state) => ({
 });
 
 const mapDispatch = (dispatch) => ({
-  setTheme: (theme) => dispatch(setTheme(theme)),
+  onSetTheme: (theme) => dispatch(setTheme(theme)),
 });
 
 export default connect(mapState, mapDispatch)(ThemePicker);
