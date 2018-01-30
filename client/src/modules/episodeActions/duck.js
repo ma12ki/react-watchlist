@@ -20,19 +20,29 @@ export const markWatchedRequest = (showId, episodeId) => ({ type: MARK_WATCHED_R
 export const markWatchedResponse = (showId, episodeId) => ({ type: MARK_WATCHED_RESPONSE, payload: { showId, episodeId } });
 export const markWatchedError = (showId, episodeId, err) => ({ type: MARK_WATCHED_ERROR, payload: { showId, episodeId, err } });
 
+export const FOLLOW_REQUEST = `${moduleName}/FOLLOW_REQUEST`;
+export const FOLLOW_RESPONSE = `${moduleName}/FOLLOW_RESPONSE`;
+export const FOLLOW_ERROR = `${moduleName}/FOLLOW_ERROR`;
+export const followRequest = showId => ({ type: FOLLOW_REQUEST, payload: { showId } });
+export const followResponse = showId => ({ type: FOLLOW_RESPONSE, payload: { showId } });
+export const followError = (showId, err) => ({ type: FOLLOW_ERROR, payload: { showId, err } });
+
 //
 // reducers
 //
 const loading = (state = {}, { type, payload }) => {
   switch (type) {
-    case MARK_WATCHED_REQUEST: {
+    case MARK_WATCHED_REQUEST:
+    case FOLLOW_REQUEST: {
       return {
         ...state,
         [payload.showId]: true,
       };
     }
     case MARK_WATCHED_RESPONSE:
-    case MARK_WATCHED_ERROR: {
+    case MARK_WATCHED_ERROR:
+    case FOLLOW_RESPONSE:
+    case FOLLOW_ERROR: {
       return {
         ...state,
         [payload.showId]: false,
@@ -66,11 +76,20 @@ const markWatchedEpic$ = action$ => action$
     .map(() => markWatchedResponse(payload.showId, payload.episodeId))
     .catch(err => Observable.of(err)));
 
+const followEpic$ = action$ => action$
+  .ofType(FOLLOW_REQUEST)
+  .switchMap(({ payload }) => follow$(/* showId */)
+    .map(() => followResponse(payload.showId))
+    .catch(err => Observable.of(err)));
+
 export const epics = combineEpics(
   markWatchedEpic$,
+  followEpic$,
 );
 
 //
 // services
 //
 const markWatched$ = (/* episodeId */) => Observable.of({}).delay(1000);
+
+const follow$ = (/* showId */) => Observable.of({}).delay(1000);

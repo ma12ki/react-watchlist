@@ -8,6 +8,7 @@
   --min-container-width: 320px;
 
   --success-color: #08bc0d;
+  --warn-color: #f1c410;
 }
 
 @media (--at-most-tablet) {

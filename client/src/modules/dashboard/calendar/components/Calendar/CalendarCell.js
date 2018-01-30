@@ -6,7 +6,7 @@ import { Tooltip } from '../../../../shared';
 import { MarkWatched } from '../../../../episodeActions';
 import styles from './CalendarCell.css';
 
-const CalendarCell = ({ showId, episodeId, title, type, season, episode, watched }) => {
+const CalendarCell = ({ showId, episodeId, title, season, episode, watched }) => {
   const fullText = `${title} S${season}E${episode}`;
 
   return (

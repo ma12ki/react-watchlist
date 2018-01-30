@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import cn from 'classnames';
+// import cn from 'classnames';
 
-import { Card } from '../../../shared';
+import { Follow } from '../../../episodeActions';
 import { loadingSel, itemsSel, getShowsRequest } from '../../duck';
-import styles from './AllShows.css';
+// import styles from './AllShows.css';
 
 class AllShows extends React.Component {
   componentDidMount() {
@@ -14,12 +14,12 @@ class AllShows extends React.Component {
 
   render() {
     const { items } = this.props;
-    const elements = items.map(s => <div key={s.showId}>{s.title}</div>);
+    const elements = items.map(s => <div key={s.showId}><Follow showId={s.showId} following={s.following} />{s.title}</div>);
 
     return (
-      <Card>
+      <div>
         {elements}
-      </Card>
+      </div>
     );
   }
 }

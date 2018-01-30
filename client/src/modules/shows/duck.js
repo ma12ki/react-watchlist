@@ -10,6 +10,7 @@ import { range } from 'lodash';
 import faker from 'faker';
 
 // import { apiService } from '../../utils';
+import { FOLLOW_RESPONSE } from '../episodeActions';
 import { showTypes } from '../shared';
 import { moduleName } from './constants';
 
@@ -47,6 +48,12 @@ const items = (state = [], { type, payload }) => {
   switch (type) {
     case GET_SHOWS_RESPONSE: {
       return payload;
+    }
+    case FOLLOW_RESPONSE: {
+      return [...state].map(show => ({
+        ...show,
+        following: show.showId === payload.showId ? true : show.following,
+      }));
     }
     default: {
       return state;
@@ -92,5 +99,5 @@ const getMockShows = () => range(30)
     showId: faker.random.uuid(),
     title: faker.name.jobTitle(),
     type: faker.random.arrayElement(showTypes),
-    followed: false,
+    following: false,
   }));
