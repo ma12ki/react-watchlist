@@ -34,5 +34,5 @@ export default combineReducers({
 //
 // selectors
 //
-const getModule = (state) => state[moduleName];
-export const getCurrentTheme = (state) => getModule(state).currentTheme;
+const moduleSel = (state) => state[moduleName];
+export const currentThemeSel = (state) => moduleSel(state).currentTheme;

@@ -1,13 +1,11 @@
-import * as blogModule from '../modules/blog';
-import * as nestedModule from '../modules/nested';
-import * as themesModule from '../modules/themes';
+import { moduleName as themesModuleName, reducers as themesReducers } from '../modules/themes';
 import { moduleName as screenModuleName, reducers as screenReducers } from '../modules/screen';
-import { moduleName as calendarModuleName, reducers as calendarReducers } from '../modules/dashboard';
+import { moduleName as dashboardModuleName, reducers as dashboardReducers } from '../modules/dashboard';
+import { moduleName as episodeActionsModuleName, reducers as episodeActionsReducers } from '../modules/episodeActions';
 
 export default {
-  [blogModule.constants.moduleName]: blogModule.reducers,
-  [nestedModule.constants.moduleName]: nestedModule.reducers,
-  [themesModule.constants.moduleName]: themesModule.reducers,
+  [themesModuleName]: themesReducers,
   [screenModuleName]: screenReducers,
-  [calendarModuleName]: calendarReducers,
+  [dashboardModuleName]: dashboardReducers,
+  [episodeActionsModuleName]: episodeActionsReducers,
 };

@@ -12,8 +12,9 @@ import faker from 'faker';
 import moment from 'moment';
 
 // import { apiService } from '../../utils';
-import { dashboardModuleName, ROUTE_DASHBOARD } from '../common';
+import { MARK_WATCHED_RESPONSE } from '../../episodeActions';
 import { isCurrentLocationSel } from '../../location';
+import { dashboardModuleName, ROUTE_DASHBOARD } from '../common';
 import { moduleName } from './constants';
 
 //
@@ -51,6 +52,12 @@ const episodes = (state = [], { type, payload }) => {
   switch (type) {
     case EPISODES_RESPONSE: {
       return payload;
+    }
+    case MARK_WATCHED_RESPONSE: {
+      return [...state].map(e => ({
+        ...e,
+        watched: e.episodeId === payload.episodeId ? true : e.watched,
+      }));
     }
     default: {
       return state;
@@ -129,6 +136,7 @@ const getMockEpisodes = (dateFrom, dateTo) => {
         season: faker.random.number({ min: 1, max: 10 }),
         episode: faker.random.number({ min: 1, max: 100 }),
         type: faker.random.arrayElement([ 'movie', 'show', 'anime', 'comic' ]),
+        watched: false,
       };
     });
 };

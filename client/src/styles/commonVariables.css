@@ -6,6 +6,8 @@
   --content-margin-left: var(--nav-width);
 
   --min-container-width: 320px;
+
+  --success-color: #08bc0d;
 }
 
 @media (--at-most-tablet) {

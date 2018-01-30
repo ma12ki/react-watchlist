@@ -5,6 +5,7 @@ import moment from 'moment';
 
 import { Card, Calendar as BaseCalendar } from '../../../../shared';
 import { episodesRequest, setCalendarDates, episodesSel, loadingSel, datesSel } from '../../duck';
+import CalendarCell from './CalendarCell';
 
 class Calendar extends React.Component {
   componentDidMount() {
@@ -20,25 +21,28 @@ class Calendar extends React.Component {
     }
   }
 
-  getDateRange = baseDate => {
-    return {
-      from: moment(baseDate).startOf('month').subtract(14, 'days').startOf('day'),
-      to: moment(baseDate).endOf('month').add(14, 'days').endOf('day'),
-    };
-  }
+  getDateRange = baseDate => ({
+    from: moment(baseDate).startOf('month').subtract(14, 'days').startOf('day'),
+    to: moment(baseDate).endOf('month').add(14, 'days').endOf('day'),
+  })
 
   renderCell = date => {
     const { episodes } = this.props;
 
     return episodes
       .filter(e => moment(date).isSame(e.premiereDate, 'day'))
-      .map(e => {
-        return (
-          <div key={e.episodeId}>
-            {e.title}
-          </div>
-        );
-      });
+      .map(e => (
+        <CalendarCell
+          key={e.episodeId}
+          showId={e.showId}
+          episodeId={e.episodeId}
+          title={e.title}
+          type={e.type}
+          season={e.season}
+          episode={e.episode}
+          watched={e.watched}
+        />
+      ));
   }
 
   render() {

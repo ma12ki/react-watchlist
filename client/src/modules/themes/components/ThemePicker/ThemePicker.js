@@ -5,8 +5,7 @@ import CheckIcon from 'material-ui-icons/Check';
 import cn from 'classnames';
 
 import { themes } from '../../constants';
-import { getCurrentTheme } from '../../selectors';
-import { setTheme } from '../../actions';
+import { setTheme, currentThemeSel } from '../../duck';
 import styles from './ThemePicker.css';
 
 class ThemePicker extends React.Component {
@@ -57,7 +56,7 @@ ThemePicker.propTypes = {
 };
 
 const mapState = (state) => ({
-  currentTheme: getCurrentTheme(state),
+  currentTheme: currentThemeSel(state),
 });
 
 const mapDispatch = (dispatch) => ({
