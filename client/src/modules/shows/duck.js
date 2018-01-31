@@ -27,6 +27,13 @@ export const getShowsRequest = () => ({ type: GET_SHOWS_REQUEST });
 export const getShowsResponse = shows => ({ type: GET_SHOWS_RESPONSE, payload: shows });
 export const getShowsError = err => ({ type: GET_SHOWS_ERROR, payload: err });
 
+export const GET_SHOW_REQUEST = `${moduleName}/GET_SHOW_REQUEST`;
+export const GET_SHOW_RESPONSE = `${moduleName}/GET_SHOW_RESPONSE`;
+export const GET_SHOW_ERROR = `${moduleName}/GET_SHOW_ERROR`;
+export const getShowRequest = showId => ({ type: GET_SHOW_REQUEST, payload: showId });
+export const getShowResponse = show => ({ type: GET_SHOW_RESPONSE, payload: show });
+export const getShowError = err => ({ type: GET_SHOW_ERROR, payload: err });
+
 //
 // reducers
 //
@@ -62,9 +69,46 @@ const items = (state = [], { type, payload }) => {
   }
 };
 
+const showLoading = (state = false, { type }) => {
+  switch (type) {
+    case GET_SHOW_REQUEST: {
+      return true;
+    }
+    case GET_SHOW_RESPONSE:
+    case GET_SHOW_ERROR: {
+      return false;
+    }
+    default: {
+      return state;
+    }
+  }
+};
+
+const show = (state = {}, { type, payload }) => {
+  switch (type) {
+    case GET_SHOW_REQUEST: {
+      return {};
+    }
+    case GET_SHOW_RESPONSE: {
+      return payload;
+    }
+    case FOLLOW_RESPONSE: {
+      return {
+        ...state,
+        following: state.showId === payload.showId ? true : state.following,
+      };
+    }
+    default: {
+      return state;
+    }
+  }
+};
+
 const reducers = combineReducers({
   loading,
   items,
+  showLoading,
+  show,
 });
 
 export default reducers;
@@ -76,6 +120,8 @@ const moduleSel = state => state[moduleName];
 
 export const loadingSel = state => moduleSel(state).loading;
 export const itemsSel = state => moduleSel(state).items;
+export const showLoadingSel = state => moduleSel(state).showLoading;
+export const showSel = state => moduleSel(state).show;
 
 //
 // epics
@@ -86,8 +132,22 @@ const getShowsEpic$ = action$ => action$
     .map(getShowsResponse)
     .catch(err => Observable.of(err)));
 
+const getShowFromRouteEpic$ = action$ => action$
+  .ofType(ROUTE_SHOW_DETAILS)
+  .map(({ payload }) => {
+    return getShowRequest(payload.showId);
+  });
+
+const getShowEpic$ = action$ => action$
+  .ofType(GET_SHOW_REQUEST)
+  .switchMap(() => getShow$()
+    .map(getShowResponse)
+    .catch(err => Observable.of(err)));
+
 export const epics = combineEpics(
   getShowsEpic$,
+  getShowFromRouteEpic$,
+  getShowEpic$,
 );
 
 //
@@ -95,10 +155,14 @@ export const epics = combineEpics(
 //
 const getShows$ = () => Observable.of(getMockShows()).delay(1000);
 
+const getShow$ = () => Observable.of(getMockShow()).delay(1000);
+
 const getMockShows = () => range(30)
-  .map(() => ({
-    showId: faker.random.uuid(),
-    title: faker.name.jobTitle(),
-    type: faker.random.arrayElement(showTypes),
-    following: false,
-  }));
+  .map(getMockShow);
+
+const getMockShow = () => ({
+  showId: faker.random.uuid(),
+  title: faker.name.jobTitle(),
+  type: faker.random.arrayElement(showTypes),
+  following: false,
+});

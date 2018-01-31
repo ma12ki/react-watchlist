@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Link from 'redux-first-router-link';
 // import cn from 'classnames';
 
-import { ShowTypeIcon } from '../../../shared';
+import { ShowTypeIcon, Table } from '../../../shared';
 import { Follow } from '../../../episodeActions';
 import { loadingSel, itemsSel, getShowsRequest } from '../../duck';
 // import styles from './AllShows.css';
@@ -13,19 +14,43 @@ class AllShows extends React.Component {
     this.props.onGetShows();
   }
 
+  getColumns = () => {
+    return [
+      {
+        dataIndex: 'type',
+        width: '5rem',
+        render(type) {
+          return <ShowTypeIcon type={type} />;
+        },
+      },
+      {
+        title: 'Title',
+        dataIndex: 'title',
+        render(title, { showId }) {
+          return <Link to={`/shows/${showId}`} title="Go to details">{title}</Link>;
+        },
+      },
+      {
+        width: '5rem',
+        render(_, { showId, following }) {
+          return <Follow showId={showId} following={following} />;
+        },
+      },
+    ];
+  }
+
   render() {
-    const { items } = this.props;
-    const elements = items.map(s => (
-      <div key={s.showId}>
-        <ShowTypeIcon type={s.type} />
-        <Follow showId={s.showId} following={s.following} />{s.title}
-      </div>
-    ));
+    const { items, loading } = this.props;
 
     return (
-      <div>
-        {elements}
-      </div>
+      <Table
+        columns={this.getColumns()}
+        dataSource={items}
+        loading={loading}
+        pagination={false}
+        rowKey="showId"
+        size="middle"
+      />
     );
   }
 }

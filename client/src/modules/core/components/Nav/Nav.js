@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink } from 'redux-first-router-link';
 import DashboardIcon from 'material-ui-icons/Dashboard';
-import ListIcon from 'material-ui-icons/List';
+import ViewListIcon from 'material-ui-icons/ViewList';
 import ColorLensIcon from 'material-ui-icons/ColorLens';
 import PeopleIcon from 'material-ui-icons/People';
 import cn from 'classnames';
@@ -39,7 +39,7 @@ class Nav extends React.Component {
         </li>
         <li className={styles.item}>
           <NavLink to={'/shows'} activeClassName={activeClassName} className={styles.link} title="All">
-            <ListIcon className={styles.icon} />
+            <ViewListIcon className={styles.icon} />
           </NavLink>
         </li>
         <li className={styles.spacer} />

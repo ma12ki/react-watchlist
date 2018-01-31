@@ -1,6 +1,6 @@
-//
-// Card
-//
+/*
+ * Card
+ */
 :global(.ant-card) {
   border-radius: 0;
 }
@@ -20,4 +20,23 @@
   background-color: var(--bg-light);
   color: var(--bg-text);
   font-size: 1.4rem;
+}
+
+/*
+ * Table
+ */
+:global(.ant-table) th,
+:global(.ant-table) td {
+  color: var(--bg-text);
+}
+:global(.ant-table-thead) > tr > th {
+  background-color: transparent !important;
+  color: var(--bg-text);
+  border-color: var(--bg);
+}
+:global(.ant-table-tbody) > tr > td {
+  border-color: var(--bg);
+}
+:global(.ant-table-tbody) > tr:hover > td {
+  background-color: var(--bg);
 }

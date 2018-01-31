@@ -1,2 +1,2 @@
 export { default as ShowsPage } from './ShowsPage';
-export { default as AllShows } from './AllShows';
+export { default as ShowPage } from './ShowPage';

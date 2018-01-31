@@ -3,10 +3,14 @@
 
 import React from 'react';
 
-import { ROUTE_ALL_SHOWS } from './duck';
-import { ShowsPage } from './components';
+import { ROUTE_ALL_SHOWS, ROUTE_SHOW_DETAILS } from './duck';
+import { ShowsPage, ShowPage } from './components';
 
 const routes = {
+  [ROUTE_SHOW_DETAILS]: {
+    path: '/shows/:showId',
+    component: () => <ShowPage />,
+  },
   [ROUTE_ALL_SHOWS]: {
     path: '/shows',
     component: () => <ShowsPage />,

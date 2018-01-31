@@ -2,11 +2,13 @@ import {
   Calendar,
   Tree,
   Tooltip,
+  Table,
 } from 'antd';
 export {
   Calendar,
   Tree,
   Tooltip,
+  Table,
 };
 
 export { default as Card } from './Card';

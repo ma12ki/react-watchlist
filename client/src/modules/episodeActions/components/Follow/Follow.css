@@ -1,5 +1,6 @@
 .icon {
   cursor: pointer;
+  vertical-align: sub;
 }
 
 .loading {
