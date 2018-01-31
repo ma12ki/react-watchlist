@@ -1,3 +1,11 @@
+.icon {
+  cursor: pointer;
+}
+
+.loading {
+  cursor: default;
+}
+
 .following {
   color: var(--warn-color);
 }

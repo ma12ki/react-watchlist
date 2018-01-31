@@ -8,10 +8,18 @@ import { loadingSel, followRequest } from '../../duck';
 import styles from './Follow.css';
 
 const Follow = ({ following, loading, onFollow }) => {
+  const classNames = cn(
+    styles.icon,
+    {
+      [styles.following]: following,
+      [styles.loading]: loading,
+    },
+  );
+
   return (
     <StarIcon
       onClick={loading ? () => {} : onFollow}
-      className={cn({ [styles.following]: following })}
+      className={classNames}
     />
   );
 };

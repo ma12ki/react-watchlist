@@ -8,10 +8,18 @@ import { loadingSel, markWatchedRequest } from '../../duck';
 import styles from './MarkWatched.css';
 
 const MarkWatched = ({ watched, loading, onMarkWatched }) => {
+  const classNames = cn(
+    styles.icon,
+    {
+      [styles.watched]: watched,
+      [styles.loading]: loading,
+    },
+  );
+
   return (
     <DoneIcon
       onClick={loading ? () => {} : onMarkWatched}
-      className={cn({ [styles.watched]: watched })}
+      className={classNames}
     />
   );
 };
