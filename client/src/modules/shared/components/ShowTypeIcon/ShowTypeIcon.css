@@ -1,0 +1,18 @@
+.icon.icon {
+  vertical-align: sub;
+}
+
+.small.small {
+  width: 1.6rem;
+  height: 1.6rem;
+}
+
+.default.default {
+  width: 2.4rem;
+  height: 2.4rem;
+}
+
+.large.large {
+  width: 4.8rem;
+  height: 4.8rem;
+}

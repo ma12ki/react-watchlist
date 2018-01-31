@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 
-import { Tooltip } from '../../../../shared';
+import { Tooltip, ShowTypeIcon } from '../../../../shared';
 import { MarkWatched } from '../../../../episodeActions';
 import styles from './CalendarCell.css';
 
-const CalendarCell = ({ showId, episodeId, title, season, episode, watched }) => {
+const CalendarCell = ({ showId, episodeId, title, type, season, episode, watched }) => {
   const fullText = `${title} S${season}E${episode}`;
 
   return (
@@ -16,6 +16,7 @@ const CalendarCell = ({ showId, episodeId, title, season, episode, watched }) =>
       title={<MarkWatched showId={showId} episodeId={episodeId} watched={watched} />}
     >
       <div title={fullText} className={cn(styles.label, { [styles.watched]: watched })}>
+        <ShowTypeIcon type={type} size="small" />
         {fullText}
       </div>
     </Tooltip>

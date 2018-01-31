@@ -18,6 +18,7 @@ import { moduleName } from './constants';
 // actions
 //
 export const ROUTE_ALL_SHOWS = `${moduleName}/ROUTE_ALL_SHOWS`;
+export const ROUTE_SHOW_DETAILS = `${moduleName}/ROUTE_SHOW_DETAILS`;
 
 export const GET_SHOWS_REQUEST = `${moduleName}/GET_SHOWS_REQUEST`;
 export const GET_SHOWS_RESPONSE = `${moduleName}/GET_SHOWS_RESPONSE`;

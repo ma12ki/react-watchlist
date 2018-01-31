@@ -9,6 +9,8 @@
 
   --success-color: #08bc0d;
   --warn-color: #f1c410;
+  --info-color: #3598db;
+  --error-color: #e74d3d;
 }
 
 @media (--at-most-tablet) {
