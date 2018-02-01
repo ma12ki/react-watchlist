@@ -155,7 +155,10 @@ export const epics = combineEpics(
 //
 const getShows$ = () => Observable.of(getMockShows()).delay(1000);
 
-const getShow$ = () => Observable.of(getMockShow()).delay(1000);
+const getShow$ = () => Observable.of({
+  ...getMockShow(),
+  episodes: getMockEpisodes(),
+}).delay(1000);
 
 const getMockShows = () => range(30)
   .map(getMockShow);
@@ -166,3 +169,12 @@ const getMockShow = () => ({
   type: faker.random.arrayElement(showTypes),
   following: false,
 });
+
+const getMockEpisodes = () => range(faker.random.number({ min: 0, max: 100 }))
+  .map(() => ({
+    episodeId: faker.random.uuid(),
+    season: faker.random.number({ min: 1, max: 10 }),
+    episode: faker.random.number({ min: 1, max: 100 }),
+    premiereDate: faker.date.recent().toISOString(),
+    watched: Math.random() > 0.7,
+  }));

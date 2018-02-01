@@ -1,0 +1,11 @@
+.noPad > :global(.ant-card-body) {
+  padding: 0;
+}
+
+.transparent {
+  background-color: transparent;
+}
+
+.transparent > :global(.ant-card-body) {
+  background-color: transparent;
+}

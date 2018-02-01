@@ -1,0 +1,27 @@
+.h {
+  color: inherit;
+}
+
+.block {
+  display: block;
+}
+
+.inline {
+  display: inline;
+}
+
+.inlineBlock {
+  display: inline-block;
+}
+
+.primary {
+  color: var(--primary);
+}
+
+.secondary {
+  color: var(--secondary);
+}
+
+.tertiary {
+  color: var(--tertiary);
+}

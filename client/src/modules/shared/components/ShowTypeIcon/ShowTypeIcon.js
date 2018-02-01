@@ -29,7 +29,7 @@ const ShowTypeIcon = ({ type, size, className }) => {
 
 ShowTypeIcon.propTypes = {
   type: showTypesPropTypes.isRequired,
-  size: PropTypes.oneOf(['small', 'default', 'large']),
+  size: PropTypes.oneOf(['small', 'default', 'large', 'xlarge']),
   className: PropTypes.string,
 };
 
