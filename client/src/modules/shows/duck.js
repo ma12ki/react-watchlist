@@ -147,19 +147,17 @@ const getShowsEpic$ = action$ => action$
   .ofType(GET_SHOWS_REQUEST)
   .switchMap(() => getShows$()
     .map(getShowsResponse)
-    .catch(err => Observable.of(err)));
+    .catch(err => Observable.of(getShowsError(err))));
 
 const getShowFromRouteEpic$ = action$ => action$
   .ofType(ROUTE_SHOW_DETAILS)
-  .map(({ payload }) => {
-    return getShowRequest(payload.showId);
-  });
+  .map(({ payload }) => getShowRequest(payload.showId));
 
 const getShowEpic$ = action$ => action$
   .ofType(GET_SHOW_REQUEST)
   .switchMap(() => getShow$()
     .map(getShowResponse)
-    .catch(err => Observable.of(err)));
+    .catch(err => Observable.of(getShowResponse(err))));
 
 export const epics = combineEpics(
   getShowsEpic$,
