@@ -41,6 +41,10 @@
 :global(.ant-table-tbody) > tr:hover > td {
   background-color: var(--bg);
 }
+:global(.ant-table-placeholder) {
+  background-color: transparent;
+  border-bottom: none;
+}
 
 /*
  * Tree

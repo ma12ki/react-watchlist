@@ -32,8 +32,8 @@ class AllShows extends React.Component {
       },
       {
         width: '5rem',
-        render(_, { showId, following }) {
-          return <Follow showId={showId} following={following} />;
+        render(_, { showId, title, following }) {
+          return <Follow showId={showId} title={title} following={following} />;
         },
       },
     ];
