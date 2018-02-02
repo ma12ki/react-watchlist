@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { Card, H, ShowTypeIcon } from '../../../shared';
 import { Follow } from '../../../episodeActions';
 import { showLoadingSel, showSel } from '../../duck';
+import EpisodesList from './EpisodesList';
 import styles from './ShowDetails.css';
 
 class ShowDetails extends React.Component {
@@ -23,6 +24,9 @@ class ShowDetails extends React.Component {
                 <Follow showId={show.showId} following={show.following} />
               </div>
             </div>
+          </div>
+          <div>
+            <EpisodesList showId={show.showId} title={show.title} episodes={show.episodes} />
           </div>
         </React.Fragment> || <div />}
       </Card>

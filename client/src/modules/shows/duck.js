@@ -10,7 +10,7 @@ import { range } from 'lodash';
 import faker from 'faker';
 
 // import { apiService } from '../../utils';
-import { FOLLOW_RESPONSE } from '../episodeActions';
+import { FOLLOW_RESPONSE, MARK_WATCHED_RESPONSE } from '../episodeActions';
 import { showTypes } from '../shared';
 import { moduleName } from './constants';
 
@@ -97,6 +97,23 @@ const show = (state = {}, { type, payload }) => {
         ...state,
         following: state.showId === payload.showId ? true : state.following,
       };
+    }
+    case MARK_WATCHED_RESPONSE: {
+      if (state.showId === payload.showId) {
+        return {
+          ...state,
+          episodes: state.episodes.map(e => {
+            if (e.episodeId === payload.episodeId) {
+              return {
+                ...e,
+                watched: true,
+              };
+            }
+            return e;
+          }),
+        };
+      }
+      return state;
     }
     default: {
       return state;

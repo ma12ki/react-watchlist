@@ -41,3 +41,18 @@
 :global(.ant-table-tbody) > tr:hover > td {
   background-color: var(--bg);
 }
+
+/*
+ * Tree
+ */
+:global(.ant-tree) {
+  color: inherit;
+}
+:global(.ant-tree) li :global(.ant-tree-node-content-wrapper) {
+  color: inherit;
+  border-radius: 0;
+}
+:global(.ant-tree)[unselectable=on] li :global(.ant-tree-node-content-wrapper):hover {
+  background-color: transparent;
+  cursor: default;
+}
