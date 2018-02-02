@@ -3,9 +3,11 @@ import { combineEpics } from 'redux-observable';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/delay';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
+import { toast } from 'react-toastify';
 
 // import { apiService } from '../../utils';
 import { moduleName } from './constants';
@@ -74,12 +76,14 @@ const markWatchedEpic$ = action$ => action$
   .ofType(MARK_WATCHED_REQUEST)
   .switchMap(({ payload }) => markWatched$(/* episodeId */)
     .map(() => markWatchedResponse(payload.showId, payload.episodeId))
+    .do(() => toast.success('Marked watched'))
     .catch(err => Observable.of(err)));
 
 const followEpic$ = action$ => action$
   .ofType(FOLLOW_REQUEST)
   .switchMap(({ payload }) => follow$(/* showId */)
     .map(() => followResponse(payload.showId))
+    .do(() => toast.success('Following'))
     .catch(err => Observable.of(err)));
 
 export const epics = combineEpics(

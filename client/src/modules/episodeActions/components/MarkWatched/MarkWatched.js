@@ -9,18 +9,23 @@ import styles from './MarkWatched.css';
 
 const MarkWatched = ({ watched, loading, onMarkWatched }) => {
   const classNames = cn(
-    styles.icon,
+    styles.iconWrapper,
     {
       [styles.watched]: watched,
       [styles.loading]: loading,
     },
   );
+  const action = loading ? () => {} : onMarkWatched;
+  const title = watched ? 'Marked watched - click to mark not watched' : 'Not watched - click to mark watched';
 
   return (
-    <DoneIcon
-      onClick={loading ? () => {} : onMarkWatched}
+    <span
       className={classNames}
-    />
+      title={title}
+      onClick={action}
+    >
+      <DoneIcon />
+    </span>
   );
 };
 

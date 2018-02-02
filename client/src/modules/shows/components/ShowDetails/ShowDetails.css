@@ -3,22 +3,11 @@
 }
 
 .header {
-  display: grid;
-  grid-template-columns: 100px auto;
-  grid-template-rows: 40px 40px;
-  grid-template-areas:
-    "type title"
-    "type actions";
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
 }
 
-.type {
-  grid-area: type;
-}
-
-.title {
-  grid-area: title;
-}
-
-.actions {
-  grid-area: actions;
+.showTypeIcon {
+  margin-right: 20px;
 }

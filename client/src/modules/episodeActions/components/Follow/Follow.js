@@ -9,18 +9,23 @@ import styles from './Follow.css';
 
 const Follow = ({ following, loading, onFollow }) => {
   const classNames = cn(
-    styles.icon,
+    styles.iconWrapper,
     {
       [styles.following]: following,
       [styles.loading]: loading,
     },
   );
+  const action = loading ? () => {} : onFollow;
+  const title = following ? 'Following - click to unfollow' : 'Not following - click to follow';
 
   return (
-    <StarIcon
-      onClick={loading ? () => {} : onFollow}
+    <span
       className={classNames}
-    />
+      title={title}
+      onClick={action}
+    >
+      <StarIcon />
+    </span>
   );
 };
 

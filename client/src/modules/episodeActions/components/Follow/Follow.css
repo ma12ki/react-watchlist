@@ -1,6 +1,7 @@
-.icon {
+.iconWrapper {
   cursor: pointer;
   vertical-align: sub;
+  color: var(--bg-disabled-text);
 }
 
 .loading {

@@ -17,9 +17,11 @@ class ShowDetails extends React.Component {
         {!loading && <React.Fragment>
           <div className={styles.header}>
             <ShowTypeIcon type={show.type} size="xlarge" className={styles.showTypeIcon} />
-            <H size="2" className={styles.title}>{show.title}</H>
-            <div className={styles.actions}>
-              <Follow showId={show.showId} following={show.following} />
+            <div>
+              <H size="2" className={styles.title}>{show.title}</H>
+              <div className={styles.actions}>
+                <Follow showId={show.showId} following={show.following} />
+              </div>
             </div>
           </div>
         </React.Fragment> || <div />}
