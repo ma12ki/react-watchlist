@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { uniq } from 'lodash';
 // import cn from 'classnames';
 
-import { Tree } from '../../../shared';
+import { episodeLabel } from '../../../utils';
+import { DateFormat, SeasonLabel, Tree } from '../../../shared';
 import { MarkWatched } from '../../../episodeActions';
 import styles from './EpisodesList.css';
 
@@ -11,20 +12,26 @@ const TreeNode = Tree.TreeNode;
 
 const EpisodesList = ({ showId, title, episodes }) => {
   const seasons = groupEpisodes(episodes);
-  const seasonNodes = seasons.map(season => {
-    const episodeNodes = season.map(episode => (
+  const seasonNodes = seasons.map(episodes => {
+    const { season } = episodes[0];
+    const episodeNodes = episodes.map(({
+      episodeId,
+      episode,
+      premiereDate,
+      watched,
+    }) => (
       <TreeNode
-        key={episode.episodeId}
+        key={episodeId}
         selectable={false}
         isLeaf
         title={
           <span>
-            S{episode.season}E{episode.episode}
+            {episodeLabel(season, episode)}{' '}-{' '}<DateFormat value={premiereDate} />
             <MarkWatched
               showId={showId}
-              episodeId={episode.episodeId}
-              watched={episode.watched}
-              title={`${title} S${episode.season}E${episode.episode}`}
+              episodeId={episodeId}
+              watched={watched}
+              title={`${title} ${episodeLabel(season, episode)}`}
             />
           </span>
         }
@@ -33,8 +40,8 @@ const EpisodesList = ({ showId, title, episodes }) => {
 
     return (
       <TreeNode
-        key={season[0].season}
-        title={`S${season[0].season}`}
+        key={season}
+        title={<SeasonLabel season={season} />}
         selectable={false}
       >
         {episodeNodes}
@@ -43,9 +50,7 @@ const EpisodesList = ({ showId, title, episodes }) => {
   });
 
   return (
-    <Tree
-      defaultExpandAll
-    >
+    <Tree defaultExpandAll>
       {seasonNodes}
     </Tree>
   );
