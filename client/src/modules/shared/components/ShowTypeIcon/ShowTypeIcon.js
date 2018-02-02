@@ -16,15 +16,26 @@ const showTypesIcons = {
   'comic': DeveloperBoardIcon,
 };
 
+const showTypesNames = {
+  'movie': 'Movie',
+  'show': 'TV Show',
+  'anime': 'Anime',
+  'comic': 'Comic',
+};
+
 const ShowTypeIcon = ({ type, size, className }) => {
   const Icon = showTypesIcons[type];
-  const classNames = cn(
-    styles.icon,
-    styles[size],
+  const title = showTypesNames[type];
+  const wrapperClassNames = cn(
+    styles.iconWrapper,
     className,
   );
 
-  return <Icon className={classNames} />;
+  return (
+    <span title={title} className={wrapperClassNames}>
+      <Icon className={styles[size]} />
+    </span>
+  );
 };
 
 ShowTypeIcon.propTypes = {
