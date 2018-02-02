@@ -34,6 +34,7 @@ MarkWatched.propTypes = {
   episodeId: PropTypes.string.isRequired,
   loading: PropTypes.bool.isRequired,
   watched: PropTypes.bool.isRequired,
+  title: PropTypes.string.isRequired,
   onMarkWatched: PropTypes.func.isRequired,
 };
 
@@ -41,8 +42,8 @@ const mapState = (state, { showId }) => ({
   loading: loadingSel(state, showId),
 });
 
-const mapDispatch = (dispatch, { showId, episodeId }) => ({
-  onMarkWatched: () => dispatch(markWatchedRequest(showId, episodeId)),
+const mapDispatch = (dispatch, { showId, episodeId, title }) => ({
+  onMarkWatched: () => dispatch(markWatchedRequest(showId, episodeId, title)),
 });
 
 export default connect(mapState, mapDispatch)(MarkWatched);

@@ -33,6 +33,7 @@ Follow.propTypes = {
   showId: PropTypes.string.isRequired,
   loading: PropTypes.bool.isRequired,
   following: PropTypes.bool.isRequired,
+  title: PropTypes.string.isRequired,
   onFollow: PropTypes.func.isRequired,
 };
 
@@ -40,8 +41,8 @@ const mapState = (state, { showId }) => ({
   loading: loadingSel(state, showId),
 });
 
-const mapDispatch = (dispatch, { showId }) => ({
-  onFollow: () => dispatch(followRequest(showId)),
+const mapDispatch = (dispatch, { showId, title }) => ({
+  onFollow: () => dispatch(followRequest(showId, title)),
 });
 
 export default connect(mapState, mapDispatch)(Follow);

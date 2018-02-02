@@ -18,16 +18,16 @@ import { moduleName } from './constants';
 export const MARK_WATCHED_REQUEST = `${moduleName}/MARK_WATCHED_REQUEST`;
 export const MARK_WATCHED_RESPONSE = `${moduleName}/MARK_WATCHED_RESPONSE`;
 export const MARK_WATCHED_ERROR = `${moduleName}/MARK_WATCHED_ERROR`;
-export const markWatchedRequest = (showId, episodeId) => ({ type: MARK_WATCHED_REQUEST, payload: { showId, episodeId } });
-export const markWatchedResponse = (showId, episodeId) => ({ type: MARK_WATCHED_RESPONSE, payload: { showId, episodeId } });
-export const markWatchedError = (showId, episodeId, err) => ({ type: MARK_WATCHED_ERROR, payload: { showId, episodeId, err } });
+export const markWatchedRequest = (showId, episodeId, title) => ({ type: MARK_WATCHED_REQUEST, payload: { showId, episodeId, title } });
+export const markWatchedResponse = (showId, episodeId, title) => ({ type: MARK_WATCHED_RESPONSE, payload: { showId, episodeId, title } });
+export const markWatchedError = (showId, episodeId, title, err) => ({ type: MARK_WATCHED_ERROR, payload: { showId, episodeId, title, err } });
 
 export const FOLLOW_REQUEST = `${moduleName}/FOLLOW_REQUEST`;
 export const FOLLOW_RESPONSE = `${moduleName}/FOLLOW_RESPONSE`;
 export const FOLLOW_ERROR = `${moduleName}/FOLLOW_ERROR`;
-export const followRequest = showId => ({ type: FOLLOW_REQUEST, payload: { showId } });
-export const followResponse = showId => ({ type: FOLLOW_RESPONSE, payload: { showId } });
-export const followError = (showId, err) => ({ type: FOLLOW_ERROR, payload: { showId, err } });
+export const followRequest = (showId, title) => ({ type: FOLLOW_REQUEST, payload: { showId, title } });
+export const followResponse = (showId, title) => ({ type: FOLLOW_RESPONSE, payload: { showId, title } });
+export const followError = (showId, title, err) => ({ type: FOLLOW_ERROR, payload: { showId, title, err } });
 
 //
 // reducers
@@ -75,15 +75,15 @@ export const loadingSel = (state, showId) => moduleSel(state).loading[showId] ||
 const markWatchedEpic$ = action$ => action$
   .ofType(MARK_WATCHED_REQUEST)
   .switchMap(({ payload }) => markWatched$(/* episodeId */)
-    .map(() => markWatchedResponse(payload.showId, payload.episodeId))
-    .do(() => toast.success('Marked watched'))
+    .map(() => markWatchedResponse(payload.showId, payload.episodeId, payload.title))
+    .do(() => toast.success(`${payload.title} marked watched`))
     .catch(err => Observable.of(err)));
 
 const followEpic$ = action$ => action$
   .ofType(FOLLOW_REQUEST)
   .switchMap(({ payload }) => follow$(/* showId */)
-    .map(() => followResponse(payload.showId))
-    .do(() => toast.success('Following'))
+    .map(() => followResponse(payload.showId, payload.title))
+    .do(() => toast.success(`Following ${payload.title}`))
     .catch(err => Observable.of(err)));
 
 export const epics = combineEpics(

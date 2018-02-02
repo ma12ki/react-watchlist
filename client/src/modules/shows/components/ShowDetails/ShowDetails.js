@@ -15,20 +15,20 @@ class ShowDetails extends React.Component {
 
     return (
       <Card loading={loading} className={styles.card}>
-        {!loading && <React.Fragment>
-          <div className={styles.header}>
-            <ShowTypeIcon type={show.type} size="xlarge" className={styles.showTypeIcon} />
+        {!loading && <div className={styles.content}>
+          <ShowTypeIcon type={show.type} size="xlarge" className={styles.showTypeIcon} />
+          <div>
             <div>
               <H size="2" className={styles.title}>{show.title}</H>
               <div className={styles.actions}>
-                <Follow showId={show.showId} following={show.following} />
+                <Follow showId={show.showId} title={show.title} following={show.following} />
               </div>
             </div>
+            <div>
+              <EpisodesList showId={show.showId} title={show.title} episodes={show.episodes} />
+            </div>
           </div>
-          <div>
-            <EpisodesList showId={show.showId} title={show.title} episodes={show.episodes} />
-          </div>
-        </React.Fragment> || <div />}
+        </div> || <div />}
       </Card>
     );
   }
