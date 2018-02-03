@@ -53,7 +53,7 @@ class AddEpisodesForm extends React.Component {
     return range(1, Number(episodes) + 1)
       .map((episode, i) => {
         const { unit, amount } = recurrenceTypes[recurrenceType];
-        const premiereDate = moment(startDate).add(unit, amount * i).startOf('day').toISOString();
+        const premiereDate = moment(startDate).add(amount * i, unit).startOf('day').toISOString();
 
         if (episode + startingEpisode > 999) {
           throw 'Episode overflow';

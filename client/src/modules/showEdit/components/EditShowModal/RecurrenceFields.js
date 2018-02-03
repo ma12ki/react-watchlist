@@ -14,10 +14,11 @@ const { TreeNode } = Tree;
 
 class RecurrenceFields extends React.Component {
   render() {
-    const { form, formItemLayout, recurring } = this.props;
+    const { form, formItemLayout, recurring, episodes } = this.props;
     const { getFieldDecorator } = form;
     const label = recurring ? 'Episodes' : 'Premiere Date';
-    const inputComponent = recurring ? <EpisodesInput /> : <PremiereDateInput />;
+    const inputComponent = recurring ? <EpisodesInput existingEpisodes={episodes} /> : <PremiereDateInput />;
+    const initialValue = recurring ? undefined : episodes;
 
     return (
       <FormItem
@@ -25,6 +26,7 @@ class RecurrenceFields extends React.Component {
         label={label}
       >
         {getFieldDecorator('episodes', {
+          initialValue,
           rules: [
             { required: true, message: 'This field is required' },
           ],
@@ -68,29 +70,34 @@ class EpisodesInput extends React.Component {
   }
 
   render() {
-    const { value = [] } = this.props;
-    const seasonNumbers = uniqSeasons(value);
-    const seasons = groupEpisodes(value);
+    const { value = [], existingEpisodes = [] } = this.props;
+    const allEpisodes = [...value, ...existingEpisodes];
+    const seasonNumbers = uniqSeasons(allEpisodes);
+    const seasons = groupEpisodes(allEpisodes);
     const seasonNodes = seasons.map(episodes => {
       const { season } = episodes[0];
+      const maxEpisode = episodes.reverse()[0].episode;
+      const hasRemovableEpisodes = episodes.filter(({ episodeId }) => episodeId == null).length > 0;
       const lastIndex = episodes.length - 1;
       const episodeNodes = episodes.map(({
         episode,
         premiereDate,
-      }, index) => (
-        <TreeNode
-          key={`${season}${episode}`}
-          selectable={false}
-          isLeaf
-          title={
-            <span>
-              {episodeLabel(season, episode)}{' '}-{' '}<DateFormat value={premiereDate} />
-              {index === lastIndex && <DeleteIcon onClick={() => this.handleRemoveEpisode(season, episode)} />}
-            </span>
-          }
-          />
-        ));
-      const maxEpisode = episodes.reverse()[0].episode;
+      }, index) => {
+        const canRemove = hasRemovableEpisodes && index === lastIndex;
+        return (
+          <TreeNode
+            key={`${season}${episode}`}
+            selectable={false}
+            isLeaf
+            title={
+              <span>
+                {episodeLabel(season, episode)}{' '}-{' '}<DateFormat value={premiereDate} />
+                {canRemove && <DeleteIcon onClick={() => this.handleRemoveEpisode(season, episode)} />}
+              </span>
+            }
+            />
+        );
+      });
 
       return (
         <TreeNode
@@ -98,7 +105,7 @@ class EpisodesInput extends React.Component {
           title={
             <span>
               {seasonLabel(season)}
-              <DeleteIcon onClick={() => this.handleRemoveSeason(season)} />
+              {hasRemovableEpisodes && <DeleteIcon onClick={() => this.handleRemoveSeason(season)} />}
             </span>
           }
           selectable={false}
