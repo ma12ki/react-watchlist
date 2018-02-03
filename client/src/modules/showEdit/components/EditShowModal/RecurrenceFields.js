@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import AddIcon from 'material-ui-icons/Add';
 
-import { groupEpisodes, episodeLabel, seasonLabel } from '../../../utils';
+import { groupEpisodes, uniqSeasons, episodeLabel, seasonLabel } from '../../../utils';
 import { Input, Button, Form, DatePicker, DateFormat, Tree } from '../../../shared';
 import AddEpisodesForm from './AddEpisodesForm';
 // import styles from './RecurrenceFields.css';
@@ -62,6 +62,7 @@ class EpisodesInput extends React.Component {
 
   render() {
     const { value = [] } = this.props;
+    const seasonNumbers = uniqSeasons(value);
     const seasons = groupEpisodes(value);
     const seasonNodes = seasons.map(episodes => {
       const { season } = episodes[0];
@@ -116,6 +117,7 @@ class EpisodesInput extends React.Component {
           isLeaf
           title={
             <AddEpisodesForm
+              disabledSeasons={seasonNumbers}
               onAdd={this.handleAddEpisodes}
             >
               <AddIcon /> Add season

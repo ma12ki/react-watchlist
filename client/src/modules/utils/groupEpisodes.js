@@ -1,6 +1,6 @@
-import { uniq } from 'lodash';
+import uniqSeasons from './uniqSeasons';
 
 export default episodes => {
-  const seasons = uniq(episodes.map(e => e.season)).sort((a, b) => a - b);
+  const seasons = uniqSeasons(episodes);
   return seasons.map(season => episodes.filter(e => e.season === season).sort((a, b) => a.episode - b.episode));
 };

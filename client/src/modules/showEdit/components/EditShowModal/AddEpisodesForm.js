@@ -67,6 +67,14 @@ class AddEpisodesForm extends React.Component {
       });
   }
 
+  validateSeason = (_rule, value, cb) => {
+    const { disabledSeasons } = this.props;
+    if (value != null && disabledSeasons.includes(Number(value))) {
+      return cb('Season already in use');
+    }
+    cb();
+  }
+
   renderForm() {
     const { form, season } = this.props;
     const { getFieldDecorator } = form;
@@ -91,6 +99,7 @@ class AddEpisodesForm extends React.Component {
             initialValue: season,
             rules: [
               { required: true, message: 'Required' },
+              { validator: this.validateSeason },
             ],
           })(
             <Input disabled={season != null} name="season" type="number" min="1" max="99" step="1" placeholder="1 - 99" />
@@ -168,8 +177,13 @@ AddEpisodesForm.propTypes = {
   form: PropTypes.object.isRequired,
   children: PropTypes.node.isRequired,
   season: PropTypes.number,
+  disabledSeasons: PropTypes.array,
   episode: PropTypes.number,
   onAdd: PropTypes.func.isRequired,
+};
+
+AddEpisodesForm.defaultProps = {
+  disabledSeasons: [],
 };
 
 export default Form.create()(AddEpisodesForm);
