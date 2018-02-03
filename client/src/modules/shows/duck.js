@@ -181,8 +181,10 @@ const getMockShows = () => range(30)
 const getMockShow = () => ({
   showId: faker.random.uuid(),
   title: faker.name.jobTitle(),
+  aka: faker.name.jobArea(),
   type: faker.random.arrayElement(showTypes),
   following: false,
+  recurring: Math.random() > 0.5,
 });
 
 const getMockEpisodes = () => range(faker.random.number({ min: 0, max: 100 }))

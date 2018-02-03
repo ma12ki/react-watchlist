@@ -16,6 +16,7 @@ const ShowDetailsFields = ({ form, formItemLayout, show, editMode, onRecurrenceC
         label="Title"
       >
         {getFieldDecorator('title', {
+          initialValue: show.title,
           rules: [
             { required: true, message: 'This field is required' },
             { whitespace: true, message: 'This field is required' },
@@ -30,6 +31,7 @@ const ShowDetailsFields = ({ form, formItemLayout, show, editMode, onRecurrenceC
         label="A.K.A"
       >
         {getFieldDecorator('aka', {
+          initialValue: show.aka,
           rules: [
             { max: 100, message: 'Max 100 characters allowed' },
           ],
@@ -42,6 +44,7 @@ const ShowDetailsFields = ({ form, formItemLayout, show, editMode, onRecurrenceC
         label="Type"
       >
         {getFieldDecorator('type', {
+          initialValue: show.type,
           rules: [
             { required: true, message: 'This field is required' },
           ],
@@ -59,12 +62,12 @@ const ShowDetailsFields = ({ form, formItemLayout, show, editMode, onRecurrenceC
         label="Recurring"
       >
         {getFieldDecorator('recurring', {
-          initialValue: false,
+          initialValue: show.recurring || false,
           rules: [
             { required: true, message: 'This field is required' },
           ],
         })(
-          <Switch name="recurring" onChange={onRecurrenceChange} />
+          <Switch name="recurring" disabled={editMode} defaultChecked={show.recurring || false} onChange={onRecurrenceChange} />
         )}
       </FormItem>
     </React.Fragment>
