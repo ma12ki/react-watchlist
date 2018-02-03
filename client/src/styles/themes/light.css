@@ -1,22 +1,11 @@
 :root[theme=light] {
-  --bg-dark: #cecece;
-  --bg: #ddd;
-  --bg-light: #eee;
-  --bg-text: #111;
-  --bg-disabled-text: #999;
+  --bg-primary-color: #eee;
+  --bg-accent-color: #cecece;
 
-  --primary-dark: #8a0027;
-  --primary: #b20033;
-  --primary-light: #e20041;
-  --primary-text: #eee;
+  --text-color: #111;
+  --text-disabled-color: #999;
 
-  --secondary-dark: #007222;
-  --secondary: #00922c;
-  --secondary-light: #00ba38;
-  --secondary-text: #eee;
-
-  --tertiary-dark: #1c0a6a;
-  --tertiary: #230c89;
-  --tertiary-light: #290cad;
-  --tertiary-text: #fff;
+  --primary-color: #3a0a93;
+  --primary-hover-color: #5c22c6;
+  --primary-active-color: #300879;
 }

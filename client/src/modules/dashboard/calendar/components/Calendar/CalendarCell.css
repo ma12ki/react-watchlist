@@ -2,10 +2,10 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  color: var(--bg-text);
+  color: var(--text-color);
 }
 
 .watched {
   text-decoration: line-through;
-  color: var(--bg-disabled-text);
+  color: var(--text-disabled-color);
 }

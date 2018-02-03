@@ -2,7 +2,7 @@
   list-style-type: none;
   margin: 0;
   padding: 5px 0;
-  background-color: var(--bg-dark);
+  background-color: var(--bg-accent-color);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -20,7 +20,7 @@
 
 .link {
   display: block;
-  color: var(--bg-text);
+  color: var(--text-color);
   width: var(--nav-width);
   border-left: 3px solid transparent;
   text-align: center;
@@ -30,16 +30,16 @@
 
   &:hover,
   &.active {
-    border-left-color: var(--primary);
-    border-top-color: var(--primary);
+    border-left-color: var(--primary-color);
+    border-top-color: var(--primary-color);
 
     & > .icon {
-      color: var(--primary);
+      color: var(--primary-color);
     }
   }
 
   &.active {
-    background-color: var(--bg-light);
+    background-color: var(--bg-primary-color);
   }
 }
 
@@ -58,14 +58,14 @@
 .themePickerLink {
   z-index: 9;
   position: relative;
-  background-color: var(--bg-dark);
+  background-color: var(--bg-accent-color);
 }
 
 .themePicker {
   position: absolute;
   top: 0;
   left: calc(var(--nav-width) - 3px);
-  background-color: var(--bg-dark);
+  background-color: var(--bg-accent-color);
   display: flex;
   transform: translateX(-100%);
   opacity: 0;

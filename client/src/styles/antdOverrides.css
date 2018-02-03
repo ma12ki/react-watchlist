@@ -5,8 +5,8 @@
   border-radius: 0;
 }
 :global(.ant-card-head) {
-  background-color: var(--bg-light);
-  border-bottom: 2px solid var(--primary);
+  background-color: var(--bg-primary-color);
+  border-bottom: 2px solid var(--primary-color);
 }
 :global(.ant-card-head-title) {
   display: flex;
@@ -14,11 +14,11 @@
   align-items: center;
   font-weight: bold;
   font-size: 2rem;
-  color: var(--primary);
+  color: var(--primary-color);
 }
 :global(.ant-card-body) {
-  background-color: var(--bg-light);
-  color: var(--bg-text);
+  background-color: var(--bg-primary-color);
+  color: var(--text-color);
   font-size: 1.4rem;
 }
 
@@ -27,19 +27,19 @@
  */
 :global(.ant-table) th,
 :global(.ant-table) td {
-  color: var(--bg-text);
+  color: var(--text-color);
 }
 :global(.ant-table-thead) > tr > th {
   background-color: transparent !important;
-  color: var(--bg-text);
-  border-color: var(--bg);
+  color: var(--text-color);
+  border-color: var(--bg-accent-color);
 }
 :global(.ant-table-tbody) > tr > td {
   padding: 8px !important;
-  border-color: var(--bg);
+  border-color: var(--bg-accent-color);
 }
 :global(.ant-table-tbody) > tr:hover > td {
-  background-color: var(--bg);
+  background-color: var(--bg-primary-color);
 }
 :global(.ant-table-placeholder) {
   background-color: transparent;

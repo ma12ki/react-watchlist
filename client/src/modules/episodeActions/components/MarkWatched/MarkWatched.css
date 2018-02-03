@@ -1,7 +1,7 @@
 .iconWrapper {
   cursor: pointer;
   vertical-align: sub;
-  color: var(--bg-disabled-text);
+  color: var(--text-disabled-color);
 }
 
 .loading {

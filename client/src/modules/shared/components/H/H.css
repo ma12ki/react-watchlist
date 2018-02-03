@@ -15,13 +15,5 @@
 }
 
 .primary {
-  color: var(--primary);
-}
-
-.secondary {
-  color: var(--secondary);
-}
-
-.tertiary {
-  color: var(--tertiary);
+  color: var(--primary-color);
 }
