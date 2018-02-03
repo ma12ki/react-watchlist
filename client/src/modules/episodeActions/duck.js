@@ -76,14 +76,14 @@ const markWatchedEpic$ = action$ => action$
   .ofType(MARK_WATCHED_REQUEST)
   .switchMap(({ payload }) => markWatched$(/* episodeId */)
     .map(() => markWatchedResponse(payload.showId, payload.episodeId, payload.title))
-    .do(() => toast.success(`${payload.title} marked watched`))
+    .do(() => toast.success(`"${payload.title}" marked watched`))
     .catch(err => Observable.of(err)));
 
 const followEpic$ = action$ => action$
   .ofType(FOLLOW_REQUEST)
   .switchMap(({ payload }) => follow$(/* showId */)
     .map(() => followResponse(payload.showId, payload.title))
-    .do(() => toast.success(`Following ${payload.title}`))
+    .do(() => toast.success(`Following "${payload.title}"`))
     .catch(err => Observable.of(err)));
 
 export const epics = combineEpics(

@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { routes } from '../../../../root';
+import { ResizeWatcher } from '../../../screen';
+import { EditShowModal } from '../../../showEdit';
 import LocaleProvider from '../LocaleProvider';
 import Layout from '../Layout';
 import ToastContainer from '../ToastContainer';
-import { ResizeWatcher } from '../../../screen/components';
 import styles from './App.css';
 
 // This is a class-based component because the current
@@ -24,6 +25,7 @@ export class App extends Component {
         <ToastContainer />
         <LocaleProvider>
           <Layout>
+            <EditShowModal />
             {component}
           </Layout>
         </LocaleProvider>
