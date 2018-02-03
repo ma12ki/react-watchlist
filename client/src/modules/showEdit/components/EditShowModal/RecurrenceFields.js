@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import AddIcon from 'material-ui-icons/Add';
+import DeleteIcon from 'material-ui-icons/Delete';
 
 import { groupEpisodes, uniqSeasons, episodeLabel, seasonLabel } from '../../../utils';
 import { Input, Button, Form, DatePicker, DateFormat, Tree } from '../../../shared';
@@ -52,12 +53,18 @@ class PremiereDateInput extends React.Component {
 class EpisodesInput extends React.Component {
 
   handleAddEpisodes = newEpisodes => {
-    this.props.onChange(
-      [
-        ...(this.props.value || []),
-        ...newEpisodes,
-      ]
-    );
+    this.props.onChange([
+      ...(this.props.value || []),
+      ...newEpisodes,
+    ]);
+  }
+
+  handleRemoveSeason = season => {
+    this.props.onChange(this.props.value.filter(ep => ep.season !== season));
+  }
+
+  handleRemoveEpisode = (season, episode) => {
+    this.props.onChange(this.props.value.filter(ep => !(ep.season === season && ep.episode === episode)));
   }
 
   render() {
@@ -66,10 +73,11 @@ class EpisodesInput extends React.Component {
     const seasons = groupEpisodes(value);
     const seasonNodes = seasons.map(episodes => {
       const { season } = episodes[0];
+      const lastIndex = episodes.length - 1;
       const episodeNodes = episodes.map(({
         episode,
         premiereDate,
-      }) => (
+      }, index) => (
         <TreeNode
           key={`${season}${episode}`}
           selectable={false}
@@ -77,6 +85,7 @@ class EpisodesInput extends React.Component {
           title={
             <span>
               {episodeLabel(season, episode)}{' '}-{' '}<DateFormat value={premiereDate} />
+              {index === lastIndex && <DeleteIcon onClick={() => this.handleRemoveEpisode(season, episode)} />}
             </span>
           }
           />
@@ -86,7 +95,12 @@ class EpisodesInput extends React.Component {
       return (
         <TreeNode
           key={season}
-          title={seasonLabel(season)}
+          title={
+            <span>
+              {seasonLabel(season)}
+              <DeleteIcon onClick={() => this.handleRemoveSeason(season)} />
+            </span>
+          }
           selectable={false}
         >
           {episodeNodes}
