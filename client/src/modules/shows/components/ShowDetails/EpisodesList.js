@@ -1,14 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { uniq } from 'lodash';
 // import cn from 'classnames';
 
-import { episodeLabel } from '../../../utils';
+import { episodeLabel, groupEpisodes } from '../../../utils';
 import { DateFormat, SeasonLabel, Tree } from '../../../shared';
 import { MarkWatched } from '../../../episodeActions';
 // import styles from './EpisodesList.css';
 
-const TreeNode = Tree.TreeNode;
+const { TreeNode } = Tree;
 
 const EpisodesList = ({ showId, title, episodes }) => {
   const seasons = groupEpisodes(episodes);
@@ -54,11 +53,6 @@ const EpisodesList = ({ showId, title, episodes }) => {
       {seasonNodes}
     </Tree>
   );
-};
-
-const groupEpisodes = episodes => {
-  const seasons = uniq(episodes.map(e => e.season)).sort((a, b) => a - b);
-  return seasons.map(season => episodes.filter(e => e.season === season).sort((a, b) => a.episode - b.episode));
 };
 
 EpisodesList.propTypes = {

@@ -2,12 +2,26 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { defaultValidationMessages } from '../../../utils';
-import { Button, Input, Form, Radio, ShowTypeIcon } from '../../../shared';
+import { Button, Form } from '../../../shared';
+import ShowDetailsFields from './ShowDetailsFields';
+import RecurrenceFields from './RecurrenceFields';
 // import styles from './EditShowForm.css';
 
-const FormItem = Form.Item;
-
 class EditShowForm extends React.Component {
+  state = {
+    recurring: this.props.show.recurring || false,
+  }
+
+  handleRecurrenceChange = recurring => {
+    this.setState({ recurring });
+    this.props.form.resetFields(['episodes']);
+  }
+
+  handleSubmit = async (e) => {
+    e.preventDefault();
+    const values = await this.validateForm();
+    console.log(values);
+  }
 
   validateForm = () => {
     return new Promise((resolve, reject) => {
@@ -21,50 +35,35 @@ class EditShowForm extends React.Component {
   };
 
   render() {
-    const { form } = this.props;
-    const { getFieldDecorator } = form;
+    const { form, show, editMode } = this.props;
+    const { recurring } = this.state;
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
-        sm: { span: 8 },
+        sm: { span: 6 },
       },
       wrapperCol: {
         xs: { span: 24 },
-        sm: { span: 16 },
+        sm: { span: 18 },
       },
     };
 
     return (
       <Form onSubmit={this.handleSubmit}>
-        <FormItem
-          {...formItemLayout}
-          label="Title"
-        >
-          {getFieldDecorator('title')(
-            <Input />
-          )}
-        </FormItem>
-        <FormItem
-          {...formItemLayout}
-          label="A.K.A"
-        >
-          {getFieldDecorator('aka')(
-            <Input />
-          )}
-        </FormItem>
-        <FormItem
-          {...formItemLayout}
-          label="Type"
-        >
-          {getFieldDecorator('type')(
-            <Radio.Group>
-              <Radio.Button value="movie"><ShowTypeIcon type="movie" /></Radio.Button>
-              <Radio.Button value="show"><ShowTypeIcon type="show" /></Radio.Button>
-              <Radio.Button value="anime"><ShowTypeIcon type="anime" /></Radio.Button>
-              <Radio.Button value="comic"><ShowTypeIcon type="comic" /></Radio.Button>
-            </Radio.Group>
-          )}
-        </FormItem>
+        <ShowDetailsFields
+          form={form}
+          formItemLayout={formItemLayout}
+          show={show}
+          editMode={editMode}
+          onRecurrenceChange={this.handleRecurrenceChange}
+        />
+        <RecurrenceFields
+          form={form}
+          formItemLayout={formItemLayout}
+          episodes={show.episodes || []}
+          editMode={editMode}
+          recurring={recurring}
+        />
         <Button htmlType="submit">Save</Button>
       </Form>
     );
@@ -74,6 +73,7 @@ class EditShowForm extends React.Component {
 EditShowForm.propTypes = {
   form: PropTypes.object.isRequired,
   show: PropTypes.object.isRequired,
+  editMode: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
   onEdit: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,

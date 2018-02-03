@@ -26,13 +26,14 @@ const EditShowModal = ({
     <Modal
       visible={visible}
       title={title}
-      onCancel={onCancel}
-      okText="Save"
       destroyOnClose={true}
       footer={null}
+      maskClosable={false}
+      onCancel={onCancel}
     >
       <EditShowForm
         show={show}
+        editMode={editMode}
         loading={loading}
         onEdit={onEdit}
         onCancel={onCancel}
