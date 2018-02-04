@@ -1,54 +1,54 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
+import moment from 'moment';
 
-import { Tooltip, ShowTypeIcon } from '../../../../shared';
-import { episodeLabel } from '../../../../utils';
-import { MarkWatchedButton, PostponeButton } from '../../../../showOperations';
+import EpisodesList from './EpisodesList';
 import styles from './CalendarCell.css';
 
-const CalendarCell = ({ showId, episodeId, title, type, season, episode, premiereDate, watched }) => {
-  const fullText = `${title} ${episodeLabel(season, episode)}`;
+const CalendarCell = ({ cellDate, selectedMonth, episodes }) => {
+  const now = moment();
+  const isPastDate = now.isAfter(cellDate, 'day');
+  const isToday = now.isSame(cellDate, 'day');
+  const isFutureDate = now.isBefore(cellDate, 'day');
+
+  const isSelectedMonth = selectedMonth.isSame(cellDate, 'month');
+
+  const isWeekend = [6, 7].includes(cellDate.isoWeekday());
+  const dayOfMonth = moment(cellDate).format('DD');
+
+  const containerClassNames = cn(
+    styles.container,
+    {
+      [styles.containerPast]: isPastDate,
+      [styles.containerToday]: isToday,
+      [styles.containerFuture]: isFutureDate,
+      [styles.containerSelectedMonth]: isSelectedMonth,
+    },
+  );
+  const dayOfMonthClassNames = cn(
+    styles.dayOfMonth,
+    {
+      [styles.dayOfMonthToday]: isToday,
+      [styles.dayOfMonthSelected]: isSelectedMonth,
+      [styles.dayOfMonthWeekend]: isWeekend,
+    }
+  );
 
   return (
-    <Tooltip
-      mouseEnterDelay={0.1}
-      trigger="hover click"
-      title={
-        <React.Fragment>
-          <MarkWatchedButton
-            showId={showId}
-            episodeId={episodeId}
-            watched={watched}
-            title={fullText}
-          />
-          <PostponeButton
-            showId={showId}
-            season={season}
-            episode={episode}
-            currentPremiereDate={premiereDate}
-            title={fullText}
-          />
-        </React.Fragment>
-      }
-    >
-      <div title={fullText} className={cn(styles.label, { [styles.watched]: watched })}>
-        <ShowTypeIcon type={type} size="small" />
-        {fullText}
+    <div className={containerClassNames}>
+      <div className={dayOfMonthClassNames}>{dayOfMonth}</div>
+      <div className={styles.episodes}>
+        <EpisodesList episodes={episodes} />
       </div>
-    </Tooltip>
+    </div>
   );
 };
 
 CalendarCell.propTypes = {
-  showId: PropTypes.string.isRequired,
-  episodeId: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
-  season: PropTypes.number.isRequired,
-  episode: PropTypes.number.isRequired,
-  premiereDate: PropTypes.string.isRequired,
-  watched: PropTypes.bool.isRequired,
+  cellDate: PropTypes.object.isRequired,
+  selectedMonth: PropTypes.object.isRequired,
+  episodes: PropTypes.array,
 };
 
 export default CalendarCell;

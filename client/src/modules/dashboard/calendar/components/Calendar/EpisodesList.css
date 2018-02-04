@@ -1,0 +1,11 @@
+.label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--text-color);
+}
+
+.watched {
+  text-decoration: line-through;
+  color: var(--text-disabled-color);
+}

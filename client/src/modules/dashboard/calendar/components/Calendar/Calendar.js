@@ -27,24 +27,24 @@ class Calendar extends React.Component {
     to: moment(baseDate).endOf('month').add(14, 'days').endOf('day'),
   })
 
-  renderCell = date => {
-    const { episodes } = this.props;
+  getSelectedMonth = () => {
+    const { from } = this.props.dates;
 
-    return episodes
-      .filter(e => moment(date).isSame(e.premiereDate, 'day'))
-      .map(e => (
-        <CalendarCell
-          key={e.episodeId}
-          showId={e.showId}
-          episodeId={e.episodeId}
-          title={e.title}
-          type={e.type}
-          season={e.season}
-          episode={e.episode}
-          premiereDate={e.premiereDate}
-          watched={e.watched}
-        />
-      ));
+    return moment(from).add(1, 'month').startOf('month');
+  }
+
+  renderFullCell = date => {
+    const { episodes } = this.props;
+    const episodesForDate = episodes.filter(e => moment(date).isSame(e.premiereDate, 'day'));
+    const selectedMonth = this.getSelectedMonth();
+
+    return (
+      <CalendarCell
+        cellDate={date}
+        selectedMonth={selectedMonth}
+        episodes={episodesForDate}
+      />
+    );
   }
 
   render() {
@@ -54,7 +54,8 @@ class Calendar extends React.Component {
       <BaseCalendar
         className={styles.calendar}
         disabledDate={() => loading}
-        dateCellRender={this.renderCell}
+        dateCellRender={() => {}}
+        dateFullCellRender={this.renderFullCell}
         onPanelChange={this.handleDateChange}
         onSelect={this.handleDateChange}
       />

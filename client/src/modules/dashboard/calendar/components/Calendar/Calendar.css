@@ -4,50 +4,10 @@
   }
 
   & :global(.ant-fullcalendar-column-header) :global(.ant-fullcalendar-column-header-inner) {
-    font-weight: bold;
     color: var(--text-color);
   }
 
-  & :global(.ant-fullcalendar-date) {
-    border-top-width: 3px;
-    border-color: var(--bg-accent-color);
-  }
-
-  & :global(.ant-fullcalendar-today) > :global(.ant-fullcalendar-date) {
-    border-color: var(--primary-color);
-
-    & > :global(.ant-fullcalendar-value) {
-      color: var(--primary-color);
-    }
-  }
-
-  & :global(.ant-fullcalendar-date):hover,
-  & :global(.ant-fullcalendar-selected-day) > :global(.ant-fullcalendar-date) {
-    background-color: transparent;
-
-    & > :global(.ant-fullcalendar-value) {
-      color: inherit;
-    }
-  }
-
-  & :global(.ant-fullcalendar-date) > :global(.ant-fullcalendar-value) {
-    color: var(--text-color);
-  }
-
-  & :global(.ant-fullcalendar-last-month-cell) > :global(.ant-fullcalendar-date) > :global(.ant-fullcalendar-value),
-  & :global(.ant-fullcalendar-next-month-btn-day) > :global(.ant-fullcalendar-date) > :global(.ant-fullcalendar-value) {
-    color: var(--text-disabled-color);
-  }
-
-  & :global(.ant-fullcalendar-date):hover,
-  & :global(.ant-fullcalendar-date) > :global(.ant-fullcalendar-value):hover {
-    cursor: default;
-  }
-
-  & :global(.ant-fullcalendar-last-month-cell) > :global(.ant-fullcalendar-date):hover,
-  & :global(.ant-fullcalendar-next-month-btn-day) > :global(.ant-fullcalendar-date):hover,
-  & :global(.ant-fullcalendar-last-month-cell) > :global(.ant-fullcalendar-date) > :global(.ant-fullcalendar-value):hover,
-  & :global(.ant-fullcalendar-next-month-btn-day) > :global(.ant-fullcalendar-date) > :global(.ant-fullcalendar-value):hover {
-    cursor: pointer;
+  & :global(.ant-fullcalendar-cell) {
+    vertical-align: top;
   }
 }
