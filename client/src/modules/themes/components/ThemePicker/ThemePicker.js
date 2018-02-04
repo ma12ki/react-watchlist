@@ -16,7 +16,8 @@ class ThemePicker extends React.Component {
   }
 
   handleSetTheme = e => {
-    const { name: theme } = e.target;
+    const { currentTheme } = this.props;
+    const { name: theme = currentTheme } = e.target;
     this.applyTheme(theme);
     this.props.onSetTheme(theme);
   }
