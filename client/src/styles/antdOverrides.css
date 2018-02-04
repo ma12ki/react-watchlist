@@ -124,7 +124,33 @@
 }
 
 /*
- * Pagination
+ * Modal
+ */
+:global(.ant-modal-content) {
+  border-radius: 0;
+  border: 1px solid var(--bg-accent-color);
+}
+:global(.ant-modal-header) {
+  border-radius: 0;
+  background-color: var(--bg-accent-color);
+  border-bottom: none;
+}
+:global(.ant-modal-title) {
+  color: var(--text-color);
+}
+:global(.ant-modal-close-x) {
+  color: var(--text-disabled-color);
+  &:hover {
+    color: var(--text-color);
+  }
+}
+:global(.ant-modal-body) {
+  color: var(--text-color);
+  background-color: var(--bg-primary-color);
+}
+
+/*
+ * Popover
  */
 :global(.ant-popover-arrow) {
   display: none;
