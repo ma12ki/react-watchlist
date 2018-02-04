@@ -6,6 +6,7 @@ import moment from 'moment';
 import { Calendar as BaseCalendar } from '../../../../shared';
 import { episodesRequest, setCalendarDates, episodesSel, loadingSel, datesSel } from '../../duck';
 import CalendarCell from './CalendarCell';
+import styles from './Calendar.css';
 
 class Calendar extends React.Component {
   componentDidMount() {
@@ -51,10 +52,11 @@ class Calendar extends React.Component {
 
     return (
       <BaseCalendar
-        onPanelChange={this.handleDateChange}
-        onSelect={this.handleDateChange}
+        className={styles.calendar}
         disabledDate={() => loading}
         dateCellRender={this.renderCell}
+        onPanelChange={this.handleDateChange}
+        onSelect={this.handleDateChange}
       />
     );
   }
