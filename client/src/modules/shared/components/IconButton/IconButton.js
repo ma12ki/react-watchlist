@@ -3,33 +3,30 @@ import PropTypes from 'prop-types';
 import { Button } from 'antd';
 import cn from 'classnames';
 
-// import styles from './ActionButton.css';
+import styles from './IconButton.css';
 
-const ActionButton = ({ bordered, hoverable, padding, transparent, className, ...rest }) => {
+const IconButton = ({ children, type, loading, className, ...rest }) => {
   const classNames = cn(
+    styles.iconButton,
     className,
-    {
-      [styles.noPad]: !padding,
-      [styles.transparent]: transparent,
-    },
   );
 
-  return <AntActionButton bordered={bordered} hoverable={hoverable} className={classNames} {...rest} />;
+  return (
+    <Button type={type} ghost loading={loading} className={classNames} {...rest}>
+      {children}
+    </Button>
+  );
 };
 
-ActionButton.propTypes = {
-  bordered: PropTypes.bool,
-  hoverable: PropTypes.bool,
-  padding: PropTypes.bool,
-  transparent: PropTypes.bool,
+IconButton.propTypes = {
+  children: PropTypes.node.isRequired,
+  type: PropTypes.oneOf(['primary', 'danger']),
+  loading: PropTypes.bool,
   className: PropTypes.string,
 };
 
-ActionButton.defaultProps = {
-  bordered: false,
-  hoverable: false,
-  padding: false,
-  transparent: true,
+IconButton.defaultProps = {
+  type: 'primary',
 };
 
-export default ActionButton;
+export default IconButton;

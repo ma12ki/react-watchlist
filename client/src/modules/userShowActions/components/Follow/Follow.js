@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import StarIcon from 'material-ui-icons/Star';
 import cn from 'classnames';
 
+import { IconButton } from '../../../shared';
 import { loadingSel, followRequest } from '../../duck';
 import styles from './Follow.css';
 
@@ -19,13 +20,14 @@ const Follow = ({ following, loading, onFollow }) => {
   const title = following ? 'Following - click to unfollow' : 'Not following - click to follow';
 
   return (
-    <span
+    <IconButton
       className={classNames}
       title={title}
+      loading={loading}
       onClick={action}
     >
       <StarIcon />
-    </span>
+    </IconButton>
   );
 };
 

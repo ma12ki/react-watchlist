@@ -27,3 +27,7 @@ button {
     color: var(--primary-active-color);
   }
 }
+
+:global(.MuiSvgIcon-root-1) {
+  vertical-align: middle;
+}

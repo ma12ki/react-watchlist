@@ -7,7 +7,7 @@ import Link from 'redux-first-router-link';
 import { ShowTypeIcon, Table } from '../../../shared';
 import { Follow } from '../../../userShowActions';
 import { loadingSel, itemsSel, getShowsRequest } from '../../duck';
-// import styles from './AllShows.css';
+import styles from './AllShows.css';
 
 class AllShows extends React.Component {
   componentDidMount() {
@@ -32,6 +32,7 @@ class AllShows extends React.Component {
       },
       {
         width: '5rem',
+        className: styles.alignRight,
         render(_, { showId, title, following }) {
           return <Follow showId={showId} title={title} following={following} />;
         },

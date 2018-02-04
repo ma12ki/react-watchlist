@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { toast } from 'react-toastify';
 
 import Nav from '../Nav';
 import styles from './Layout.css';
@@ -12,12 +11,6 @@ const Layout = ({ children }) => {
       <div className={styles.contentWrapper}>
         <div className={styles.content}>
           {children}
-
-          <button onClick={() => toast('omg')}>default</button>
-          <button onClick={() => toast.success('omg')}>success</button>
-          <button onClick={() => toast.warn('omg')}>warn</button>
-          <button onClick={() => toast.info('omg')}>info</button>
-          <button onClick={() => toast.error('omg')}>error</button>
         </div>
       </div>
     </div>
@@ -25,8 +18,7 @@ const Layout = ({ children }) => {
 };
 
 Layout.propTypes = {
-  // eslint-disable-next-line react/forbid-prop-types
-  children: PropTypes.any.isRequired,
+  children: PropTypes.node.isRequired,
 };
 
 export default Layout;

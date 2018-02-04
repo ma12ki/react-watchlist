@@ -9,5 +9,5 @@
 }
 
 .following {
-  color: var(--warn-color);
+  color: var(--warn-color) !important;
 }

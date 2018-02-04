@@ -5,16 +5,12 @@ import cn from 'classnames';
 
 // import styles from './ActionButton.css';
 
-const ActionButton = ({ bordered, hoverable, padding, transparent, className, ...rest }) => {
+const ActionButton = ({ bordered, hoverable, className, ...rest }) => {
   const classNames = cn(
     className,
-    {
-      [styles.noPad]: !padding,
-      [styles.transparent]: transparent,
-    },
   );
 
-  return <AntActionButton bordered={bordered} hoverable={hoverable} className={classNames} {...rest} />;
+  return <Button bordered={bordered} hoverable={hoverable} className={classNames} {...rest} />;
 };
 
 ActionButton.propTypes = {

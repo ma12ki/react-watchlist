@@ -1,4 +1,21 @@
 /*
+ * Button
+ */
+:global(.ant-btn) {
+  border-radius: 0;
+}
+:global(.ant-btn-loading):before {
+  display: none !important;
+}
+
+:global(.ant-btn)[disabled],
+:global(.ant-btn):global(.ant-btn-danger)[disabled],
+:global(.ant-btn):global(.ant-btn-primary)[disabled] {
+  border-color: var(--text-disabled-color);
+  color: var(--text-disabled-color);
+}
+
+/*
  * Card
  */
 :global(.ant-card) {
