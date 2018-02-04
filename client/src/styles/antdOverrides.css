@@ -124,6 +124,26 @@
 }
 
 /*
+ * Pagination
+ */
+:global(.ant-popover-arrow) {
+  display: none;
+}
+:global(.ant-popover-inner) {
+  border-radius: 0;
+  border: 1px solid var(--bg-accent-color);
+}
+:global(.ant-popover-title) {
+  color: var(--text-color);
+  background-color: var(--bg-accent-color);
+  border-bottom: none;
+}
+:global(.ant-popover-inner-content) {
+  color: var(--text-color);
+  background-color: var(--bg-primary-color);
+}
+
+/*
  * Tree
  */
 :global(.ant-tree) {

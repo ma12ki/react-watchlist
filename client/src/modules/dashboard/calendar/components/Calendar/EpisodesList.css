@@ -1,8 +1,13 @@
+.popoverOverlay {
+  z-index: 3;
+}
+
 .label {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   color: var(--text-color);
+  cursor: pointer;
 }
 
 .watched {
