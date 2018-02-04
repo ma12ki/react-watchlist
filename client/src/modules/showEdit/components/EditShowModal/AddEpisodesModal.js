@@ -4,7 +4,7 @@ import moment from 'moment';
 import { range } from 'lodash';
 
 import { Input, Button, DatePicker, Form, Select, Modal } from '../../../shared';
-import styles from './AddEpisodesForm.css';
+// import styles from './AddEpisodesModal.css';
 
 const FormItem = Form.Item;
 const { Option } = Select;
@@ -16,7 +16,7 @@ const recurrenceTypes = Object.freeze({
   monthly: { unit: 'months', amount: 1 },
 });
 
-class AddEpisodesForm extends React.Component {
+class AddEpisodesModal extends React.Component {
   state = {
     showForm: false,
   }
@@ -173,7 +173,7 @@ class AddEpisodesForm extends React.Component {
   }
 }
 
-AddEpisodesForm.propTypes = {
+AddEpisodesModal.propTypes = {
   form: PropTypes.object.isRequired,
   children: PropTypes.node.isRequired,
   season: PropTypes.number,
@@ -182,8 +182,8 @@ AddEpisodesForm.propTypes = {
   onAdd: PropTypes.func.isRequired,
 };
 
-AddEpisodesForm.defaultProps = {
+AddEpisodesModal.defaultProps = {
   disabledSeasons: [],
 };
 
-export default Form.create()(AddEpisodesForm);
+export default Form.create()(AddEpisodesModal);
