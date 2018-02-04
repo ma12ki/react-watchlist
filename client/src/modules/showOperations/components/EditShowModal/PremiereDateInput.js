@@ -12,7 +12,7 @@ class PremiereDateInput extends React.Component {
 
   render() {
     const { value } = this.props;
-    const internalValue = value ? moment(value[0].premiereDate) : undefined;
+    const internalValue = value && value.length ? moment(value[0].premiereDate) : undefined;
 
     return <DatePicker value={internalValue} onChange={this.handleChange} />;
   }

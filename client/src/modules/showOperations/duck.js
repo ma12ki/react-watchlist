@@ -8,6 +8,7 @@ import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
 import { toast } from 'react-toastify';
+import faker from 'faker';
 
 // import { apiService } from '../../utils';
 import { moduleName } from './constants';
@@ -73,7 +74,7 @@ const editModalVisible = (state = false, { type }) => {
   }
 };
 
-const show = (state = {}, { type, payload }) => {
+const show = (state = {}, { type, payload = {} }) => {
   switch (type) {
     case OPEN_EDIT_SHOW: {
       return payload;
@@ -157,8 +158,8 @@ export const showSel = state => moduleSel(state).show;
 const editShowEpic$ = action$ => action$
   .ofType(EDIT_SHOW_REQUEST)
   .switchMap(({ payload: show }) => {
-    const editMode = show.showId == null;
-    const request$ = editMode ? createShow$(show) : updateShow$(show);
+    const editMode = show.showId != null;
+    const request$ = editMode ? updateShow$(show) : createShow$(show);
 
     return request$
       .map(editShowResponse)
@@ -205,7 +206,7 @@ export const epics = combineEpics(
 //
 // services
 //
-const createShow$ = () => Observable.of({}).delay(1000);
+const createShow$ = show => Observable.of(createMockShow(show)).delay(1000);
 
 const updateShow$ = () => Observable.of({}).delay(1000);
 
@@ -216,3 +217,12 @@ const deleteEpisodes$ = () => Observable.of({}).delay(1000);
 const markWatched$ = (/* episodeId */) => Observable.of({}).delay(1000);
 
 const follow$ = (/* showId */) => Observable.of({}).delay(1000);
+
+const createMockShow = show => ({
+  ...show,
+  showId: faker.random.uuid(),
+  episodes: show.episodes.map(e => ({
+    ...e,
+    episodeId: faker.random.uuid(),
+  })),
+});

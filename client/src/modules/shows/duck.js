@@ -10,7 +10,13 @@ import { range } from 'lodash';
 import faker from 'faker';
 
 // import { apiService } from '../../utils';
-import { FOLLOW_RESPONSE, MARK_WATCHED_RESPONSE, DELETE_SHOW_RESPONSE, DELETE_EPISODES_RESPONSE } from '../showOperations';
+import {
+  FOLLOW_RESPONSE,
+  MARK_WATCHED_RESPONSE,
+  DELETE_SHOW_RESPONSE,
+  DELETE_EPISODES_RESPONSE,
+  EDIT_SHOW_RESPONSE,
+} from '../showOperations';
 import { showTypes } from '../shared';
 import { moduleName } from './constants';
 
@@ -164,6 +170,10 @@ const getShowsEpic$ = action$ => action$
     .map(getShowsResponse)
     .catch(err => Observable.of(getShowsError(err))));
 
+const refreshShowsEpic$ = action$ => action$
+  .ofType(EDIT_SHOW_RESPONSE)
+  .mapTo(getShowsRequest());
+
 const getShowFromRouteEpic$ = action$ => action$
   .ofType(ROUTE_SHOW_DETAILS)
   .map(({ payload }) => getShowRequest(payload.showId));
@@ -176,6 +186,7 @@ const getShowEpic$ = action$ => action$
 
 export const epics = combineEpics(
   getShowsEpic$,
+  refreshShowsEpic$,
   getShowFromRouteEpic$,
   getShowEpic$,
 );

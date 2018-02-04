@@ -7,7 +7,10 @@
 :global(.ant-btn-loading):before {
   display: none !important;
 }
-
+:global(.ant-btn-background-ghost) {
+  border-color: var(--text-color);
+  color: var(--text-color);
+}
 :global(.ant-btn)[disabled],
 :global(.ant-btn):global(.ant-btn-danger)[disabled],
 :global(.ant-btn):global(.ant-btn-primary)[disabled] {
@@ -48,6 +51,7 @@
 }
 :global(.ant-select-selection) {
   background-color: var(--bg-primary-color);
+  border-color: var(--text-color);
   border-radius: 0;
 }
 :global(.ant-select-dropdown) {
@@ -106,6 +110,9 @@
 :global(.ant-pagination-next) a,
 :global(.ant-pagination-item):not(:global(.ant-pagination-item-active)):not(:hover) a {
   color: var(--text-color);
+  &:active {
+    color: var(--text-color);
+  }
 }
 :global(.ant-pagination-disabled) :global(.ant-pagination-item-link),
 :global(.ant-pagination-disabled):hover :global(.ant-pagination-item-link) {

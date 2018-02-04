@@ -5,7 +5,7 @@ import Link from 'redux-first-router-link';
 // import cn from 'classnames';
 
 import { ShowTypeIcon, Table } from '../../../shared';
-import { FollowButton, DeleteShowButton } from '../../../showOperations';
+import { FollowButton, DeleteShowButton, CreateShowButton } from '../../../showOperations';
 import { loadingSel, itemsSel, getShowsRequest } from '../../duck';
 import styles from './AllShows.css';
 
@@ -48,20 +48,23 @@ class AllShows extends React.Component {
     const { items, loading } = this.props;
 
     return (
-      <Table
-        className={styles.table}
-        columns={this.getColumns()}
-        dataSource={items}
-        loading={loading}
-        pagination={{
-          pageSize: 15,
-          pageSizeOptions: ['15', '30', '50', '100'],
-          showSizeChanger: true,
-          showTotal: () => `${items.length} total`,
-        }}
-        rowKey="showId"
-        size="middle"
-      />
+      <React.Fragment>
+        <CreateShowButton />
+        <Table
+          className={styles.table}
+          columns={this.getColumns()}
+          dataSource={items}
+          loading={loading}
+          pagination={{
+            pageSize: 15,
+            pageSizeOptions: ['15', '30', '50', '100'],
+            showSizeChanger: true,
+            showTotal: () => `${items.length} total`,
+          }}
+          rowKey="showId"
+          size="middle"
+        />
+      </React.Fragment>
     );
   }
 }

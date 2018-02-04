@@ -1,3 +1,4 @@
+export { default as CreateShowButton } from './CreateShowButton';
 export { default as EditShowModal } from './EditShowModal';
 export { default as EditShowButton } from './EditShowButton';
 export { default as DeleteShowButton } from './DeleteShowButton';

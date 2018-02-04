@@ -20,7 +20,7 @@ const EditShowModal = ({
   onCancel,
 }) => {
   const editMode = show.showId != null;
-  const title = editMode ? `Edit "${show.title}"` : 'Create new';
+  const title = editMode ? `Edit "${show.title}"` : 'Add new';
 
   return (
     <Modal

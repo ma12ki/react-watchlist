@@ -87,6 +87,10 @@
 
   .item {
     margin: 0 5px;
+
+    &:last-child {
+      margin-right: 20px;
+    }
   }
 
   .link {
