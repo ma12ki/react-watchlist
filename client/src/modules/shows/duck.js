@@ -10,7 +10,7 @@ import { range } from 'lodash';
 import faker from 'faker';
 
 // import { apiService } from '../../utils';
-import { FOLLOW_RESPONSE, MARK_WATCHED_RESPONSE, DELETE_SHOW_RESPONSE } from '../showOperations';
+import { FOLLOW_RESPONSE, MARK_WATCHED_RESPONSE, DELETE_SHOW_RESPONSE, DELETE_EPISODES_RESPONSE } from '../showOperations';
 import { showTypes } from '../shared';
 import { moduleName } from './constants';
 
@@ -100,6 +100,12 @@ const show = (state = {}, { type, payload }) => {
         return {};
       }
       return state;
+    }
+    case DELETE_EPISODES_RESPONSE: {
+      return {
+        ...state,
+        episodes: state.episodes.filter(e => !(e.season === payload.season && (e.episode === payload.episode || payload.episode == null))),
+      };
     }
     case FOLLOW_RESPONSE: {
       return {

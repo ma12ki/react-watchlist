@@ -34,12 +34,19 @@ export const deleteShowRequest = (showId, title) => ({ type: DELETE_SHOW_REQUEST
 export const deleteShowResponse = (showId) => ({ type: DELETE_SHOW_RESPONSE, payload: { showId } });
 export const deleteShowError = (showId, err) => ({ type: DELETE_SHOW_ERROR, payload: { showId, err } });
 
+export const DELETE_EPISODES_REQUEST = `${moduleName}/DELETE_EPISODES_REQUEST`;
+export const DELETE_EPISODES_RESPONSE = `${moduleName}/DELETE_EPISODES_RESPONSE`;
+export const DELETE_EPISODES_ERROR = `${moduleName}/DELETE_EPISODES_ERROR`;
+export const deleteEpisodesRequest = (showId, season, episode, title) => ({ type: DELETE_EPISODES_REQUEST, payload: { showId, season, episode, title } });
+export const deleteEpisodesResponse = (showId, season, episode) => ({ type: DELETE_EPISODES_RESPONSE, payload: { showId, season, episode } });
+export const deleteEpisodesError = (showId, err) => ({ type: DELETE_EPISODES_ERROR, payload: { showId, err } });
+
 export const MARK_WATCHED_REQUEST = `${moduleName}/MARK_WATCHED_REQUEST`;
 export const MARK_WATCHED_RESPONSE = `${moduleName}/MARK_WATCHED_RESPONSE`;
 export const MARK_WATCHED_ERROR = `${moduleName}/MARK_WATCHED_ERROR`;
 export const markWatchedRequest = (showId, episodeId, title) => ({ type: MARK_WATCHED_REQUEST, payload: { showId, episodeId, title } });
 export const markWatchedResponse = (showId, episodeId) => ({ type: MARK_WATCHED_RESPONSE, payload: { showId, episodeId } });
-export const markWatchedError = (showId, episodeId, err) => ({ type: MARK_WATCHED_ERROR, payload: { showId, episodeId, err } });
+export const markWatchedError = (showId, err) => ({ type: MARK_WATCHED_ERROR, payload: { showId, err } });
 
 export const FOLLOW_REQUEST = `${moduleName}/FOLLOW_REQUEST`;
 export const FOLLOW_RESPONSE = `${moduleName}/FOLLOW_RESPONSE`;
@@ -99,7 +106,8 @@ const operationLoading = (state = {}, { type, payload }) => {
   switch (type) {
     case MARK_WATCHED_REQUEST:
     case FOLLOW_REQUEST:
-    case DELETE_SHOW_REQUEST: {
+    case DELETE_SHOW_REQUEST:
+    case DELETE_EPISODES_REQUEST: {
       return {
         ...state,
         [payload.showId]: true,
@@ -110,7 +118,9 @@ const operationLoading = (state = {}, { type, payload }) => {
     case FOLLOW_RESPONSE:
     case FOLLOW_ERROR:
     case DELETE_SHOW_RESPONSE:
-    case DELETE_SHOW_ERROR: {
+    case DELETE_SHOW_ERROR:
+    case DELETE_EPISODES_RESPONSE:
+    case DELETE_EPISODES_ERROR: {
       return {
         ...state,
         [payload.showId]: false,
@@ -152,7 +162,7 @@ const editShowEpic$ = action$ => action$
 
     return request$
       .map(editShowResponse)
-      .do(() => editMode ? toast.success(`"${show.title}" updated`) : toast.success(`"${show.title}" created`))
+      .do(() => editMode ? toast(`"${show.title}" updated`) : toast(`"${show.title}" created`))
       .catch(err => Observable.of(editShowError(err)));
   });
 
@@ -160,26 +170,34 @@ const deleteShowEpic$ = action$ => action$
   .ofType(DELETE_SHOW_REQUEST)
   .switchMap(({ payload }) => deleteShow$()
     .map(() => deleteShowResponse(payload.showId))
-    .do(() => toast.success(`"${payload.title}" removed`))
-    .catch(err => Observable.of(deleteShowError(err))));
+    .do(() => toast(`"${payload.title}" removed`))
+    .catch(err => Observable.of(deleteShowError(payload.showId, err))));
+
+const deleteEpisodesEpic$ = action$ => action$
+  .ofType(DELETE_EPISODES_REQUEST)
+  .switchMap(({ payload }) => deleteEpisodes$()
+    .map(() => deleteEpisodesResponse(payload.showId, payload.season, payload.episode))
+    .do(() => toast(`"${payload.title}" removed`))
+    .catch(err => Observable.of(deleteEpisodesError(payload.showId, err))));
 
 const markWatchedEpic$ = action$ => action$
   .ofType(MARK_WATCHED_REQUEST)
   .switchMap(({ payload }) => markWatched$(/* episodeId */)
     .map(() => markWatchedResponse(payload.showId, payload.episodeId))
-    .do(() => toast.success(`"${payload.title}" marked watched`))
-    .catch(err => Observable.of(markWatchedError(err))));
+    .do(() => toast(`"${payload.title}" marked watched`))
+    .catch(err => Observable.of(markWatchedError(payload.showId, err))));
 
 const followEpic$ = action$ => action$
   .ofType(FOLLOW_REQUEST)
   .switchMap(({ payload }) => follow$(/* showId */)
     .map(() => followResponse(payload.showId))
-    .do(() => toast.success(`Following "${payload.title}"`))
-    .catch(err => Observable.of(followError(err))));
+    .do(() => toast(`Following "${payload.title}"`))
+    .catch(err => Observable.of(followError(payload.showId, err))));
 
 export const epics = combineEpics(
   editShowEpic$,
   deleteShowEpic$,
+  deleteEpisodesEpic$,
   markWatchedEpic$,
   followEpic$,
 );
@@ -192,6 +210,8 @@ const createShow$ = () => Observable.of({}).delay(1000);
 const updateShow$ = () => Observable.of({}).delay(1000);
 
 const deleteShow$ = () => Observable.of({}).delay(1000);
+
+const deleteEpisodes$ = () => Observable.of({}).delay(1000);
 
 const markWatched$ = (/* episodeId */) => Observable.of({}).delay(1000);
 

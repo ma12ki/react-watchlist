@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 // import cn from 'classnames';
 
-import { episodeLabel, groupEpisodes } from '../../../utils';
+import { episodeLabel, seasonLabel, groupEpisodes } from '../../../utils';
 import { DateFormat, SeasonLabel, Tree } from '../../../shared';
-import { MarkWatchedButton } from '../../../showOperations';
+import { MarkWatchedButton, DeleteEpisodesButton } from '../../../showOperations';
 // import styles from './EpisodesList.css';
 
 const { TreeNode } = Tree;
@@ -13,18 +13,19 @@ const EpisodesList = ({ showId, title, episodes }) => {
   const seasons = groupEpisodes(episodes);
   const seasonNodes = seasons.map(episodes => {
     const { season } = episodes[0];
+    const lastIndex = episodes.length - 1;
     const episodeNodes = episodes.map(({
       episodeId,
       episode,
       premiereDate,
       watched,
-    }) => (
+    }, index) => (
       <TreeNode
         key={episodeId}
         selectable={false}
         isLeaf
         title={
-          <span>
+          <React.Fragment>
             {episodeLabel(season, episode)}{' '}-{' '}<DateFormat value={premiereDate} />
             <MarkWatchedButton
               showId={showId}
@@ -32,7 +33,13 @@ const EpisodesList = ({ showId, title, episodes }) => {
               watched={watched}
               title={`${title} ${episodeLabel(season, episode)}`}
             />
-          </span>
+            {index === lastIndex && <DeleteEpisodesButton
+              showId={showId}
+              season={season}
+              episode={episode}
+              title={`${title} ${episodeLabel(season, episode)}`}
+            />}
+          </React.Fragment>
         }
       />
     ));
@@ -40,7 +47,16 @@ const EpisodesList = ({ showId, title, episodes }) => {
     return (
       <TreeNode
         key={season}
-        title={<SeasonLabel season={season} />}
+        title={
+          <React.Fragment>
+            <SeasonLabel season={season} />
+            <DeleteEpisodesButton
+              showId={showId}
+              season={season}
+              title={`${title} ${seasonLabel(season)}`}
+            />
+          </React.Fragment>
+        }
         selectable={false}
       >
         {episodeNodes}

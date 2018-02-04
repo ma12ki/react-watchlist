@@ -35,7 +35,7 @@ class EditShowForm extends React.Component {
   };
 
   render() {
-    const { form, show, editMode } = this.props;
+    const { form, show, editMode, loading } = this.props;
     const { recurring } = this.state;
     const formItemLayout = {
       labelCol: {
@@ -64,7 +64,7 @@ class EditShowForm extends React.Component {
           editMode={editMode}
           recurring={recurring}
         />
-        <Button htmlType="submit">Save</Button>
+        <Button htmlType="submit" loading={loading}>Save</Button>
       </Form>
     );
   }

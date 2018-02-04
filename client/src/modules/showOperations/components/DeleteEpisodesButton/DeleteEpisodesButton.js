@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import DeleteIcon from 'material-ui-icons/Delete';
 
 import { IconButton, Popconfirm } from '../../../shared';
-import { operationLoadingSel, deleteShowRequest } from '../../duck';
+import { operationLoadingSel, deleteEpisodesRequest } from '../../duck';
 
-class DeleteShowButton extends React.Component {
+class DeleteEpisodesButton extends React.Component {
   state = {
     internalLoading: false,
   }
@@ -41,9 +41,11 @@ class DeleteShowButton extends React.Component {
   }
 }
 
-DeleteShowButton.propTypes = {
+DeleteEpisodesButton.propTypes = {
   title: PropTypes.string.isRequired,
   showId: PropTypes.string.isRequired,
+  season: PropTypes.number.isRequired,
+  episode: PropTypes.number,
   loading: PropTypes.bool,
   onDelete: PropTypes.func.isRequired,
 };
@@ -52,8 +54,8 @@ const mapState = (state, { showId }) => ({
   loading: operationLoadingSel(state, showId),
 });
 
-const mapDispatch = (dispatch, { showId, title }) => ({
-  onDelete: () => dispatch(deleteShowRequest(showId, title)),
+const mapDispatch = (dispatch, { showId, season, episode, title }) => ({
+  onDelete: () => dispatch(deleteEpisodesRequest(showId, season, episode, title)),
 });
 
-export default connect(mapState, mapDispatch)(DeleteShowButton);
+export default connect(mapState, mapDispatch)(DeleteEpisodesButton);
