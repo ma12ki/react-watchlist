@@ -10,10 +10,10 @@ const FormItem = Form.Item;
 
 class RecurrenceFields extends React.Component {
   render() {
-    const { form, formItemLayout, recurring, episodes } = this.props;
+    const { form, formItemLayout, editMode, recurring, episodes } = this.props;
     const { getFieldDecorator } = form;
     const label = recurring ? 'Episodes' : 'Premiere Date';
-    const inputComponent = recurring ? <EpisodesInput existingEpisodes={episodes} /> : <PremiereDateInput />;
+    const inputComponent = recurring ? <EpisodesInput existingEpisodes={episodes} /> : <PremiereDateInput disabled={editMode && !recurring} />;
     const initialValue = recurring ? undefined : episodes;
 
     return (
@@ -24,7 +24,7 @@ class RecurrenceFields extends React.Component {
         {getFieldDecorator('episodes', {
           initialValue,
           rules: [
-            { required: true, message: 'This field is required' },
+            { required: !editMode || (editMode && !recurring), message: 'This field is required' },
           ],
         })(
           inputComponent

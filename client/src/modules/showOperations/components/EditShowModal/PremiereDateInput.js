@@ -11,15 +11,16 @@ class PremiereDateInput extends React.Component {
   }
 
   render() {
-    const { value } = this.props;
+    const { value, disabled } = this.props;
     const internalValue = value && value.length ? moment(value[0].premiereDate) : undefined;
 
-    return <DatePicker value={internalValue} onChange={this.handleChange} />;
+    return <DatePicker value={internalValue} disabled={disabled} onChange={this.handleChange} />;
   }
 }
 
 PremiereDateInput.propTypes = {
   value: PropTypes.array,
+  disabled: PropTypes.bool,
   onChange: PropTypes.func,
 };
 
