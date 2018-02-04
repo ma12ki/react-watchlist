@@ -5,7 +5,7 @@ import { defaultValidationMessages } from '../../../utils';
 import { Button, Form } from '../../../shared';
 import ShowDetailsFields from './ShowDetailsFields';
 import RecurrenceFields from './RecurrenceFields';
-// import styles from './EditShowForm.css';
+import styles from './EditShowForm.css';
 
 class EditShowForm extends React.Component {
   state = {
@@ -40,7 +40,7 @@ class EditShowForm extends React.Component {
   };
 
   render() {
-    const { form, show, editMode, loading } = this.props;
+    const { form, show, editMode, loading, onCancel } = this.props;
     const { recurring } = this.state;
     const formItemLayout = {
       labelCol: {
@@ -69,7 +69,10 @@ class EditShowForm extends React.Component {
           editMode={editMode}
           recurring={recurring}
         />
-        <Button htmlType="submit" loading={loading}>Save</Button>
+        <div className={styles.buttons}>
+          <Button ghost htmlType="button" disabled={loading} onClick={onCancel}>Cancel</Button>
+          <Button ghost type="primary" htmlType="submit" loading={loading}>Save</Button>
+        </div>
       </Form>
     );
   }

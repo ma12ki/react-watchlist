@@ -24,6 +24,7 @@ const PostponeEpisodesModal = ({
     title={`Postpone "${episode.title}"`}
     destroyOnClose={true}
     footer={null}
+    maskClosable={false}
     onCancel={onCancel}
   >
     <PostponeEpisodesForm

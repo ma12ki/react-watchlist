@@ -4,7 +4,7 @@ import moment from 'moment';
 import { range } from 'lodash';
 
 import { Input, Button, DatePicker, Form, Select, Modal } from '../../../shared';
-// import styles from './AddEpisodesModal.css';
+import styles from './AddEpisodesModal.css';
 
 const FormItem = Form.Item;
 const { Option } = Select;
@@ -146,7 +146,10 @@ class AddEpisodesModal extends React.Component {
             <DatePicker name="startDate" />
           )}
         </FormItem>
-        <Button htmlType="submit">Add</Button>
+        <div className={styles.buttons}>
+          <Button ghost htmlType="button" onClick={this.hideForm}>Cancel</Button>
+          <Button ghost type="primary" htmlType="submit">Add</Button>
+        </div>
       </Form>
     );
   }
@@ -158,12 +161,13 @@ class AddEpisodesModal extends React.Component {
 
     return (
       <React.Fragment>
-        <Button onClick={this.showForm}>{children}</Button>
+        <Button ghost onClick={this.showForm}>{children}</Button>
         <Modal
           visible={showForm}
           title={title}
           footer={null}
           destroyOnClose={true}
+          maskClosable={false}
           onCancel={this.hideForm}
         >
           {this.renderForm()}

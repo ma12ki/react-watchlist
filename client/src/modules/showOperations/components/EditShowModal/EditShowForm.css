@@ -1,0 +1,9 @@
+.buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+
+  & > :first-child {
+    margin-right: 2rem;
+  }
+}

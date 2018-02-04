@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 
 import { Button, Form, DatePicker } from '../../../shared';
-// import styles from './PostponeEpisodesForm.css';
+import styles from './PostponeEpisodesForm.css';
 
 const FormItem = Form.Item;
 
@@ -31,7 +31,7 @@ class PostponeEpisodesForm extends React.Component {
   };
 
   render() {
-    const { form, episode, loading } = this.props;
+    const { form, episode, loading, onCancel } = this.props;
     const { getFieldDecorator } = form;
     const formItemLayout = {
       labelCol: {
@@ -62,7 +62,10 @@ class PostponeEpisodesForm extends React.Component {
           <i>This operation will also affect all subsequent episodes in the same season</i>
         </div>
         <br />
-        <Button htmlType="submit" loading={loading}>Postpone</Button>
+        <div className={styles.buttons}>
+          <Button ghost htmlType="button" disabled={loading} onClick={onCancel}>Cancel</Button>
+          <Button ghost type="primary" htmlType="submit" loading={loading}>Postpone</Button>
+        </div>
       </Form>
     );
   }
