@@ -1,12 +1,3 @@
-.iconWrapper {
-  cursor: pointer;
-  color: var(--text-disabled-color);
-}
-
-.loading {
-  cursor: default;
-}
-
-.following {
+.following:not([disabled]) {
   color: var(--warn-color) !important;
 }

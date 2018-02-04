@@ -8,28 +8,42 @@ import { IconButton } from '../../../shared';
 import { operationLoadingSel, followRequest } from '../../duck';
 import styles from './FollowButton.css';
 
-const FollowButton = ({ following, loading, onFollow }) => {
-  const classNames = cn(
-    styles.iconWrapper,
-    {
-      [styles.following]: following,
-      [styles.loading]: loading,
-    },
-  );
-  const action = loading ? () => {} : onFollow;
-  const title = following ? 'Following - click to unfollow' : 'Not following - click to follow';
+class FollowButton extends React.Component {
+  state = {
+    internalLoading: false,
+  }
 
-  return (
-    <IconButton
-      className={classNames}
-      title={title}
-      loading={loading}
-      onClick={action}
-    >
-      <StarIcon />
-    </IconButton>
-  );
-};
+  componentWillReceiveProps = ({ loading }) => {
+    if (!loading) {
+      this.setState({ internalLoading: false });
+    }
+  }
+
+  handleFollow = () => {
+    this.setState({ internalLoading: true });
+    this.props.onFollow();
+  }
+
+  render() {
+    const { following, loading } = this.props;
+    const { internalLoading } = this.state;
+    const classNames = cn({ [styles.following]: following });
+    const action = loading ? () => {} : this.handleFollow;
+    const title = following ? 'Following - click to unfollow' : 'Not following - click to follow';
+
+    return (
+      <IconButton
+        className={classNames}
+        title={title}
+        loading={internalLoading}
+        disabled={!internalLoading && loading}
+        onClick={action}
+      >
+        <StarIcon />
+      </IconButton>
+    );
+  }
+}
 
 FollowButton.propTypes = {
   showId: PropTypes.string.isRequired,

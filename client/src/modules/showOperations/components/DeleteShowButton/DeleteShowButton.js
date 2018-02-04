@@ -6,13 +6,40 @@ import DeleteIcon from 'material-ui-icons/Delete';
 import { IconButton, Popconfirm } from '../../../shared';
 import { operationLoadingSel, deleteShowRequest } from '../../duck';
 
-const DeleteShowButton = ({ loading, onDelete }) => (
-  <Popconfirm title="Are you sure?" okText="Yes" cancelText="No" onConfirm={onDelete}>
-    <IconButton type="danger" title="Delete" loading={loading}>
-      <DeleteIcon />
-    </IconButton>
-  </Popconfirm>
-);
+class DeleteShowButton extends React.Component {
+  state = {
+    internalLoading: false,
+  }
+
+  componentWillReceiveProps = ({ loading }) => {
+    if (!loading) {
+      this.setState({ internalLoading: false });
+    }
+  }
+
+  handleDelete = () => {
+    this.setState({ internalLoading: true });
+    this.props.onDelete();
+  }
+
+  render() {
+    const { loading } = this.props;
+    const { internalLoading } = this.state;
+
+    return (
+      <Popconfirm title="Are you sure?" okText="Yes" cancelText="No" onConfirm={this.handleDelete}>
+        <IconButton
+          type="danger"
+          title="Delete"
+          loading={internalLoading}
+          disabled={!internalLoading && loading}
+        >
+          <DeleteIcon />
+        </IconButton>
+      </Popconfirm>
+    );
+  }
+}
 
 DeleteShowButton.propTypes = {
   showId: PropTypes.string.isRequired,

@@ -8,24 +8,43 @@ import { IconButton } from '../../../shared';
 import { operationLoadingSel, markWatchedRequest } from '../../duck';
 import styles from './MarkWatchedButton.css';
 
-const MarkWatchedButton = ({ watched, loading, onMarkWatched }) => {
-  const classNames = cn(
-    { [styles.watched]: watched },
-  );
-  const action = loading ? () => {} : onMarkWatched;
-  const title = watched ? 'Marked watched - click to mark not watched' : 'Not watched - click to mark watched';
+class MarkWatchedButton extends React.Component {
+  state = {
+    internalLoading: false,
+  }
 
-  return (
-    <IconButton
-      className={classNames}
-      title={title}
-      loading={loading}
-      onClick={action}
-    >
-      <DoneIcon />
-    </IconButton>
-  );
-};
+  componentWillReceiveProps = ({ loading }) => {
+    if (!loading) {
+      this.setState({ internalLoading: false });
+    }
+  }
+
+  handleMarkWatched = () => {
+    this.setState({ internalLoading: true });
+    this.props.onMarkWatched();
+  }
+
+  render() {
+    const { loading, watched } = this.props;
+    const { internalLoading } = this.state;
+
+    const classNames = cn({ [styles.watched]: watched });
+    const action = loading ? () => {} : this.handleMarkWatched;
+    const title = watched ? 'Marked watched - click to mark not watched' : 'Not watched - click to mark watched';
+
+    return (
+      <IconButton
+        className={classNames}
+        title={title}
+        loading={internalLoading}
+        disabled={!internalLoading && loading}
+        onClick={action}
+      >
+        <DoneIcon />
+      </IconButton>
+    );
+  }
+}
 
 MarkWatchedButton.propTypes = {
   showId: PropTypes.string.isRequired,
