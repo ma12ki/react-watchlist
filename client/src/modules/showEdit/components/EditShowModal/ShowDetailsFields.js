@@ -63,11 +63,12 @@ const ShowDetailsFields = ({ form, formItemLayout, show, editMode, onRecurrenceC
       >
         {getFieldDecorator('recurring', {
           initialValue: show.recurring || false,
+          valuePropName: 'checked',
           rules: [
             { required: true, message: 'This field is required' },
           ],
         })(
-          <Switch name="recurring" disabled={editMode} defaultChecked={show.recurring || false} onChange={onRecurrenceChange} />
+          <Switch name="recurring" disabled={editMode} onChange={onRecurrenceChange} />
         )}
       </FormItem>
     </React.Fragment>
