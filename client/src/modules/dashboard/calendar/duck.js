@@ -12,7 +12,7 @@ import faker from 'faker';
 import moment from 'moment';
 
 // import { apiService } from '../../utils';
-import { MARK_WATCHED_RESPONSE } from '../../userShowActions';
+import { MARK_WATCHED_RESPONSE } from '../../showOperations';
 import { isCurrentLocationSel } from '../../location';
 import { showTypes } from '../../shared';
 import { dashboardModuleName, ROUTE_DASHBOARD } from '../common';

@@ -4,8 +4,7 @@ import { connect } from 'react-redux';
 // import cn from 'classnames';
 
 import { Card, H, ShowTypeIcon } from '../../../shared';
-import { EditShowButton } from '../../../showActions';
-import { FollowButton } from '../../../userShowActions';
+import { EditShowButton, FollowButton } from '../../../showOperations';
 import { showLoadingSel, showSel } from '../../duck';
 import EpisodesList from './EpisodesList';
 import styles from './ShowDetails.css';

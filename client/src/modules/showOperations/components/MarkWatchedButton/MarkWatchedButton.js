@@ -5,7 +5,7 @@ import DoneIcon from 'material-ui-icons/Done';
 import cn from 'classnames';
 
 import { IconButton } from '../../../shared';
-import { loadingSel, markWatchedRequest } from '../../duck';
+import { operationLoadingSel, markWatchedRequest } from '../../duck';
 import styles from './MarkWatchedButton.css';
 
 const MarkWatchedButton = ({ watched, loading, onMarkWatched }) => {
@@ -37,7 +37,7 @@ MarkWatchedButton.propTypes = {
 };
 
 const mapState = (state, { showId }) => ({
-  loading: loadingSel(state, showId),
+  loading: operationLoadingSel(state, showId),
 });
 
 const mapDispatch = (dispatch, { showId, episodeId, title }) => ({

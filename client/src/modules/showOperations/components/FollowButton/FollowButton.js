@@ -5,7 +5,7 @@ import StarIcon from 'material-ui-icons/Star';
 import cn from 'classnames';
 
 import { IconButton } from '../../../shared';
-import { loadingSel, followRequest } from '../../duck';
+import { operationLoadingSel, followRequest } from '../../duck';
 import styles from './FollowButton.css';
 
 const FollowButton = ({ following, loading, onFollow }) => {
@@ -40,7 +40,7 @@ FollowButton.propTypes = {
 };
 
 const mapState = (state, { showId }) => ({
-  loading: loadingSel(state, showId),
+  loading: operationLoadingSel(state, showId),
 });
 
 const mapDispatch = (dispatch, { showId, title }) => ({

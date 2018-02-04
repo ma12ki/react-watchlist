@@ -1,1 +1,1 @@
-export default from './ThemeShowcase';
+export { default } from './ThemeShowcase';
