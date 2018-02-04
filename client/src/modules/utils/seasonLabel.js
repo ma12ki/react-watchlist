@@ -1,1 +1,1 @@
-export default (season) => `S${season}`;
+export default (season) => `Season ${season}`;

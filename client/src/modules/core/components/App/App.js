@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { routes } from '../../../../root';
 import { ResizeWatcher } from '../../../screen';
-import { EditShowModal } from '../../../showEdit';
+import { EditShowModal } from '../../../showActions';
 import LocaleProvider from '../LocaleProvider';
 import Layout from '../Layout';
 import ToastContainer from '../ToastContainer';

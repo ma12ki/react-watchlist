@@ -1,13 +1,13 @@
 import { combineEpics } from 'redux-observable';
 
 import { epics as dashboardEpics } from '../modules/dashboard';
-import { epics as episodeActionsEpics } from '../modules/episodeActions';
+import { epics as userShowActionsEpics } from '../modules/userShowActions';
 import { epics as showsEpics } from '../modules/shows';
-import { epics as showEditEpics } from '../modules/showEdit';
+import { epics as showActionsEpics } from '../modules/showActions';
 
 export default combineEpics(
   dashboardEpics,
-  episodeActionsEpics,
+  userShowActionsEpics,
   showsEpics,
-  showEditEpics,
+  showActionsEpics,
 );

@@ -1,3 +1,1 @@
-import seasonLabel from './seasonLabel';
-
-export default (season, episode) => `${seasonLabel(season)}E${episode}`;
+export default (season, episode) => `S${season}E${episode}`;

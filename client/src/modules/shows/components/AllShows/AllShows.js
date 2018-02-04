@@ -5,7 +5,7 @@ import Link from 'redux-first-router-link';
 // import cn from 'classnames';
 
 import { ShowTypeIcon, Table } from '../../../shared';
-import { Follow } from '../../../episodeActions';
+import { Follow } from '../../../userShowActions';
 import { loadingSel, itemsSel, getShowsRequest } from '../../duck';
 // import styles from './AllShows.css';
 

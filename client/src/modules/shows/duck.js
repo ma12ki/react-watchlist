@@ -10,7 +10,7 @@ import { range } from 'lodash';
 import faker from 'faker';
 
 // import { apiService } from '../../utils';
-import { FOLLOW_RESPONSE, MARK_WATCHED_RESPONSE } from '../episodeActions';
+import { FOLLOW_RESPONSE, MARK_WATCHED_RESPONSE } from '../userShowActions';
 import { showTypes } from '../shared';
 import { moduleName } from './constants';
 

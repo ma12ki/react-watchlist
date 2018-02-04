@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import cn from 'classnames';
 
 import { Tooltip, ShowTypeIcon } from '../../../../shared';
-import { MarkWatched } from '../../../../episodeActions';
+import { MarkWatched } from '../../../../userShowActions';
 import styles from './CalendarCell.css';
 
 const CalendarCell = ({ showId, episodeId, title, type, season, episode, watched }) => {

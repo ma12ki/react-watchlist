@@ -20,7 +20,7 @@ class EditShowForm extends React.Component {
   handleSubmit = async (e) => {
     e.preventDefault();
     const values = await this.validateForm();
-    console.log(values);
+    this.props.onEdit(values);
   }
 
   validateForm = () => {

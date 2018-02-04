@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import { episodeLabel, groupEpisodes } from '../../../utils';
 import { DateFormat, SeasonLabel, Tree } from '../../../shared';
-import { MarkWatched } from '../../../episodeActions';
+import { MarkWatched } from '../../../userShowActions';
 // import styles from './EpisodesList.css';
 
 const { TreeNode } = Tree;
