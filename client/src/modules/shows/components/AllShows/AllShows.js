@@ -45,10 +45,16 @@ class AllShows extends React.Component {
 
     return (
       <Table
+        className={styles.table}
         columns={this.getColumns()}
         dataSource={items}
         loading={loading}
-        pagination={false}
+        pagination={{
+          pageSize: 20,
+          pageSizeOptions: ['10', '20', '50', '100'],
+          showSizeChanger: true,
+          showTotal: () => `${items.length} total`,
+        }}
         rowKey="showId"
         size="middle"
       />

@@ -64,6 +64,30 @@
 }
 
 /*
+ * Pagination
+ */
+:global(.ant-table-pagination):global(.ant-pagination) {
+  float: none;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+:global(.ant-pagination-total-text),
+:global(.ant-pagination-prev) a,
+:global(.ant-pagination-next) a,
+:global(.ant-pagination-item):not(:global(.ant-pagination-item-active)):not(:hover) a {
+  color: var(--text-color);
+}
+:global(.ant-pagination-disabled) :global(.ant-pagination-item-link),
+:global(.ant-pagination-disabled):hover :global(.ant-pagination-item-link) {
+  color: var(--text-disabled-color);
+}
+:global(.ant-pagination-item-active) {
+  border-radius: 0;
+  background-color: transparent;
+}
+
+/*
  * Tree
  */
 :global(.ant-tree) {
