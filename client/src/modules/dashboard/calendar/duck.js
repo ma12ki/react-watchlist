@@ -12,7 +12,7 @@ import faker from 'faker';
 import moment from 'moment';
 
 // import { apiService } from '../../utils';
-import { MARK_WATCHED_RESPONSE } from '../../showOperations';
+import { MARK_WATCHED_RESPONSE, POSTPONE_EPISODES_RESPONSE } from '../../showOperations';
 import { isCurrentLocationSel } from '../../location';
 import { showTypes } from '../../shared';
 import { dashboardModuleName, ROUTE_DASHBOARD } from '../common';
@@ -112,7 +112,7 @@ const getEpisodesEpic$ = (action$, store) => action$
     .catch(err => Observable.of(err)));
 
 const refreshEpisodesEpic$ = (action$, store) => action$
-  .ofType(SET_CALENDAR_DATES)
+  .ofType(SET_CALENDAR_DATES, POSTPONE_EPISODES_RESPONSE)
   .filter(() => isCurrentLocationSel(store.getState(), ROUTE_DASHBOARD))
   .mapTo(episodesRequest());
 
@@ -133,7 +133,7 @@ const getMockEpisodes = (dateFrom, dateTo) => {
         showId: faker.random.uuid(),
         episodeId: faker.random.uuid(),
         title: faker.name.jobTitle(),
-        premiereDate: faker.date.between(moment(dateFrom), moment(dateTo)),
+        premiereDate: faker.date.between(moment(dateFrom), moment(dateTo)).toISOString(),
         season: faker.random.number({ min: 1, max: 10 }),
         episode: faker.random.number({ min: 1, max: 100 }),
         type: faker.random.arrayElement(showTypes),

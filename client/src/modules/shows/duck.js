@@ -16,8 +16,10 @@ import {
   DELETE_SHOW_RESPONSE,
   DELETE_EPISODES_RESPONSE,
   EDIT_SHOW_RESPONSE,
+  POSTPONE_EPISODES_RESPONSE,
 } from '../showOperations';
 import { showTypes } from '../shared';
+import { isCurrentLocationSel, payloadSel } from '../location';
 import { moduleName } from './constants';
 
 //
@@ -184,11 +186,20 @@ const getShowEpic$ = action$ => action$
     .map(getShowResponse)
     .catch(err => Observable.of(getShowResponse(err))));
 
+const refreshShowEpic$ = (action$, store) => action$
+  .ofType(POSTPONE_EPISODES_RESPONSE)
+  .filter(() => isCurrentLocationSel(store.getState(), ROUTE_SHOW_DETAILS))
+  .map(() => {
+    const { showId } = payloadSel(store.getState());
+    return getShowRequest(showId);
+  });
+
 export const epics = combineEpics(
   getShowsEpic$,
   refreshShowsEpic$,
   getShowFromRouteEpic$,
   getShowEpic$,
+  refreshShowEpic$,
 );
 
 //

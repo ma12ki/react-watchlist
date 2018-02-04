@@ -1,0 +1,3 @@
+.following:not([disabled]) {
+  color: var(--warn-color) !important;
+}

@@ -42,6 +42,18 @@ export const deleteEpisodesRequest = (showId, season, episode, title) => ({ type
 export const deleteEpisodesResponse = (showId, season, episode) => ({ type: DELETE_EPISODES_RESPONSE, payload: { showId, season, episode } });
 export const deleteEpisodesError = (showId, err) => ({ type: DELETE_EPISODES_ERROR, payload: { showId, err } });
 
+export const OPEN_POSTPONE_EPISODES = `${moduleName}/OPEN_POSTPONE_EPISODES`;
+export const CLOSE_POSTPONE_EPISODES = `${moduleName}/CLOSE_POSTPONE_EPISODES`;
+export const openPostponeEpisodes = (showId, season, episode, currentPremiereDate, title) => ({ type: OPEN_POSTPONE_EPISODES, payload: { showId, season, episode, currentPremiereDate, title } });
+export const closePostponeEpisodes = () => ({ type: CLOSE_POSTPONE_EPISODES });
+
+export const POSTPONE_EPISODES_REQUEST = `${moduleName}/POSTPONE_EPISODES_REQUEST`;
+export const POSTPONE_EPISODES_RESPONSE = `${moduleName}/POSTPONE_EPISODES_RESPONSE`;
+export const POSTPONE_EPISODES_ERROR = `${moduleName}/POSTPONE_EPISODES_ERROR`;
+export const postponeEpisodesRequest = (showId, season, episode, newPremiereDate, title) => ({ type: POSTPONE_EPISODES_REQUEST, payload: { showId, season, episode, newPremiereDate, title } });
+export const postponeEpisodesResponse = showId => ({ type: POSTPONE_EPISODES_RESPONSE, payload: { showId } });
+export const postponeEpisodesError = (showId, err) => ({ type: POSTPONE_EPISODES_ERROR, payload: { showId, err } });
+
 export const MARK_WATCHED_REQUEST = `${moduleName}/MARK_WATCHED_REQUEST`;
 export const MARK_WATCHED_RESPONSE = `${moduleName}/MARK_WATCHED_RESPONSE`;
 export const MARK_WATCHED_ERROR = `${moduleName}/MARK_WATCHED_ERROR`;
@@ -103,12 +115,42 @@ const editLoading = (state = false, { type }) => {
   }
 };
 
+const postponeModalVisible = (state = false, { type }) => {
+  switch (type) {
+    case OPEN_POSTPONE_EPISODES: {
+      return true;
+    }
+    case CLOSE_POSTPONE_EPISODES:
+    case POSTPONE_EPISODES_RESPONSE: {
+      return false;
+    }
+    default: {
+      return state;
+    }
+  }
+};
+
+const episodeToPostpone = (state = {}, { type, payload }) => {
+  switch (type) {
+    case OPEN_POSTPONE_EPISODES: {
+      return payload;
+    }
+    case CLOSE_POSTPONE_EPISODES: {
+      return {};
+    }
+    default: {
+      return state;
+    }
+  }
+};
+
 const operationLoading = (state = {}, { type, payload }) => {
   switch (type) {
     case MARK_WATCHED_REQUEST:
     case FOLLOW_REQUEST:
     case DELETE_SHOW_REQUEST:
-    case DELETE_EPISODES_REQUEST: {
+    case DELETE_EPISODES_REQUEST:
+    case POSTPONE_EPISODES_REQUEST: {
       return {
         ...state,
         [payload.showId]: true,
@@ -121,7 +163,9 @@ const operationLoading = (state = {}, { type, payload }) => {
     case DELETE_SHOW_RESPONSE:
     case DELETE_SHOW_ERROR:
     case DELETE_EPISODES_RESPONSE:
-    case DELETE_EPISODES_ERROR: {
+    case DELETE_EPISODES_ERROR:
+    case POSTPONE_EPISODES_RESPONSE:
+    case POSTPONE_EPISODES_ERROR: {
       return {
         ...state,
         [payload.showId]: false,
@@ -134,10 +178,12 @@ const operationLoading = (state = {}, { type, payload }) => {
 };
 
 const reducers = combineReducers({
-  editLoading,
-  operationLoading,
   editModalVisible,
+  editLoading,
   show,
+  operationLoading,
+  postponeModalVisible,
+  episodeToPostpone,
 });
 
 export default reducers;
@@ -148,9 +194,11 @@ export default reducers;
 const moduleSel = state => state[moduleName];
 
 export const editLoadingSel = state => moduleSel(state).editLoading;
-export const operationLoadingSel = (state, showId) => moduleSel(state).operationLoading[showId] || false;
 export const editModalVisibleSel = state => moduleSel(state).editModalVisible;
 export const showSel = state => moduleSel(state).show;
+export const operationLoadingSel = (state, showId) => moduleSel(state).operationLoading[showId] || false;
+export const postponeModalVisibleSel = state => moduleSel(state).postponeModalVisible;
+export const episodeToPostponeSel = state => moduleSel(state).episodeToPostpone;
 
 //
 // epics
@@ -181,6 +229,13 @@ const deleteEpisodesEpic$ = action$ => action$
     .do(() => toast(`"${payload.title}" removed`))
     .catch(err => Observable.of(deleteEpisodesError(payload.showId, err))));
 
+const postponeEpisodesEpic$ = action$ => action$
+  .ofType(POSTPONE_EPISODES_REQUEST)
+  .switchMap(({ payload }) => postponeEpisodes$()
+    .map(() => postponeEpisodesResponse(payload.showId))
+    .do(() => toast(`"${payload.title}" postponed`))
+    .catch(err => Observable.of(postponeEpisodesError(payload.showId, err))));
+
 const markWatchedEpic$ = action$ => action$
   .ofType(MARK_WATCHED_REQUEST)
   .switchMap(({ payload }) => markWatched$(/* episodeId */)
@@ -199,6 +254,7 @@ export const epics = combineEpics(
   editShowEpic$,
   deleteShowEpic$,
   deleteEpisodesEpic$,
+  postponeEpisodesEpic$,
   markWatchedEpic$,
   followEpic$,
 );
@@ -213,6 +269,8 @@ const updateShow$ = () => Observable.of({}).delay(1000);
 const deleteShow$ = () => Observable.of({}).delay(1000);
 
 const deleteEpisodes$ = () => Observable.of({}).delay(1000);
+
+const postponeEpisodes$ = () => Observable.of({}).delay(1000);
 
 const markWatched$ = (/* episodeId */) => Observable.of({}).delay(1000);
 

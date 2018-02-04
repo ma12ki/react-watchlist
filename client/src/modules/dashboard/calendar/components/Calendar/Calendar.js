@@ -40,6 +40,7 @@ class Calendar extends React.Component {
           type={e.type}
           season={e.season}
           episode={e.episode}
+          premiereDate={e.premiereDate}
           watched={e.watched}
         />
       ));

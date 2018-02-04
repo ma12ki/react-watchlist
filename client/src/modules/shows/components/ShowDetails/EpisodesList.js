@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import { episodeLabel, seasonLabel, groupEpisodes } from '../../../utils';
 import { DateFormat, SeasonLabel, Tree } from '../../../shared';
-import { MarkWatchedButton, DeleteEpisodesButton } from '../../../showOperations';
+import { MarkWatchedButton, DeleteEpisodesButton, PostponeButton } from '../../../showOperations';
 // import styles from './EpisodesList.css';
 
 const { TreeNode } = Tree;
@@ -31,6 +31,13 @@ const EpisodesList = ({ showId, title, episodes }) => {
               showId={showId}
               episodeId={episodeId}
               watched={watched}
+              title={`${title} ${episodeLabel(season, episode)}`}
+            />
+            <PostponeButton
+              showId={showId}
+              season={season}
+              episode={episode}
+              currentPremiereDate={premiereDate}
               title={`${title} ${episodeLabel(season, episode)}`}
             />
             {index === lastIndex && <DeleteEpisodesButton

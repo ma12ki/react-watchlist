@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { routes } from '../../../../root';
 import { ResizeWatcher } from '../../../screen';
-import { EditShowModal } from '../../../showOperations';
+import { EditShowModal, PostponeEpisodesModal } from '../../../showOperations';
 import LocaleProvider from '../LocaleProvider';
 import Layout from '../Layout';
 import ToastContainer from '../ToastContainer';
@@ -26,6 +26,7 @@ export class App extends Component {
         <LocaleProvider>
           <Layout>
             <EditShowModal />
+            <PostponeEpisodesModal />
             {component}
           </Layout>
         </LocaleProvider>
