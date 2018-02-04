@@ -5,7 +5,7 @@ import Link from 'redux-first-router-link';
 // import cn from 'classnames';
 
 import { ShowTypeIcon, Table } from '../../../shared';
-import { Follow } from '../../../userShowActions';
+import { FollowButton } from '../../../userShowActions';
 import { loadingSel, itemsSel, getShowsRequest } from '../../duck';
 import styles from './AllShows.css';
 
@@ -34,7 +34,7 @@ class AllShows extends React.Component {
         width: '5rem',
         className: styles.alignRight,
         render(_, { showId, title, following }) {
-          return <Follow showId={showId} title={title} following={following} />;
+          return <FollowButton showId={showId} title={title} following={following} />;
         },
       },
     ];
@@ -50,8 +50,8 @@ class AllShows extends React.Component {
         dataSource={items}
         loading={loading}
         pagination={{
-          pageSize: 20,
-          pageSizeOptions: ['10', '20', '50', '100'],
+          pageSize: 15,
+          pageSizeOptions: ['15', '30', '50', '100'],
           showSizeChanger: true,
           showTotal: () => `${items.length} total`,
         }}

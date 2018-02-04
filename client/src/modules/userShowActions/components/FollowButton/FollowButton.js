@@ -6,9 +6,9 @@ import cn from 'classnames';
 
 import { IconButton } from '../../../shared';
 import { loadingSel, followRequest } from '../../duck';
-import styles from './Follow.css';
+import styles from './FollowButton.css';
 
-const Follow = ({ following, loading, onFollow }) => {
+const FollowButton = ({ following, loading, onFollow }) => {
   const classNames = cn(
     styles.iconWrapper,
     {
@@ -31,7 +31,7 @@ const Follow = ({ following, loading, onFollow }) => {
   );
 };
 
-Follow.propTypes = {
+FollowButton.propTypes = {
   showId: PropTypes.string.isRequired,
   loading: PropTypes.bool.isRequired,
   following: PropTypes.bool.isRequired,
@@ -47,4 +47,4 @@ const mapDispatch = (dispatch, { showId, title }) => ({
   onFollow: () => dispatch(followRequest(showId, title)),
 });
 
-export default connect(mapState, mapDispatch)(Follow);
+export default connect(mapState, mapDispatch)(FollowButton);

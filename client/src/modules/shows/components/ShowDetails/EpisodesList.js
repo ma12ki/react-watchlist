@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import { episodeLabel, groupEpisodes } from '../../../utils';
 import { DateFormat, SeasonLabel, Tree } from '../../../shared';
-import { MarkWatched } from '../../../userShowActions';
+import { MarkWatchedButton } from '../../../userShowActions';
 // import styles from './EpisodesList.css';
 
 const { TreeNode } = Tree;
@@ -26,7 +26,7 @@ const EpisodesList = ({ showId, title, episodes }) => {
         title={
           <span>
             {episodeLabel(season, episode)}{' '}-{' '}<DateFormat value={premiereDate} />
-            <MarkWatched
+            <MarkWatchedButton
               showId={showId}
               episodeId={episodeId}
               watched={watched}

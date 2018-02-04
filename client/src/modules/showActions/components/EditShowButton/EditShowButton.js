@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ModeEditIcon from 'material-ui-icons/ModeEdit';
 
-import { Button } from '../../../shared';
+import { IconButton } from '../../../shared';
 import { openEditShow } from '../../duck';
 
 const EditShowButton = ({ onEdit }) => (
-  <Button ghost shape="circle" onClick={onEdit}>
+  <IconButton onClick={onEdit} title="Edit">
     <ModeEditIcon />
-  </Button>
+  </IconButton>
 );
 
 EditShowButton.propTypes = {

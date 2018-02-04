@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import { Card, H, ShowTypeIcon } from '../../../shared';
 import { EditShowButton } from '../../../showActions';
-import { Follow } from '../../../userShowActions';
+import { FollowButton } from '../../../userShowActions';
 import { showLoadingSel, showSel } from '../../duck';
 import EpisodesList from './EpisodesList';
 import styles from './ShowDetails.css';
@@ -22,7 +22,7 @@ class ShowDetails extends React.Component {
             <div>
               <H size="2" className={styles.title}>{show.title}</H>
               <div className={styles.actions}>
-                <Follow showId={show.showId} title={show.title} following={show.following} />
+                <FollowButton showId={show.showId} title={show.title} following={show.following} />
                 <EditShowButton show={show} />
               </div>
             </div>

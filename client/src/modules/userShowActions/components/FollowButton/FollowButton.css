@@ -1,6 +1,5 @@
 .iconWrapper {
   cursor: pointer;
-  vertical-align: sub;
   color: var(--text-disabled-color);
 }
 
@@ -8,6 +7,6 @@
   cursor: default;
 }
 
-.watched {
-  color: var(--success-color);
+.following {
+  color: var(--warn-color) !important;
 }

@@ -1,2 +1,2 @@
-export { default as MarkWatched } from './MarkWatched';
-export { default as Follow } from './Follow';
+export { default as MarkWatchedButton } from './MarkWatchedButton';
+export { default as FollowButton } from './FollowButton';

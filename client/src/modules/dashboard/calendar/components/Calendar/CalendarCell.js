@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import cn from 'classnames';
 
 import { Tooltip, ShowTypeIcon } from '../../../../shared';
-import { MarkWatched } from '../../../../userShowActions';
+import { MarkWatchedButton } from '../../../../userShowActions';
 import styles from './CalendarCell.css';
 
 const CalendarCell = ({ showId, episodeId, title, type, season, episode, watched }) => {
@@ -13,7 +13,7 @@ const CalendarCell = ({ showId, episodeId, title, type, season, episode, watched
     <Tooltip
       mouseEnterDelay={0.1}
       trigger="hover click"
-      title={<MarkWatched showId={showId} episodeId={episodeId} watched={watched} />}
+      title={<MarkWatchedButton showId={showId} episodeId={episodeId} watched={watched} />}
     >
       <div title={fullText} className={cn(styles.label, { [styles.watched]: watched })}>
         <ShowTypeIcon type={type} size="small" />

@@ -4,32 +4,30 @@ import { connect } from 'react-redux';
 import DoneIcon from 'material-ui-icons/Done';
 import cn from 'classnames';
 
+import { IconButton } from '../../../shared';
 import { loadingSel, markWatchedRequest } from '../../duck';
-import styles from './MarkWatched.css';
+import styles from './MarkWatchedButton.css';
 
-const MarkWatched = ({ watched, loading, onMarkWatched }) => {
+const MarkWatchedButton = ({ watched, loading, onMarkWatched }) => {
   const classNames = cn(
-    styles.iconWrapper,
-    {
-      [styles.watched]: watched,
-      [styles.loading]: loading,
-    },
+    { [styles.watched]: watched },
   );
   const action = loading ? () => {} : onMarkWatched;
   const title = watched ? 'Marked watched - click to mark not watched' : 'Not watched - click to mark watched';
 
   return (
-    <span
+    <IconButton
       className={classNames}
       title={title}
+      loading={loading}
       onClick={action}
     >
       <DoneIcon />
-    </span>
+    </IconButton>
   );
 };
 
-MarkWatched.propTypes = {
+MarkWatchedButton.propTypes = {
   showId: PropTypes.string.isRequired,
   episodeId: PropTypes.string.isRequired,
   loading: PropTypes.bool.isRequired,
@@ -46,4 +44,4 @@ const mapDispatch = (dispatch, { showId, episodeId, title }) => ({
   onMarkWatched: () => dispatch(markWatchedRequest(showId, episodeId, title)),
 });
 
-export default connect(mapState, mapDispatch)(MarkWatched);
+export default connect(mapState, mapDispatch)(MarkWatchedButton);
