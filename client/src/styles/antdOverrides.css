@@ -40,6 +40,35 @@
 }
 
 /*
+ * Select
+ */
+:global(.ant-select),
+:global(.ant-select) :global(.ant-select-arrow) {
+  color: var(--text-color);
+}
+:global(.ant-select-selection) {
+  background-color: var(--bg-primary-color);
+  border-radius: 0;
+}
+:global(.ant-select-dropdown) {
+  border-radius: 0;
+  border: 1px solid var(--bg-accent-color);
+  background-color: var(--bg-primary-color);
+}
+:global(.ant-select-dropdown-menu-item) {
+  color: var(--text-color);
+  background-color: var(--bg-primary-color);
+}
+:global(.ant-select-dropdown-menu-item):hover {
+  color: var(--text-color);
+  background-color: var(--bg-accent-color);
+}
+:global(.ant-select-dropdown-menu-item-active),
+:global(.ant-select-dropdown-menu-item-selected) {
+  background-color: var(--bg-accent-color);
+}
+
+/*
  * Table
  */
 :global(.ant-table) th,
