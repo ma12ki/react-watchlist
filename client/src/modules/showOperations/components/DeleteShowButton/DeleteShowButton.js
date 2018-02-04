@@ -4,30 +4,28 @@ import { connect } from 'react-redux';
 import DeleteIcon from 'material-ui-icons/Delete';
 
 import { IconButton, Popconfirm } from '../../../shared';
-import { deleteShowRequest } from '../../duck';
+import { operationLoadingSel, deleteShowRequest } from '../../duck';
 
-const DeleteShowButton = ({ season, episode, loading, onDelete }) => {
-  const title = episode != null ? 'Delete episode' : (season != null ? 'Delete season' : 'Delete show');
-
-  return (
-    <Popconfirm title="Are you sure?" onConfirm={onDelete}>
-      <IconButton type="danger" title={title} loading={loading}>
-        <DeleteIcon />
-      </IconButton>
-    </Popconfirm>
-  );
-};
+const DeleteShowButton = ({ loading, onDelete }) => (
+  <Popconfirm title="Are you sure?" okText="Yes" cancelText="No" onConfirm={onDelete}>
+    <IconButton type="danger" title="Delete" loading={loading}>
+      <DeleteIcon />
+    </IconButton>
+  </Popconfirm>
+);
 
 DeleteShowButton.propTypes = {
   showId: PropTypes.string.isRequired,
-  season: PropTypes.number,
-  episode: PropTypes.number,
   loading: PropTypes.bool,
   onDelete: PropTypes.func.isRequired,
 };
 
-const mapDispatch = (dispatch, { title, showId, season, episode }) => ({
-  onDelete: () => dispatch(deleteShowRequest(title, showId, season, episode)),
+const mapState = (state, { showId }) => ({
+  loading: operationLoadingSel(state, showId),
 });
 
-export default connect(null, mapDispatch)(DeleteShowButton);
+const mapDispatch = (dispatch, { showId, title}) => ({
+  onDelete: () => dispatch(deleteShowRequest(showId, title)),
+});
+
+export default connect(mapState, mapDispatch)(DeleteShowButton);

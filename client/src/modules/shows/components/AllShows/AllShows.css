@@ -1,7 +1,3 @@
-.alignRight {
-  text-align: right;
-}
-
 .table :global(.ant-pagination) {
   justify-content: flex-start;
 
@@ -13,4 +9,10 @@
   & > :last-child {
     text-align: right;
   }
+}
+
+.operations {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
 }

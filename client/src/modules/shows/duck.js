@@ -10,7 +10,7 @@ import { range } from 'lodash';
 import faker from 'faker';
 
 // import { apiService } from '../../utils';
-import { FOLLOW_RESPONSE, MARK_WATCHED_RESPONSE } from '../showOperations';
+import { FOLLOW_RESPONSE, MARK_WATCHED_RESPONSE, DELETE_SHOW_RESPONSE } from '../showOperations';
 import { showTypes } from '../shared';
 import { moduleName } from './constants';
 
@@ -58,10 +58,13 @@ const items = (state = [], { type, payload }) => {
       return payload;
     }
     case FOLLOW_RESPONSE: {
-      return [...state].map(show => ({
+      return state.map(show => ({
         ...show,
         following: show.showId === payload.showId ? true : show.following,
       }));
+    }
+    case DELETE_SHOW_RESPONSE: {
+      return state.filter(({ showId }) => showId !== payload.showId);
     }
     default: {
       return state;
@@ -91,6 +94,12 @@ const show = (state = {}, { type, payload }) => {
     }
     case GET_SHOW_RESPONSE: {
       return payload;
+    }
+    case DELETE_SHOW_RESPONSE: {
+      if (state.showId === payload.showId) {
+        return {};
+      }
+      return state;
     }
     case FOLLOW_RESPONSE: {
       return {

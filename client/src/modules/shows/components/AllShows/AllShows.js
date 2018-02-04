@@ -5,7 +5,7 @@ import Link from 'redux-first-router-link';
 // import cn from 'classnames';
 
 import { ShowTypeIcon, Table } from '../../../shared';
-import { FollowButton } from '../../../showOperations';
+import { FollowButton, DeleteShowButton } from '../../../showOperations';
 import { loadingSel, itemsSel, getShowsRequest } from '../../duck';
 import styles from './AllShows.css';
 
@@ -32,9 +32,13 @@ class AllShows extends React.Component {
       },
       {
         width: '5rem',
-        className: styles.alignRight,
         render(_, { showId, title, following }) {
-          return <FollowButton showId={showId} title={title} following={following} />;
+          return (
+            <div className={styles.operations}>
+              <FollowButton showId={showId} title={title} following={following} />
+              <DeleteShowButton showId={showId} title={title} />
+            </div>
+          );
         },
       },
     ];

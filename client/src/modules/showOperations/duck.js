@@ -30,23 +30,23 @@ export const editShowError = err => ({ type: EDIT_SHOW_ERROR, payload: err });
 export const DELETE_SHOW_REQUEST = `${moduleName}/DELETE_SHOW_REQUEST`;
 export const DELETE_SHOW_RESPONSE = `${moduleName}/DELETE_SHOW_RESPONSE`;
 export const DELETE_SHOW_ERROR = `${moduleName}/DELETE_SHOW_ERROR`;
-export const deleteShowRequest = (title, showId, season, episode) => ({ type: DELETE_SHOW_REQUEST, payload: { title, showId, season, episode } });
-export const deleteShowResponse = (title, showId, season, episode) => ({ type: DELETE_SHOW_RESPONSE, payload: { title, showId, season, episode } });
-export const deleteShowError = (title, showId, err) => ({ type: DELETE_SHOW_ERROR, payload: { title, showId, err } });
+export const deleteShowRequest = (showId, title) => ({ type: DELETE_SHOW_REQUEST, payload: { showId, title } });
+export const deleteShowResponse = (showId) => ({ type: DELETE_SHOW_RESPONSE, payload: { showId } });
+export const deleteShowError = (showId, err) => ({ type: DELETE_SHOW_ERROR, payload: { showId, err } });
 
 export const MARK_WATCHED_REQUEST = `${moduleName}/MARK_WATCHED_REQUEST`;
 export const MARK_WATCHED_RESPONSE = `${moduleName}/MARK_WATCHED_RESPONSE`;
 export const MARK_WATCHED_ERROR = `${moduleName}/MARK_WATCHED_ERROR`;
 export const markWatchedRequest = (showId, episodeId, title) => ({ type: MARK_WATCHED_REQUEST, payload: { showId, episodeId, title } });
-export const markWatchedResponse = (showId, episodeId, title) => ({ type: MARK_WATCHED_RESPONSE, payload: { showId, episodeId, title } });
-export const markWatchedError = (showId, episodeId, title, err) => ({ type: MARK_WATCHED_ERROR, payload: { showId, episodeId, title, err } });
+export const markWatchedResponse = (showId, episodeId) => ({ type: MARK_WATCHED_RESPONSE, payload: { showId, episodeId } });
+export const markWatchedError = (showId, episodeId, err) => ({ type: MARK_WATCHED_ERROR, payload: { showId, episodeId, err } });
 
 export const FOLLOW_REQUEST = `${moduleName}/FOLLOW_REQUEST`;
 export const FOLLOW_RESPONSE = `${moduleName}/FOLLOW_RESPONSE`;
 export const FOLLOW_ERROR = `${moduleName}/FOLLOW_ERROR`;
 export const followRequest = (showId, title) => ({ type: FOLLOW_REQUEST, payload: { showId, title } });
-export const followResponse = (showId, title) => ({ type: FOLLOW_RESPONSE, payload: { showId, title } });
-export const followError = (showId, title, err) => ({ type: FOLLOW_ERROR, payload: { showId, title, err } });
+export const followResponse = showId => ({ type: FOLLOW_RESPONSE, payload: { showId } });
+export const followError = (showId, err) => ({ type: FOLLOW_ERROR, payload: { showId, err } });
 
 //
 // reducers
@@ -159,21 +159,21 @@ const editShowEpic$ = action$ => action$
 const deleteShowEpic$ = action$ => action$
   .ofType(DELETE_SHOW_REQUEST)
   .switchMap(({ payload }) => deleteShow$()
-    .map(deleteShowResponse)
+    .map(() => deleteShowResponse(payload.showId))
     .do(() => toast.success(`"${payload.title}" removed`))
     .catch(err => Observable.of(deleteShowError(err))));
 
 const markWatchedEpic$ = action$ => action$
   .ofType(MARK_WATCHED_REQUEST)
   .switchMap(({ payload }) => markWatched$(/* episodeId */)
-    .map(() => markWatchedResponse(payload.showId, payload.episodeId, payload.title))
+    .map(() => markWatchedResponse(payload.showId, payload.episodeId))
     .do(() => toast.success(`"${payload.title}" marked watched`))
     .catch(err => Observable.of(markWatchedError(err))));
 
 const followEpic$ = action$ => action$
   .ofType(FOLLOW_REQUEST)
   .switchMap(({ payload }) => follow$(/* showId */)
-    .map(() => followResponse(payload.showId, payload.title))
+    .map(() => followResponse(payload.showId))
     .do(() => toast.success(`Following "${payload.title}"`))
     .catch(err => Observable.of(followError(err))));
 
