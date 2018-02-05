@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import { episodeLabel, seasonLabel, groupEpisodes } from '../../../utils';
 import { DateFormat, SeasonLabel, Tree } from '../../../shared';
-import { MarkWatchedButton, DeleteEpisodesButton, PostponeButton } from '../../../showOperations';
+import { MarkWatchedButton, MarkWatchedBulkButton, DeleteEpisodesButton, PostponeButton } from '../../../showOperations';
 // import styles from './EpisodesList.css';
 
 const { TreeNode } = Tree;
@@ -33,6 +33,12 @@ const EpisodesList = ({ showId, title, episodes }) => {
               watched={watched}
               title={`${title} ${episodeLabel(season, episode)}`}
             />
+            <MarkWatchedBulkButton
+              showId={showId}
+              season={season}
+              episode={episode}
+              title={`${title} ${seasonLabel(season)} through episode ${episode}`}
+            />
             <PostponeButton
               showId={showId}
               season={season}
@@ -57,6 +63,11 @@ const EpisodesList = ({ showId, title, episodes }) => {
         title={
           <React.Fragment>
             <SeasonLabel season={season} />
+            <MarkWatchedBulkButton
+              showId={showId}
+              season={season}
+              title={`${title} ${seasonLabel(season)}`}
+            />
             <DeleteEpisodesButton
               showId={showId}
               season={season}

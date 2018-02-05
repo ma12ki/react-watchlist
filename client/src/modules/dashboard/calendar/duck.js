@@ -15,6 +15,8 @@ import moment from 'moment';
 import {
   MARK_WATCHED_RESPONSE,
   UNMARK_WATCHED_RESPONSE,
+  MARK_WATCHED_BULK_RESPONSE,
+  UNMARK_WATCHED_BULK_RESPONSE,
   POSTPONE_EPISODES_RESPONSE,
 } from '../../showOperations';
 import { isCurrentLocationSel } from '../../location';
@@ -58,17 +60,28 @@ const episodes = (state = [], { type, payload }) => {
     case EPISODES_RESPONSE: {
       return payload;
     }
-    case MARK_WATCHED_RESPONSE: {
+    case MARK_WATCHED_RESPONSE:
+    case UNMARK_WATCHED_RESPONSE: {
+      const watched = type === MARK_WATCHED_RESPONSE;
       return state.map(e => ({
         ...e,
-        watched: e.episodeId === payload.episodeId ? true : e.watched,
+        watched: e.episodeId === payload.episodeId ? watched : e.watched,
       }));
     }
-    case UNMARK_WATCHED_RESPONSE: {
-      return state.map(e => ({
-        ...e,
-        watched: e.episodeId === payload.episodeId ? false : e.watched,
-      }));
+    case MARK_WATCHED_BULK_RESPONSE:
+    case UNMARK_WATCHED_BULK_RESPONSE: {
+      const watched = type === MARK_WATCHED_BULK_RESPONSE;
+      return state.map(e => {
+        if (e.showId === payload.showId) {
+          return {
+            ...e,
+            watched: (
+              e.season === payload.season && (e.episode === payload.episode || payload.episode == null)
+            ) ? watched : e.watched,
+          };
+        }
+        return e;
+      });
     }
     default: {
       return state;

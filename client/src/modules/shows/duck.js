@@ -15,6 +15,8 @@ import {
   UNFOLLOW_RESPONSE,
   MARK_WATCHED_RESPONSE,
   UNMARK_WATCHED_RESPONSE,
+  MARK_WATCHED_BULK_RESPONSE,
+  UNMARK_WATCHED_BULK_RESPONSE,
   DELETE_SHOW_RESPONSE,
   DELETE_EPISODES_RESPONSE,
   EDIT_SHOW_RESPONSE,
@@ -135,6 +137,25 @@ const show = (state = {}, { type, payload }) => {
           ...state,
           episodes: state.episodes.map(e => {
             if (e.episodeId === payload.episodeId) {
+              return {
+                ...e,
+                watched,
+              };
+            }
+            return e;
+          }),
+        };
+      }
+      return state;
+    }
+    case MARK_WATCHED_BULK_RESPONSE:
+    case UNMARK_WATCHED_BULK_RESPONSE: {
+      const watched = type === MARK_WATCHED_BULK_RESPONSE;
+      if (state.showId === payload.showId) {
+        return {
+          ...state,
+          episodes: state.episodes.map(e => {
+            if (e.season === payload.season && (e.episode <= payload.episode || payload.episode == null)) {
               return {
                 ...e,
                 watched,

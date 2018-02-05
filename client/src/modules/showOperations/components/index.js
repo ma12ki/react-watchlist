@@ -6,4 +6,5 @@ export { default as PostponeButton } from './PostponeButton';
 export { default as DeleteShowButton } from './DeleteShowButton';
 export { default as DeleteEpisodesButton } from './DeleteEpisodesButton';
 export { default as MarkWatchedButton } from './MarkWatchedButton';
+export { default as MarkWatchedBulkButton } from './MarkWatchedBulkButton';
 export { default as FollowButton } from './FollowButton';

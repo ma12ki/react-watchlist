@@ -4,8 +4,8 @@ import Link from 'redux-first-router-link';
 import cn from 'classnames';
 
 import { Popover, ShowTypeIcon } from '../../../../shared';
-import { episodeLabel } from '../../../../utils';
-import { MarkWatchedButton, PostponeButton } from '../../../../showOperations';
+import { episodeLabel, seasonLabel } from '../../../../utils';
+import { MarkWatchedButton, MarkWatchedBulkButton, PostponeButton } from '../../../../showOperations';
 import styles from './EpisodesList.css';
 
 const EpisodesList = ({ episodes }) => {
@@ -29,6 +29,12 @@ const EpisodesList = ({ episodes }) => {
             episodeId={e.episodeId}
             watched={e.watched}
             title={title}
+          />
+          <MarkWatchedBulkButton
+            showId={e.showId}
+            season={e.season}
+            episode={e.episode}
+            title={`${e.title} ${seasonLabel(e.season)} through episode ${e.episode}`}
           />
           <PostponeButton
             showId={e.showId}
