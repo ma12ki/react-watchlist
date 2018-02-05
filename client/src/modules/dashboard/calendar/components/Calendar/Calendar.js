@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-import { Calendar as BaseCalendar, H } from '../../../../shared';
+import { Calendar as BaseCalendar } from '../../../../shared';
 import { episodesRequest, setCalendarDates, episodesSel, loadingSel, datesSel } from '../../duck';
 import CalendarCell from './CalendarCell';
 import styles from './Calendar.css';
