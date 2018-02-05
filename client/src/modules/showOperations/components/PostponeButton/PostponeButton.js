@@ -6,10 +6,10 @@ import UpdateIcon from 'material-ui-icons/Update';
 import { IconButton } from '../../../shared';
 import { openPostponeEpisodes } from '../../duck';
 
-const PostponeButton = ({ onPostpone, disabled, className }) => (
+const PostponeButton = ({ disabled, title, className, onPostpone }) => (
   <IconButton
     className={className}
-    title="Postpone"
+    title={`Postpone ${title}`}
     disabled={disabled}
     onClick={onPostpone}
   >
@@ -20,12 +20,17 @@ const PostponeButton = ({ onPostpone, disabled, className }) => (
 PostponeButton.propTypes = {
   title: PropTypes.string.isRequired,
   showId: PropTypes.string.isRequired,
-  season: PropTypes.number.isRequired,
-  episode: PropTypes.number.isRequired,
+  season: PropTypes.number,
+  episode: PropTypes.number,
   currentPremiereDate: PropTypes.string.isRequired,
   disabled: PropTypes.bool,
   className: PropTypes.string,
   onPostpone: PropTypes.func.isRequired,
+};
+
+PostponeButton.defaultProps = {
+  season: 0,
+  episode: 0,
 };
 
 const mapDispatch = (dispatch, { showId, season, episode, currentPremiereDate, title }) => ({

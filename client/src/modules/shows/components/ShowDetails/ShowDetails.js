@@ -7,26 +7,31 @@ import { Card, H, ShowTypeIcon } from '../../../shared';
 import { EditShowButton, FollowButton } from '../../../showOperations';
 import { showLoadingSel, showSel } from '../../duck';
 import EpisodesList from './EpisodesList';
+import PremiereDate from './PremiereDate';
 import styles from './ShowDetails.css';
 
 class ShowDetails extends React.Component {
   render() {
     const { show, loading } = this.props;
+    const { showId, title, type, recurring, following, episodes } = show;
 
     return (
       <Card loading={loading} className={styles.card}>
         {!loading && <div className={styles.content}>
-          <ShowTypeIcon type={show.type} size="xlarge" className={styles.showTypeIcon} />
+          <ShowTypeIcon type={type} size="xlarge" className={styles.showTypeIcon} />
           <div>
             <div>
-              <H size="2" className={styles.title}>{show.title}</H>
+              <H size="2" className={styles.title}>{title}</H>
               <div className={styles.actions}>
-                <FollowButton showId={show.showId} title={show.title} following={show.following} />
+                <FollowButton showId={showId} title={title} following={following} />
                 <EditShowButton show={show} />
               </div>
             </div>
             <div>
-              <EpisodesList showId={show.showId} title={show.title} episodes={show.episodes} />
+              {recurring ?
+                <EpisodesList showId={showId} title={title} episodes={episodes} /> :
+                <PremiereDate showId={showId} title={title} episode={episodes[0]} />
+              }
             </div>
           </div>
         </div> || <div />}
@@ -44,9 +49,5 @@ const mapState = (state) => ({
   loading: showLoadingSel(state),
   show: showSel(state),
 });
-
-// const mapDispatch = (dispatch) => ({
-//   onGetShows: () => dispatch(getShowsRequest()),
-// });
 
 export default connect(mapState)(ShowDetails);
