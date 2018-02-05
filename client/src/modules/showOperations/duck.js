@@ -75,6 +75,13 @@ export const followRequest = (showId, title) => ({ type: FOLLOW_REQUEST, payload
 export const followResponse = showId => ({ type: FOLLOW_RESPONSE, payload: { showId } });
 export const followError = (showId, err) => ({ type: FOLLOW_ERROR, payload: { showId, err } });
 
+export const UNFOLLOW_REQUEST = `${moduleName}/UNFOLLOW_REQUEST`;
+export const UNFOLLOW_RESPONSE = `${moduleName}/UNFOLLOW_RESPONSE`;
+export const UNFOLLOW_ERROR = `${moduleName}/UNFOLLOW_ERROR`;
+export const unfollowRequest = (showId, title) => ({ type: UNFOLLOW_REQUEST, payload: { showId, title } });
+export const unfollowResponse = showId => ({ type: UNFOLLOW_RESPONSE, payload: { showId } });
+export const unfollowError = (showId, err) => ({ type: UNFOLLOW_ERROR, payload: { showId, err } });
+
 //
 // reducers
 //
@@ -156,6 +163,7 @@ const operationLoading = (state = {}, { type, payload }) => {
     case MARK_WATCHED_REQUEST:
     case UNMARK_WATCHED_REQUEST:
     case FOLLOW_REQUEST:
+    case UNFOLLOW_REQUEST:
     case DELETE_SHOW_REQUEST:
     case DELETE_EPISODES_REQUEST:
     case POSTPONE_EPISODES_REQUEST: {
@@ -170,6 +178,8 @@ const operationLoading = (state = {}, { type, payload }) => {
     case UNMARK_WATCHED_ERROR:
     case FOLLOW_RESPONSE:
     case FOLLOW_ERROR:
+    case UNFOLLOW_RESPONSE:
+    case UNFOLLOW_ERROR:
     case DELETE_SHOW_RESPONSE:
     case DELETE_SHOW_ERROR:
     case DELETE_EPISODES_RESPONSE:
@@ -267,6 +277,13 @@ const followEpic$ = action$ => action$
     .do(() => toast(`Following "${payload.title}"`))
     .catch(err => Observable.of(followError(payload.showId, err))));
 
+const unfollowEpic$ = action$ => action$
+  .ofType(UNFOLLOW_REQUEST)
+  .switchMap(({ payload }) => unfollow$(/* showId */)
+    .map(() => unfollowResponse(payload.showId))
+    .do(() => toast(`No longer following "${payload.title}"`))
+    .catch(err => Observable.of(unfollowError(payload.showId, err))));
+
 export const epics = combineEpics(
   editShowEpic$,
   deleteShowEpic$,
@@ -275,6 +292,7 @@ export const epics = combineEpics(
   markWatchedEpic$,
   unmarkWatchedEpic$,
   followEpic$,
+  unfollowEpic$,
 );
 
 //
@@ -294,6 +312,7 @@ const markWatched$ = (/* episodeId */) => Observable.of({}).delay(1000);
 const unmarkWatched$ = (/* episodeId */) => Observable.of({}).delay(1000);
 
 const follow$ = (/* showId */) => Observable.of({}).delay(1000);
+const unfollow$ = (/* showId */) => Observable.of({}).delay(1000);
 
 const createMockShow = show => ({
   ...show,

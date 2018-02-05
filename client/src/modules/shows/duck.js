@@ -12,6 +12,7 @@ import faker from 'faker';
 // import { apiService } from '../../utils';
 import {
   FOLLOW_RESPONSE,
+  UNFOLLOW_RESPONSE,
   MARK_WATCHED_RESPONSE,
   UNMARK_WATCHED_RESPONSE,
   DELETE_SHOW_RESPONSE,
@@ -66,10 +67,12 @@ const items = (state = [], { type, payload }) => {
     case GET_SHOWS_RESPONSE: {
       return payload;
     }
-    case FOLLOW_RESPONSE: {
+    case FOLLOW_RESPONSE:
+    case UNFOLLOW_RESPONSE: {
+      const following = type === FOLLOW_RESPONSE;
       return state.map(show => ({
         ...show,
-        following: show.showId === payload.showId ? true : show.following,
+        following: show.showId === payload.showId ? following : show.following,
       }));
     }
     case DELETE_SHOW_RESPONSE: {
@@ -116,30 +119,17 @@ const show = (state = {}, { type, payload }) => {
         episodes: state.episodes.filter(e => !(e.season === payload.season && (e.episode === payload.episode || payload.episode == null))),
       };
     }
-    case FOLLOW_RESPONSE: {
+    case FOLLOW_RESPONSE:
+    case UNFOLLOW_RESPONSE: {
+      const following = type === FOLLOW_RESPONSE;
       return {
         ...state,
-        following: state.showId === payload.showId ? true : state.following,
+        following: state.showId === payload.showId ? following : state.following,
       };
     }
-    case MARK_WATCHED_RESPONSE: {
-      if (state.showId === payload.showId) {
-        return {
-          ...state,
-          episodes: state.episodes.map(e => {
-            if (e.episodeId === payload.episodeId) {
-              return {
-                ...e,
-                watched: true,
-              };
-            }
-            return e;
-          }),
-        };
-      }
-      return state;
-    }
+    case MARK_WATCHED_RESPONSE:
     case UNMARK_WATCHED_RESPONSE: {
+      const watched = type === MARK_WATCHED_RESPONSE;
       if (state.showId === payload.showId) {
         return {
           ...state,
@@ -147,7 +137,7 @@ const show = (state = {}, { type, payload }) => {
             if (e.episodeId === payload.episodeId) {
               return {
                 ...e,
-                watched: false,
+                watched,
               };
             }
             return e;

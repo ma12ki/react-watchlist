@@ -5,7 +5,7 @@ import StarIcon from 'material-ui-icons/Star';
 import cn from 'classnames';
 
 import { IconButton } from '../../../shared';
-import { operationLoadingSel, followRequest } from '../../duck';
+import { operationLoadingSel, followRequest, unfollowRequest } from '../../duck';
 import styles from './FollowButton.css';
 
 class FollowButton extends React.Component {
@@ -19,17 +19,17 @@ class FollowButton extends React.Component {
     }
   }
 
-  handleFollow = e => {
+  handleToggleFollow = e => {
     e.stopPropagation();
+    const { following, onFollow, onUnfollow } = this.props;
     this.setState({ internalLoading: true });
-    this.props.onFollow();
+    following ? onUnfollow() : onFollow();
   }
 
   render() {
     const { following, loading } = this.props;
     const { internalLoading } = this.state;
     const classNames = cn({ [styles.following]: following });
-    const action = loading ? () => {} : this.handleFollow;
     const title = following ? 'Following - click to unfollow' : 'Not following - click to follow';
 
     return (
@@ -38,7 +38,7 @@ class FollowButton extends React.Component {
         title={title}
         loading={internalLoading}
         disabled={!internalLoading && loading}
-        onClick={action}
+        onClick={this.handleToggleFollow}
       >
         <StarIcon />
       </IconButton>
@@ -52,6 +52,7 @@ FollowButton.propTypes = {
   loading: PropTypes.bool.isRequired,
   following: PropTypes.bool.isRequired,
   onFollow: PropTypes.func.isRequired,
+  onUnfollow: PropTypes.func.isRequired,
 };
 
 const mapState = (state, { showId }) => ({
@@ -60,6 +61,7 @@ const mapState = (state, { showId }) => ({
 
 const mapDispatch = (dispatch, { showId, title }) => ({
   onFollow: () => dispatch(followRequest(showId, title)),
+  onUnfollow: () => dispatch(unfollowRequest(showId, title)),
 });
 
 export default connect(mapState, mapDispatch)(FollowButton);
