@@ -6,8 +6,13 @@ import UpdateIcon from 'material-ui-icons/Update';
 import { IconButton } from '../../../shared';
 import { openPostponeEpisodes } from '../../duck';
 
-const PostponeButton = ({ onPostpone }) => (
-  <IconButton onClick={onPostpone} title="Postpone">
+const PostponeButton = ({ onPostpone, disabled, className }) => (
+  <IconButton
+    className={className}
+    title="Postpone"
+    disabled={disabled}
+    onClick={onPostpone}
+  >
     <UpdateIcon />
   </IconButton>
 );
@@ -18,6 +23,8 @@ PostponeButton.propTypes = {
   season: PropTypes.number.isRequired,
   episode: PropTypes.number.isRequired,
   currentPremiereDate: PropTypes.string.isRequired,
+  disabled: PropTypes.bool,
+  className: PropTypes.string,
   onPostpone: PropTypes.func.isRequired,
 };
 

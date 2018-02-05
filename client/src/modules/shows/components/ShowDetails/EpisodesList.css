@@ -1,0 +1,28 @@
+.seasonRow,
+.episodeRow {
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 318px;
+
+  &:hover {
+    background-color: var(--bg-accent-color);
+  }
+}
+
+.seasonRow {
+  padding-left: 10px;
+  margin-left: -5px;
+  font-weight: bold;
+}
+
+.episodeRow {
+  padding-left: 25px;
+  margin-left: -23px;
+}
+
+.watched {
+  color: var(--text-disabled-color);
+  text-decoration: line-through;
+}

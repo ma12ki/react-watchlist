@@ -24,7 +24,7 @@ class DeleteShowButton extends React.Component {
   }
 
   render() {
-    const { loading, title } = this.props;
+    const { loading, title, disabled, className } = this.props;
     const { internalLoading } = this.state;
 
     return (
@@ -35,10 +35,11 @@ class DeleteShowButton extends React.Component {
         onConfirm={this.handleDelete}
       >
         <IconButton
+          className={className}
           type="danger"
           title={`Delete "${title}"`}
           loading={internalLoading}
-          disabled={!internalLoading && loading}
+          disabled={(!internalLoading && loading) || disabled}
         >
           <DeleteIcon />
         </IconButton>
@@ -51,6 +52,8 @@ DeleteShowButton.propTypes = {
   title: PropTypes.string.isRequired,
   showId: PropTypes.string.isRequired,
   loading: PropTypes.bool,
+  disabled: PropTypes.bool,
+  className: PropTypes.string,
   onDelete: PropTypes.func.isRequired,
 };
 
