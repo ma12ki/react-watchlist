@@ -13,8 +13,10 @@ class RecurrenceFields extends React.Component {
     const { form, formItemLayout, editMode, recurring, episodes } = this.props;
     const { getFieldDecorator } = form;
     const label = recurring ? 'Episodes' : 'Premiere Date';
-    const inputComponent = recurring ? <EpisodesInput existingEpisodes={episodes} /> : <PremiereDateInput disabled={editMode && !recurring} />;
-    const initialValue = recurring ? undefined : episodes;
+    const inputComponent = recurring ?
+      <EpisodesInput existingEpisodes={episodes} /> :
+      <PremiereDateInput disabled={editMode} />;
+    const initialValue = editMode && !recurring ? episodes : undefined;
 
     return (
       <FormItem
