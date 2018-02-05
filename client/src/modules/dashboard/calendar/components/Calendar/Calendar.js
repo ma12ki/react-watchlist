@@ -99,8 +99,6 @@ class Calendar extends React.Component {
           disabledDate={() => loading}
           dateCellRender={() => {}}
           dateFullCellRender={this.renderFullCell}
-          onPanelChange={this.handleDateChange}
-          onSelect={this.handleDateChange}
         />
       </div>
     );

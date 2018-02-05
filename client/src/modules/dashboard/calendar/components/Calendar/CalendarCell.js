@@ -38,6 +38,7 @@ const CalendarCell = ({ cellDate, selectedMonth, episodes }) => {
     styles.episodes,
     {
       [styles.episodesSelectedMonth]: isSelectedMonth,
+      [styles.episodesFuture]: isFutureDate,
     }
   );
 
@@ -47,7 +48,6 @@ const CalendarCell = ({ cellDate, selectedMonth, episodes }) => {
       <div className={episodesClassNames}>
         <EpisodesList episodes={episodes} />
       </div>
-      {!isSelectedMonth && <div className={styles.monthOverlay} />}
     </div>
   );
 };
