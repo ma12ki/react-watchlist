@@ -1,7 +1,26 @@
+.container {
+  position: relative;
+}
+
+.prevMonth,
+.nextMonth,
+.currentMonth {
+  position: absolute;
+  top: 12px;
+}
+
+.nextMonth {
+  left: 195px;
+}
+
+.currentMonth {
+  left: 230px;
+}
+
 .calendar {
   & :global(.ant-fullcalendar-header) {
     text-align: left;
-    margin-left: 15px;
+    margin-left: 40px;
   }
 
   & :global(.ant-fullcalendar-header) :global(.ant-radio-group) {

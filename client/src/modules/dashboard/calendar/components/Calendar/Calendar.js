@@ -2,8 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import ChevronLeftIcon from 'material-ui-icons/ChevronLeft';
+import ChevronRightIcon from 'material-ui-icons/ChevronRight';
+import TodayIcon from 'material-ui-icons/Today';
 
-import { Calendar as BaseCalendar } from '../../../../shared';
+import { Calendar as BaseCalendar, IconButton } from '../../../../shared';
 import { episodesRequest, setCalendarDates, episodesSel, loadingSel, datesSel } from '../../duck';
 import CalendarCell from './CalendarCell';
 import styles from './Calendar.css';
@@ -11,6 +14,22 @@ import styles from './Calendar.css';
 class Calendar extends React.Component {
   componentDidMount() {
     this.props.onLoadEpisodes();
+  }
+
+  handleNextMonth = () => {
+    const selectedMonth = this.getSelectedMonth();
+
+    this.handleDateChange(moment(selectedMonth).add(1, 'month'));
+  }
+
+  handlePrevMonth = () => {
+    const selectedMonth = this.getSelectedMonth();
+
+    this.handleDateChange(moment(selectedMonth).subtract(1, 'month'));
+  }
+
+  handleCurrentMonth = () => {
+    this.handleDateChange(moment());
   }
 
   handleDateChange = date => {
@@ -52,15 +71,38 @@ class Calendar extends React.Component {
     const selectedMonth = this.getSelectedMonth();
 
     return (
-      <BaseCalendar
-        className={styles.calendar}
-        defaultValue={selectedMonth}
-        disabledDate={() => loading}
-        dateCellRender={() => {}}
-        dateFullCellRender={this.renderFullCell}
-        onPanelChange={this.handleDateChange}
-        onSelect={this.handleDateChange}
-      />
+      <div className={styles.container}>
+        <IconButton
+          className={styles.prevMonth}
+          title="Previous month"
+          onClick={this.handlePrevMonth}
+          >
+          <ChevronLeftIcon />
+        </IconButton>
+        <IconButton
+          className={styles.nextMonth}
+          title="Next month"
+          onClick={this.handleNextMonth}
+          >
+          <ChevronRightIcon />
+        </IconButton>
+        <IconButton
+          className={styles.currentMonth}
+          title="Current month"
+          onClick={this.handleCurrentMonth}
+        >
+          <TodayIcon />
+        </IconButton>
+        <BaseCalendar
+          className={styles.calendar}
+          value={selectedMonth}
+          disabledDate={() => loading}
+          dateCellRender={() => {}}
+          dateFullCellRender={this.renderFullCell}
+          onPanelChange={this.handleDateChange}
+          onSelect={this.handleDateChange}
+        />
+      </div>
     );
   }
 }
