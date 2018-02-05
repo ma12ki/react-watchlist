@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-import { Calendar as BaseCalendar } from '../../../../shared';
+import { Calendar as BaseCalendar, H } from '../../../../shared';
 import { episodesRequest, setCalendarDates, episodesSel, loadingSel, datesSel } from '../../duck';
 import CalendarCell from './CalendarCell';
 import styles from './Calendar.css';
@@ -23,7 +23,7 @@ class Calendar extends React.Component {
   }
 
   getDateRange = baseDate => ({
-    from: moment(baseDate).startOf('month').subtract(14, 'days').startOf('day'),
+    from: moment(baseDate).startOf('month').subtract(7, 'days').startOf('day'),
     to: moment(baseDate).endOf('month').add(14, 'days').endOf('day'),
   })
 
@@ -49,16 +49,20 @@ class Calendar extends React.Component {
 
   render() {
     const { loading } = this.props;
+    const selectedMonth = moment(this.getSelectedMonth()).format('MMMM YYYY');
 
     return (
-      <BaseCalendar
-        className={styles.calendar}
-        disabledDate={() => loading}
-        dateCellRender={() => {}}
-        dateFullCellRender={this.renderFullCell}
-        onPanelChange={this.handleDateChange}
-        onSelect={this.handleDateChange}
-      />
+      <div className={styles.container}>
+        <H size="2" className={styles.header}>{selectedMonth}</H>
+        <BaseCalendar
+          className={styles.calendar}
+          disabledDate={() => loading}
+          dateCellRender={() => {}}
+          dateFullCellRender={this.renderFullCell}
+          onPanelChange={this.handleDateChange}
+          onSelect={this.handleDateChange}
+        />
+      </div>
     );
   }
 }

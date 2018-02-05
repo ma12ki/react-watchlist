@@ -1,3 +1,13 @@
+.container {
+  position: relative;
+}
+
+.header {
+  position: absolute;
+  top: 25px;
+  left: 15px;
+}
+
 .calendar {
   & :global(.ant-fullcalendar-header) :global(.ant-radio-group) {
     display: none;

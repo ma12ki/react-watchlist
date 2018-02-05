@@ -19,7 +19,8 @@ class MarkWatchedButton extends React.Component {
     }
   }
 
-  handleMarkWatched = () => {
+  handleMarkWatched = e => {
+    e.stopPropagation();
     this.setState({ internalLoading: true });
     this.props.onMarkWatched();
   }

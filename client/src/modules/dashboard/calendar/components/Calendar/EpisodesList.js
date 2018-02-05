@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Link from 'redux-first-router-link';
 import cn from 'classnames';
 
 import { Popover, ShowTypeIcon } from '../../../../shared';
@@ -38,12 +39,14 @@ const EpisodesList = ({ episodes }) => {
           <React.Fragment>
             <ShowTypeIcon type={e.type} />
             {' '}
-            {title}
+            <Link to={`/shows/${e.slug}`} title="Go to details">{title}</Link>
           </React.Fragment>
         }
         content={content}
       >
         <div title={title} className={cn(styles.label, { [styles.watched]: e.watched })} onClick={stopPropagation}>
+          <ShowTypeIcon type={e.type} size="small" />
+          {' '}
           {title}
         </div>
       </Popover>

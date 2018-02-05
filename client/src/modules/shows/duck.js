@@ -172,13 +172,14 @@ const getShowsEpic$ = action$ => action$
     .map(getShowsResponse)
     .catch(err => Observable.of(getShowsError(err))));
 
-const refreshShowsEpic$ = action$ => action$
+const refreshShowsEpic$ = (action$, store) => action$
   .ofType(EDIT_SHOW_RESPONSE)
+  .filter(() => isCurrentLocationSel(store.getState(), ROUTE_ALL_SHOWS))
   .mapTo(getShowsRequest());
 
 const getShowFromRouteEpic$ = action$ => action$
   .ofType(ROUTE_SHOW_DETAILS)
-  .map(({ payload }) => getShowRequest(payload.showId));
+  .map(({ payload }) => getShowRequest(payload.slug));
 
 const getShowEpic$ = action$ => action$
   .ofType(GET_SHOW_REQUEST)
@@ -187,11 +188,11 @@ const getShowEpic$ = action$ => action$
     .catch(err => Observable.of(getShowResponse(err))));
 
 const refreshShowEpic$ = (action$, store) => action$
-  .ofType(POSTPONE_EPISODES_RESPONSE)
+  .ofType(POSTPONE_EPISODES_RESPONSE, EDIT_SHOW_RESPONSE)
   .filter(() => isCurrentLocationSel(store.getState(), ROUTE_SHOW_DETAILS))
   .map(() => {
-    const { showId } = payloadSel(store.getState());
-    return getShowRequest(showId);
+    const { slug } = payloadSel(store.getState());
+    return getShowRequest(slug);
   });
 
 export const epics = combineEpics(
@@ -215,14 +216,19 @@ const getShow$ = () => Observable.of({
 const getMockShows = () => range(30)
   .map(getMockShow);
 
-const getMockShow = () => ({
-  showId: faker.random.uuid(),
-  title: faker.name.jobTitle(),
-  aka: faker.name.jobArea(),
-  type: faker.random.arrayElement(showTypes),
-  following: false,
-  recurring: Math.random() > 0.5,
-});
+const getMockShow = () => {
+  const title = faker.name.jobTitle();
+
+  return {
+    showId: faker.random.uuid(),
+    slug: faker.helpers.slugify(title),
+    title,
+    aka: faker.name.jobArea(),
+    type: faker.random.arrayElement(showTypes),
+    following: false,
+    recurring: Math.random() > 0.5,
+  };
+};
 
 const getMockEpisodes = () => range(faker.random.number({ min: 0, max: 100 }))
   .map(() => ({

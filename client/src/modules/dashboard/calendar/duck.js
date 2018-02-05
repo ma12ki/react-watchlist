@@ -127,12 +127,15 @@ export const epics = combineEpics(
 const getEpisodes$ = (dateFrom, dateTo) => Observable.of(getMockEpisodes(dateFrom, dateTo)).delay(1000);
 
 const getMockEpisodes = (dateFrom, dateTo) => {
-  return range(10)
+  return range(30)
     .map(() => {
+      const title = faker.name.jobTitle();
+
       return {
         showId: faker.random.uuid(),
+        slug: faker.helpers.slugify(title),
         episodeId: faker.random.uuid(),
-        title: faker.name.jobTitle(),
+        title,
         premiereDate: faker.date.between(moment(dateFrom), moment(dateTo)).toISOString(),
         season: faker.random.number({ min: 1, max: 10 }),
         episode: faker.random.number({ min: 1, max: 100 }),

@@ -19,7 +19,8 @@ class FollowButton extends React.Component {
     }
   }
 
-  handleFollow = () => {
+  handleFollow = e => {
+    e.stopPropagation();
     this.setState({ internalLoading: true });
     this.props.onFollow();
   }

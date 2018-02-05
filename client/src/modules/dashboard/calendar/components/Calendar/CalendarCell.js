@@ -34,13 +34,20 @@ const CalendarCell = ({ cellDate, selectedMonth, episodes }) => {
       [styles.dayOfMonthWeekend]: isWeekend,
     }
   );
+  const episodesClassNames = cn(
+    styles.episodes,
+    {
+      [styles.episodesSelectedMonth]: isSelectedMonth,
+    }
+  );
 
   return (
     <div className={containerClassNames}>
       <div className={dayOfMonthClassNames}>{dayOfMonth}</div>
-      <div className={styles.episodes}>
+      <div className={episodesClassNames}>
         <EpisodesList episodes={episodes} />
       </div>
+      {!isSelectedMonth && <div className={styles.monthOverlay} />}
     </div>
   );
 };

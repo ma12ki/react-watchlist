@@ -26,8 +26,8 @@ class AllShows extends React.Component {
       {
         title: 'Title',
         dataIndex: 'title',
-        render(title, { showId }) {
-          return <Link to={`/shows/${showId}`} title="Go to details">{title}</Link>;
+        render(title, { slug }) {
+          return <Link to={`/shows/${slug}`} title="Go to details">{title}</Link>;
         },
       },
       {

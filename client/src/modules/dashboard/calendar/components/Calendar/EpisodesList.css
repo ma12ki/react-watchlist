@@ -6,9 +6,16 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  color: var(--text-color);
   cursor: pointer;
+  color: var(--primary-color);
+  &:hover {
+    color: var(--primary-hover-color);
+  }
+  &:active {
+    color: var(--primary-active-color);
+  }
 }
+
 
 .watched {
   text-decoration: line-through;

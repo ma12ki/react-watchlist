@@ -22,7 +22,10 @@ PostponeButton.propTypes = {
 };
 
 const mapDispatch = (dispatch, { showId, season, episode, currentPremiereDate, title }) => ({
-  onPostpone: () => dispatch(openPostponeEpisodes(showId, season, episode, currentPremiereDate, title)),
+  onPostpone: e => {
+    e.stopPropagation();
+    dispatch(openPostponeEpisodes(showId, season, episode, currentPremiereDate, title));
+  },
 });
 
 export default connect(null, mapDispatch)(PostponeButton);

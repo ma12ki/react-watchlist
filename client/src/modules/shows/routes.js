@@ -8,7 +8,7 @@ import { ShowsPage, ShowPage } from './components';
 
 const routes = {
   [ROUTE_SHOW_DETAILS]: {
-    path: '/shows/:showId',
+    path: '/shows/:slug',
     component: () => <ShowPage />,
   },
   [ROUTE_ALL_SHOWS]: {

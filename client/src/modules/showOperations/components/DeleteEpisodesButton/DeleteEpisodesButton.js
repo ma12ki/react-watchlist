@@ -17,7 +17,8 @@ class DeleteEpisodesButton extends React.Component {
     }
   }
 
-  handleDelete = () => {
+  handleDelete = e => {
+    e.stopPropagation();
     this.setState({ internalLoading: true });
     this.props.onDelete();
   }
