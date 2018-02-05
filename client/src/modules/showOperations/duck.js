@@ -61,6 +61,13 @@ export const markWatchedRequest = (showId, episodeId, title) => ({ type: MARK_WA
 export const markWatchedResponse = (showId, episodeId) => ({ type: MARK_WATCHED_RESPONSE, payload: { showId, episodeId } });
 export const markWatchedError = (showId, err) => ({ type: MARK_WATCHED_ERROR, payload: { showId, err } });
 
+export const UNMARK_WATCHED_REQUEST = `${moduleName}/UNMARK_WATCHED_REQUEST`;
+export const UNMARK_WATCHED_RESPONSE = `${moduleName}/UNMARK_WATCHED_RESPONSE`;
+export const UNMARK_WATCHED_ERROR = `${moduleName}/UNMARK_WATCHED_ERROR`;
+export const unmarkWatchedRequest = (showId, episodeId, title) => ({ type: UNMARK_WATCHED_REQUEST, payload: { showId, episodeId, title } });
+export const unmarkWatchedResponse = (showId, episodeId) => ({ type: UNMARK_WATCHED_RESPONSE, payload: { showId, episodeId } });
+export const unmarkWatchedError = (showId, err) => ({ type: UNMARK_WATCHED_ERROR, payload: { showId, err } });
+
 export const FOLLOW_REQUEST = `${moduleName}/FOLLOW_REQUEST`;
 export const FOLLOW_RESPONSE = `${moduleName}/FOLLOW_RESPONSE`;
 export const FOLLOW_ERROR = `${moduleName}/FOLLOW_ERROR`;
@@ -147,6 +154,7 @@ const episodeToPostpone = (state = {}, { type, payload }) => {
 const operationLoading = (state = {}, { type, payload }) => {
   switch (type) {
     case MARK_WATCHED_REQUEST:
+    case UNMARK_WATCHED_REQUEST:
     case FOLLOW_REQUEST:
     case DELETE_SHOW_REQUEST:
     case DELETE_EPISODES_REQUEST:
@@ -158,6 +166,8 @@ const operationLoading = (state = {}, { type, payload }) => {
     }
     case MARK_WATCHED_RESPONSE:
     case MARK_WATCHED_ERROR:
+    case UNMARK_WATCHED_RESPONSE:
+    case UNMARK_WATCHED_ERROR:
     case FOLLOW_RESPONSE:
     case FOLLOW_ERROR:
     case DELETE_SHOW_RESPONSE:
@@ -243,6 +253,13 @@ const markWatchedEpic$ = action$ => action$
     .do(() => toast(`"${payload.title}" marked watched`))
     .catch(err => Observable.of(markWatchedError(payload.showId, err))));
 
+const unmarkWatchedEpic$ = action$ => action$
+  .ofType(UNMARK_WATCHED_REQUEST)
+  .switchMap(({ payload }) => unmarkWatched$(/* episodeId */)
+    .map(() => unmarkWatchedResponse(payload.showId, payload.episodeId))
+    .do(() => toast(`"${payload.title}" marked NOT watched`))
+    .catch(err => Observable.of(unmarkWatchedError(payload.showId, err))));
+
 const followEpic$ = action$ => action$
   .ofType(FOLLOW_REQUEST)
   .switchMap(({ payload }) => follow$(/* showId */)
@@ -256,6 +273,7 @@ export const epics = combineEpics(
   deleteEpisodesEpic$,
   postponeEpisodesEpic$,
   markWatchedEpic$,
+  unmarkWatchedEpic$,
   followEpic$,
 );
 
@@ -273,6 +291,7 @@ const deleteEpisodes$ = () => Observable.of({}).delay(1000);
 const postponeEpisodes$ = () => Observable.of({}).delay(1000);
 
 const markWatched$ = (/* episodeId */) => Observable.of({}).delay(1000);
+const unmarkWatched$ = (/* episodeId */) => Observable.of({}).delay(1000);
 
 const follow$ = (/* showId */) => Observable.of({}).delay(1000);
 

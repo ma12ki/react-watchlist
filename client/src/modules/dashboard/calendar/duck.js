@@ -12,7 +12,11 @@ import faker from 'faker';
 import moment from 'moment';
 
 // import { apiService } from '../../utils';
-import { MARK_WATCHED_RESPONSE, POSTPONE_EPISODES_RESPONSE } from '../../showOperations';
+import {
+  MARK_WATCHED_RESPONSE,
+  UNMARK_WATCHED_RESPONSE,
+  POSTPONE_EPISODES_RESPONSE,
+} from '../../showOperations';
 import { isCurrentLocationSel } from '../../location';
 import { showTypes } from '../../shared';
 import { dashboardModuleName, ROUTE_DASHBOARD } from '../common';
@@ -55,9 +59,15 @@ const episodes = (state = [], { type, payload }) => {
       return payload;
     }
     case MARK_WATCHED_RESPONSE: {
-      return [...state].map(e => ({
+      return state.map(e => ({
         ...e,
         watched: e.episodeId === payload.episodeId ? true : e.watched,
+      }));
+    }
+    case UNMARK_WATCHED_RESPONSE: {
+      return state.map(e => ({
+        ...e,
+        watched: e.episodeId === payload.episodeId ? false : e.watched,
       }));
     }
     default: {

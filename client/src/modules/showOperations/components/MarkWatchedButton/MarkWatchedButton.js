@@ -5,7 +5,7 @@ import DoneIcon from 'material-ui-icons/Done';
 import cn from 'classnames';
 
 import { IconButton } from '../../../shared';
-import { operationLoadingSel, markWatchedRequest } from '../../duck';
+import { operationLoadingSel, markWatchedRequest, unmarkWatchedRequest } from '../../duck';
 import styles from './MarkWatchedButton.css';
 
 class MarkWatchedButton extends React.Component {
@@ -19,10 +19,11 @@ class MarkWatchedButton extends React.Component {
     }
   }
 
-  handleMarkWatched = e => {
+  handleToggleWatched = e => {
     e.stopPropagation();
+    const { watched, onMarkWatched, onUnmarkWatched } = this.props;
     this.setState({ internalLoading: true });
-    this.props.onMarkWatched();
+    watched ? onUnmarkWatched() : onMarkWatched() ;
   }
 
   render() {
@@ -30,7 +31,6 @@ class MarkWatchedButton extends React.Component {
     const { internalLoading } = this.state;
 
     const classNames = cn({ [styles.watched]: watched });
-    const action = loading ? () => {} : this.handleMarkWatched;
     const title = watched ? 'Marked watched - click to mark not watched' : 'Not watched - click to mark watched';
 
     return (
@@ -39,7 +39,7 @@ class MarkWatchedButton extends React.Component {
         title={title}
         loading={internalLoading}
         disabled={!internalLoading && loading}
-        onClick={action}
+        onClick={this.handleToggleWatched}
       >
         <DoneIcon />
       </IconButton>
@@ -54,6 +54,7 @@ MarkWatchedButton.propTypes = {
   loading: PropTypes.bool.isRequired,
   watched: PropTypes.bool.isRequired,
   onMarkWatched: PropTypes.func.isRequired,
+  onUnmarkWatched: PropTypes.func.isRequired,
 };
 
 const mapState = (state, { showId }) => ({
@@ -62,6 +63,7 @@ const mapState = (state, { showId }) => ({
 
 const mapDispatch = (dispatch, { showId, episodeId, title }) => ({
   onMarkWatched: () => dispatch(markWatchedRequest(showId, episodeId, title)),
+  onUnmarkWatched: () => dispatch(unmarkWatchedRequest(showId, episodeId, title)),
 });
 
 export default connect(mapState, mapDispatch)(MarkWatchedButton);

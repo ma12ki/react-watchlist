@@ -13,6 +13,7 @@ import faker from 'faker';
 import {
   FOLLOW_RESPONSE,
   MARK_WATCHED_RESPONSE,
+  UNMARK_WATCHED_RESPONSE,
   DELETE_SHOW_RESPONSE,
   DELETE_EPISODES_RESPONSE,
   EDIT_SHOW_RESPONSE,
@@ -130,6 +131,23 @@ const show = (state = {}, { type, payload }) => {
               return {
                 ...e,
                 watched: true,
+              };
+            }
+            return e;
+          }),
+        };
+      }
+      return state;
+    }
+    case UNMARK_WATCHED_RESPONSE: {
+      if (state.showId === payload.showId) {
+        return {
+          ...state,
+          episodes: state.episodes.map(e => {
+            if (e.episodeId === payload.episodeId) {
+              return {
+                ...e,
+                watched: false,
               };
             }
             return e;
