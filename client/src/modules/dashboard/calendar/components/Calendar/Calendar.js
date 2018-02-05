@@ -49,20 +49,18 @@ class Calendar extends React.Component {
 
   render() {
     const { loading } = this.props;
-    const selectedMonth = moment(this.getSelectedMonth()).format('MMMM YYYY');
+    const selectedMonth = this.getSelectedMonth();
 
     return (
-      <div className={styles.container}>
-        <H size="2" className={styles.header}>{selectedMonth}</H>
-        <BaseCalendar
-          className={styles.calendar}
-          disabledDate={() => loading}
-          dateCellRender={() => {}}
-          dateFullCellRender={this.renderFullCell}
-          onPanelChange={this.handleDateChange}
-          onSelect={this.handleDateChange}
-        />
-      </div>
+      <BaseCalendar
+        className={styles.calendar}
+        defaultValue={selectedMonth}
+        disabledDate={() => loading}
+        dateCellRender={() => {}}
+        dateFullCellRender={this.renderFullCell}
+        onPanelChange={this.handleDateChange}
+        onSelect={this.handleDateChange}
+      />
     );
   }
 }

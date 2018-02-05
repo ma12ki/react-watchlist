@@ -1,14 +1,9 @@
-.container {
-  position: relative;
-}
-
-.header {
-  position: absolute;
-  top: 25px;
-  left: 15px;
-}
-
 .calendar {
+  & :global(.ant-fullcalendar-header) {
+    text-align: left;
+    margin-left: 15px;
+  }
+
   & :global(.ant-fullcalendar-header) :global(.ant-radio-group) {
     display: none;
   }
