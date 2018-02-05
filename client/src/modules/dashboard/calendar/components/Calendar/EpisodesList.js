@@ -23,7 +23,7 @@ const EpisodesList = ({ episodes }) => {
       const title = `${e.title} ${episodeLabel(e.season, e.episode)}`;
 
       const content = (
-        <React.Fragment>
+        <div className={styles.popoverContent}>
           <MarkWatchedButton
             showId={e.showId}
             episodeId={e.episodeId}
@@ -43,7 +43,7 @@ const EpisodesList = ({ episodes }) => {
             currentPremiereDate={e.premiereDate}
             title={title}
           />
-        </React.Fragment>
+        </div>
       );
 
     return (
