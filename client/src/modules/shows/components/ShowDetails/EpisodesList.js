@@ -39,32 +39,34 @@ const EpisodesList = ({ showId, title, episodes }) => {
                 <EpisodeLabel season={season} episode={episode} />{' '}-{' '}<DateFormat value={premiereDate} fromNowTitle />
               </div>
               <FlexSpacer />
-              <MarkWatchedButton
-                showId={showId}
-                episodeId={episodeId}
-                watched={watched}
-                title={`${title} ${episodeLabel(season, episode)}`}
-              />
-              <MarkWatchedBulkButton
-                showId={showId}
-                season={season}
-                episode={episode}
-                watched={seasonUpToEpWatched}
-                title={`${title} ${seasonLabel(season)} through episode ${episode}`}
-              />
-              <PostponeButton
-                showId={showId}
-                season={season}
-                episode={episode}
-                currentPremiereDate={premiereDate}
-                title={`${title} ${episodeLabel(season, episode)}`}
-              />
-              {canDelete && <DeleteEpisodesButton
-                showId={showId}
-                season={season}
-                episode={episode}
-                title={`${title} ${episodeLabel(season, episode)}`}
-              /> || <PlaceholderIconButton />}
+              <div className={styles.actionButtons}>
+                <MarkWatchedButton
+                  showId={showId}
+                  episodeId={episodeId}
+                  watched={watched}
+                  title={`${title} ${episodeLabel(season, episode)}`}
+                />
+                <MarkWatchedBulkButton
+                  showId={showId}
+                  season={season}
+                  episode={episode}
+                  watched={seasonUpToEpWatched}
+                  title={`${title} ${seasonLabel(season)} through episode ${episode}`}
+                />
+                <PostponeButton
+                  showId={showId}
+                  season={season}
+                  episode={episode}
+                  currentPremiereDate={premiereDate}
+                  title={`${title} ${episodeLabel(season, episode)}`}
+                />
+                {canDelete && <DeleteEpisodesButton
+                  showId={showId}
+                  season={season}
+                  episode={episode}
+                  title={`${title} ${episodeLabel(season, episode)}`}
+                /> || <PlaceholderIconButton />}
+              </div>
             </div>
           }
         />
@@ -84,18 +86,20 @@ const EpisodesList = ({ showId, title, episodes }) => {
           <div className={classNames}>
             <SeasonLabel season={season} />
             <FlexSpacer />
-            <MarkWatchedBulkButton
-              showId={showId}
-              season={season}
-              watched={seasonWatched}
-              title={`${title} ${seasonLabel(season)}`}
-            />
-            <PlaceholderIconButton />
-            {canDelete && <DeleteEpisodesButton
-              showId={showId}
-              season={season}
-              title={`${title} ${seasonLabel(season)}`}
-            /> || <PlaceholderIconButton />}
+            <div className={styles.actionButtons}>
+              <MarkWatchedBulkButton
+                showId={showId}
+                season={season}
+                watched={seasonWatched}
+                title={`${title} ${seasonLabel(season)}`}
+              />
+              <PlaceholderIconButton />
+              {canDelete && <DeleteEpisodesButton
+                showId={showId}
+                season={season}
+                title={`${title} ${seasonLabel(season)}`}
+              /> || <PlaceholderIconButton />}
+            </div>
           </div>
         }
         selectable={false}

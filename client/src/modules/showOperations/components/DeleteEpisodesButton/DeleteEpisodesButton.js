@@ -28,7 +28,12 @@ class DeleteEpisodesButton extends React.Component {
     const { internalLoading } = this.state;
 
     return (
-      <Popconfirm title="Are you sure?" okText="Yes" cancelText="No" onConfirm={this.handleDelete}>
+      <Popconfirm
+        title={`Are you sure you want to delete ${title}?`}
+        okText="Yes"
+        cancelText="No"
+        onConfirm={this.handleDelete}
+      >
         <IconButton
           className={className}
           type="danger"
