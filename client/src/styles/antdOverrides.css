@@ -43,6 +43,18 @@
 }
 
 /*
+ * Checkbox
+ */
+:global(.ant-checkbox-wrapper) {
+  color: var(--text-color);
+}
+:global(.ant-checkbox-inner) {
+  border-radius: 0;
+  border-color: var(--text-color);
+  background-color: transparent;
+}
+
+/*
  * Form
  */
 :global(.ant-form),
@@ -181,6 +193,9 @@
   width: 100%;
   display: flex;
   justify-content: center;
+}
+:global(.ant-pagination-total-text) {
+  margin-left: 5px;
 }
 :global(.ant-pagination-total-text),
 :global(.ant-pagination-prev) a,

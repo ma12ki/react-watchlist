@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import SearchIcon from 'material-ui-icons/Search';
 
-import { Input, Checkbox, FlexSpacer } from '../../../shared';
+import { Input, Checkbox } from '../../../shared';
 import { CreateShowButton } from '../../../showOperations';
 import styles from './SearchBar.css';
 
@@ -43,6 +44,7 @@ class SearchBar extends React.Component {
       <div className={styles.container}>
         <Input
           className={styles.title}
+          prefix={<SearchIcon className={styles.searchPrefix} />}
           value={title}
           placeholder="Search..."
           onChange={this.handleTitleChange}
@@ -52,13 +54,13 @@ class SearchBar extends React.Component {
           options={typesOptions}
           value={types}
           onChange={this.handleTypesChange}
-        />
+          />
         <CheckboxGroup
+          className={styles.following}
           options={followingOptions}
           value={following}
           onChange={this.handleFollowingChange}
         />
-        <FlexSpacer />
         <CreateShowButton />
       </div>
     );
