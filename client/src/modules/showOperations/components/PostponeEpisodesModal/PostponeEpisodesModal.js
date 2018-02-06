@@ -14,6 +14,7 @@ import PostponeEpisodesForm from './PostponeEpisodesForm';
 
 const PostponeEpisodesModal = ({
   visible,
+  season,
   episode,
   loading,
   onPostpone,
@@ -28,6 +29,7 @@ const PostponeEpisodesModal = ({
     onCancel={onCancel}
   >
     <PostponeEpisodesForm
+      season={season}
       episode={episode}
       loading={loading}
       onPostpone={onPostpone}
@@ -37,6 +39,7 @@ const PostponeEpisodesModal = ({
 );
 
 PostponeEpisodesModal.propTypes = {
+  season: PropTypes.number,
   episode: PropTypes.object.isRequired,
   visible: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
@@ -49,6 +52,7 @@ const mapState = state => {
 
   return {
     visible: postponeModalVisibleSel(state),
+    season: episode.season,
     episode,
     loading: operationLoadingSel(state, episode.showId),
   };

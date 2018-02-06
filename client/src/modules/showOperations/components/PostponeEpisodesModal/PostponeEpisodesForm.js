@@ -31,7 +31,7 @@ class PostponeEpisodesForm extends React.Component {
   };
 
   render() {
-    const { form, episode, loading, onCancel } = this.props;
+    const { form, season, episode, loading, onCancel } = this.props;
     const { getFieldDecorator } = form;
     const formItemLayout = {
       labelCol: {
@@ -58,9 +58,9 @@ class PostponeEpisodesForm extends React.Component {
             <DatePicker name="newPremiereDate" placeholder={moment(episode.currentPremiereDate).format('YYYY-MM-DD')} />
           )}
         </FormItem>
-        <div>
+        {season && <div>
           <i>This operation will also affect all subsequent episodes in the same season</i>
-        </div>
+        </div>}
         <br />
         <div className={styles.buttons}>
           <Button ghost htmlType="button" disabled={loading} onClick={onCancel}>Cancel</Button>
@@ -73,6 +73,7 @@ class PostponeEpisodesForm extends React.Component {
 
 PostponeEpisodesForm.propTypes = {
   form: PropTypes.object.isRequired,
+  season: PropTypes.number,
   episode: PropTypes.object.isRequired,
   loading: PropTypes.bool.isRequired,
   onPostpone: PropTypes.func.isRequired,

@@ -153,6 +153,7 @@ const getMockEpisodes = (dateFrom, dateTo) => {
   return range(30)
     .map(() => {
       const title = faker.name.jobTitle();
+      const recurring = Math.random() > 0.5;
 
       return {
         showId: faker.random.uuid(),
@@ -161,10 +162,11 @@ const getMockEpisodes = (dateFrom, dateTo) => {
         title,
         aka: faker.name.jobDescriptor(),
         premiereDate: faker.date.between(moment(dateFrom), moment(dateTo)).toISOString(),
-        season: faker.random.number({ min: 1, max: 10 }),
-        episode: faker.random.number({ min: 1, max: 100 }),
+        season: recurring ? faker.random.number({ min: 1, max: 10 }) : 0,
+        episode: recurring ? faker.random.number({ min: 1, max: 100 }) : 0,
         type: faker.random.arrayElement(showTypes),
         watched: false,
+        recurring,
       };
     });
 };

@@ -20,51 +20,52 @@ const EpisodesList = ({ episodes }) => {
       return 0;
     })
     .map(e => {
-      const title = `${e.title} ${episodeLabel(e.season, e.episode)}`;
+      const { showId, slug, type, title, aka, recurring, season, episode, episodeId, premiereDate, watched } = e;
+      const fullTitle = recurring ? `${title} ${episodeLabel(season, episode)}` : title;
 
       const content = (
         <div className={styles.popoverContent}>
           <MarkWatchedButton
-            showId={e.showId}
-            episodeId={e.episodeId}
-            watched={e.watched}
-            title={title}
+            showId={showId}
+            episodeId={episodeId}
+            watched={watched}
+            title={fullTitle}
           />
-          <MarkWatchedBulkButton
-            showId={e.showId}
-            season={e.season}
-            episode={e.episode}
-            title={`${e.title} ${seasonLabel(e.season)} through episode ${e.episode}`}
-          />
+          {recurring && <MarkWatchedBulkButton
+            showId={showId}
+            season={season}
+            episode={episode}
+            title={`${fullTitle} ${seasonLabel(season)} through episode ${episode}`}
+          />}
           <PostponeButton
-            showId={e.showId}
-            season={e.season}
-            episode={e.episode}
-            currentPremiereDate={e.premiereDate}
-            title={title}
+            showId={showId}
+            season={season}
+            episode={episode}
+            currentPremiereDate={premiereDate}
+            title={fullTitle}
           />
         </div>
       );
 
     return (
       <Popover
-        key={e.episodeId}
+        key={episodeId}
         overlayClassName={styles.popoverOverlay}
         trigger="click"
         title={
           <React.Fragment>
-            <ShowTypeIcon type={e.type} />
+            <ShowTypeIcon type={type} />
             {' '}
-            <Link to={`/shows/${e.slug}`} title="Go to details">{title}</Link>
-            {e.aka && <Aka size="6">{e.aka}</Aka>}
+            <Link to={`/shows/${slug}`} title="Go to details">{fullTitle}</Link>
+            {aka && <Aka size="6">{aka}</Aka>}
           </React.Fragment>
         }
         content={content}
       >
-        <div title={title} className={cn(styles.label, { [styles.watched]: e.watched })} onClick={stopPropagation}>
-          <ShowTypeIcon type={e.type} size="small" />
+        <div title={fullTitle} className={cn(styles.label, { [styles.watched]: watched })} onClick={stopPropagation}>
+          <ShowTypeIcon type={type} size="small" />
           {' '}
-          {title}
+          {fullTitle}
         </div>
       </Popover>
     );
