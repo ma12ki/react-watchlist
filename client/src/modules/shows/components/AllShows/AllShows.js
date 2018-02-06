@@ -4,17 +4,29 @@ import { connect } from 'react-redux';
 import Link from 'redux-first-router-link';
 // import cn from 'classnames';
 
-import { ShowTypeIcon, Table } from '../../../shared';
+import { ShowTypeIcon, Table, TableHeadingSort } from '../../../shared';
+import { tableSorters, tableSortOrder } from '../../../utils';
 import { FollowButton, DeleteShowButton, CreateShowButton } from '../../../showOperations';
 import { loadingSel, itemsSel, getShowsRequest } from '../../duck';
 import styles from './AllShows.css';
 
 class AllShows extends React.Component {
+  state = {
+    sorter: {},
+  }
+
   componentDidMount() {
     this.props.onGetShows();
   }
 
+  handleTableChange = (pagination, filters, sorter) => {
+    console.log(pagination);
+    this.setState({ sorter });
+  }
+
   getColumns = () => {
+    const { sorter } = this.state;
+
     return [
       {
         dataIndex: 'type',
@@ -24,8 +36,12 @@ class AllShows extends React.Component {
         },
       },
       {
-        title: 'Title',
         dataIndex: 'title',
+        sorter: tableSorters.string('title'),
+        sortOrder: tableSortOrder(sorter, 'title'),
+        title: (
+          <TableHeadingSort name="title" sorter={sorter}>Title</TableHeadingSort>
+        ),
         render(title, { slug }) {
           return <Link to={`/shows/${slug}`} title="Go to details">{title}</Link>;
         },
@@ -52,6 +68,8 @@ class AllShows extends React.Component {
         <CreateShowButton />
         <Table
           className={styles.table}
+          rowKey="showId"
+          size="middle"
           columns={this.getColumns()}
           dataSource={items}
           loading={loading}
@@ -61,8 +79,7 @@ class AllShows extends React.Component {
             showSizeChanger: true,
             showTotal: () => `${items.length} total`,
           }}
-          rowKey="showId"
-          size="middle"
+          onChange={this.handleTableChange}
         />
       </React.Fragment>
     );

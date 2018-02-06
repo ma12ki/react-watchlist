@@ -1,0 +1,46 @@
+.heading {
+  position: absolute;
+  top: 0;
+  transform: translateY(50%);
+
+  :global(.ant-table-small) & {
+    transform: translateY(38%);
+  }
+
+  & + :global(.ant-table-column-sorter) {
+    width: 100%;
+    margin: 0;
+    display: block;
+
+    & > :global(.ant-table-column-sorter-up),
+    & > :global(.ant-table-column-sorter-down) {
+      display: block;
+      min-height: 1.5em;
+      width: 100%;
+
+      &:after {
+        display: none;
+      }
+      & > :global(.anticon) {
+        display: none;
+      }
+    }
+  }
+
+  &:global(.ascend) + :global(.ant-table-column-sorter),
+  &:global(.descend) + :global(.ant-table-column-sorter) {
+    & > :global(.ant-table-column-sorter-up) {
+      display: none;
+    }
+  }
+  &:global(.nosort) + :global(.ant-table-column-sorter) {
+    & > :global(.ant-table-column-sorter-down) {
+      display: none;
+    }
+  }
+}
+
+.sortIcon.sortIcon {
+  width: 2rem;
+  height: 2rem;
+}

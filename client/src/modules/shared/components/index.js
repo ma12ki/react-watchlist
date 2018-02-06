@@ -43,3 +43,4 @@ export { default as NotFound } from './NotFound';
 export { default as PlaceholderIconButton } from './PlaceholderIconButton';
 export { default as SeasonLabel } from './SeasonLabel';
 export { default as ShowTypeIcon } from './ShowTypeIcon';
+export { default as TableHeadingSort } from './TableHeadingSort';
