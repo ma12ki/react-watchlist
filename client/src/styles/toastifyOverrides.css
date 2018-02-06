@@ -1,0 +1,11 @@
+:global(.toastify-content) {
+  border-radius: 0;
+}
+:global(.toastify-content--default) {
+  background-color: var(--bg-accent-color);
+  color: var(--text-color);
+
+  & :global(.toastify__close) {
+    color: var(--text-disabled-color);
+  }
+}

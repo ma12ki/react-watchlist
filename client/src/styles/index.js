@@ -3,3 +3,4 @@ import './commonVariables.css';
 import './themes';
 import './base.css';
 import './antdOverrides.css';
+import './toastifyOverrides.css';
