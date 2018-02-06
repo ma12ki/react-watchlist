@@ -175,6 +175,10 @@
 :global(.ant-select-dropdown-menu-item-selected) {
   background-color: var(--bg-accent-color);
 }
+:global(.ant-select-disabled) :global(.ant-select-selection) {
+  background-color: var(--bg-accent-color);
+  border-color: var(--text-disabled-color);
+}
 
 /*
  * Table
