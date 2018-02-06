@@ -242,6 +242,22 @@
 }
 
 /*
+ * Popconfirm
+ */
+:global(.ant-popover-message-title) {
+  color: var(--text-color);
+}
+:global(.ant-popover-buttons) {
+  & > :first-child:not(.ant-btn-primary) {
+    background-color: transparent;
+  }
+  & > :first-child:not(.ant-btn-primary):not(:hover) {
+    color: var(--text-color);
+    border-color: var(--text-color);
+  }
+}
+
+/*
  * Popover
  */
 :global(.ant-popover-arrow) {
