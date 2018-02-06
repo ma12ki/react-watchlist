@@ -1,0 +1,18 @@
+.table :global(.ant-pagination) {
+  justify-content: flex-start;
+
+  & > :first-child,
+  & > :last-child {
+    flex-grow: 1;
+  }
+
+  & > :last-child {
+    text-align: right;
+  }
+}
+
+.operations {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}

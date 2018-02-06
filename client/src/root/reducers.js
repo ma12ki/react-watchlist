@@ -3,6 +3,7 @@ import { moduleName as screenModuleName, reducers as screenReducers } from '../m
 import { moduleName as dashboardModuleName, reducers as dashboardReducers } from '../modules/dashboard';
 import { moduleName as showOperationsModuleName, reducers as showOperationsReducers } from '../modules/showOperations';
 import { moduleName as showsModuleName, reducers as showsReducers } from '../modules/shows';
+import { moduleName as usersModuleName, reducers as usersReducers } from '../modules/users';
 
 export default {
   [themesModuleName]: themesReducers,
@@ -10,4 +11,5 @@ export default {
   [dashboardModuleName]: dashboardReducers,
   [showOperationsModuleName]: showOperationsReducers,
   [showsModuleName]: showsReducers,
+  [usersModuleName]: usersReducers,
 };

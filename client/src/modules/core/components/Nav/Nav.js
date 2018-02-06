@@ -44,7 +44,7 @@ class Nav extends React.Component {
         </li>
         <li className={styles.spacer} />
         <li className={styles.item}>
-          <NavLink to={'/mao'} activeClassName={activeClassName} className={styles.link} title="Users">
+          <NavLink to={'/users'} activeClassName={activeClassName} className={styles.link} title="Users">
             <PeopleIcon className={styles.icon} />
           </NavLink>
         </li>
