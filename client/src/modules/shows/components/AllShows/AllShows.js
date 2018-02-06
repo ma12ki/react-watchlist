@@ -6,8 +6,9 @@ import Link from 'redux-first-router-link';
 
 import { ShowTypeIcon, Table, TableHeadingSort } from '../../../shared';
 import { tableSorters, tableSortOrder } from '../../../utils';
-import { FollowButton, DeleteShowButton, CreateShowButton } from '../../../showOperations';
+import { FollowButton, DeleteShowButton } from '../../../showOperations';
 import { allShowsSel, setAllShowsFilters, setAllShowsTableNav, getShowsRequest } from '../../duck';
+import SearchBar from './SearchBar';
 import styles from './AllShows.css';
 
 const defaultPagination = {
@@ -70,12 +71,16 @@ class AllShows extends React.Component {
   }
 
   render() {
-    const { items, loading, tableNav } = this.props.allShows;
+    const { allShows, onSetFilters } = this.props;
+    const { items, loading, tableNav, filters } = allShows;
     const { pagination = defaultPagination } = tableNav;
 
     return (
       <React.Fragment>
-        <CreateShowButton />
+        <SearchBar
+          filters={filters}
+          onSetFilters={onSetFilters}
+        />
         <Table
           className={styles.table}
           rowKey="showId"

@@ -1,0 +1,14 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.title {
+  width: 20rem;
+  margin-right: 2rem;
+}
+
+.types {
+  margin-right: 2rem;
+}
