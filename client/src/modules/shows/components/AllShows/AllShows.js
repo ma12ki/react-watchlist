@@ -7,25 +7,34 @@ import Link from 'redux-first-router-link';
 import { ShowTypeIcon, Table, TableHeadingSort } from '../../../shared';
 import { tableSorters, tableSortOrder } from '../../../utils';
 import { FollowButton, DeleteShowButton, CreateShowButton } from '../../../showOperations';
-import { loadingSel, itemsSel, getShowsRequest } from '../../duck';
+import { allShowsSel, setAllShowsFilters, setAllShowsTableNav, getShowsRequest } from '../../duck';
 import styles from './AllShows.css';
 
-class AllShows extends React.Component {
-  state = {
-    sorter: {},
-  }
+const defaultPagination = {
+  pageSize: 15,
+  pageSizeOptions: ['15', '30', '50', '100'],
+  showSizeChanger: true,
+};
 
+class AllShows extends React.Component {
   componentDidMount() {
     this.props.onGetShows();
   }
 
-  handleTableChange = (pagination, filters, sorter) => {
-    console.log(pagination);
-    this.setState({ sorter });
+  handleTableChange = (pagination, _filters, sorter) => {
+    const { dataIndex, columnKey, field, order } = sorter;
+    const simpleSorter = {
+      dataIndex,
+      columnKey,
+      field,
+      order,
+    };
+
+    this.props.onSetTableNav(pagination, simpleSorter);
   }
 
   getColumns = () => {
-    const { sorter } = this.state;
+    const { sorter = {} } = this.props.allShows.tableNav;
 
     return [
       {
@@ -61,7 +70,8 @@ class AllShows extends React.Component {
   }
 
   render() {
-    const { items, loading } = this.props;
+    const { items, loading, tableNav } = this.props.allShows;
+    const { pagination = defaultPagination } = tableNav;
 
     return (
       <React.Fragment>
@@ -74,9 +84,7 @@ class AllShows extends React.Component {
           dataSource={items}
           loading={loading}
           pagination={{
-            pageSize: 15,
-            pageSizeOptions: ['15', '30', '50', '100'],
-            showSizeChanger: true,
+            ...pagination,
             showTotal: () => `${items.length} total`,
           }}
           onChange={this.handleTableChange}
@@ -87,18 +95,20 @@ class AllShows extends React.Component {
 }
 
 AllShows.propTypes = {
-  loading: PropTypes.bool.isRequired,
-  items: PropTypes.array.isRequired,
+  allShows: PropTypes.object.isRequired,
   onGetShows: PropTypes.func.isRequired,
+  onSetFilters: PropTypes.func.isRequired,
+  onSetTableNav: PropTypes.func.isRequired,
 };
 
 const mapState = (state) => ({
-  loading: loadingSel(state),
-  items: itemsSel(state),
+  allShows: allShowsSel(state),
 });
 
 const mapDispatch = (dispatch) => ({
   onGetShows: () => dispatch(getShowsRequest()),
+  onSetFilters: (title, types, following) => dispatch(setAllShowsFilters(title, types, following)),
+  onSetTableNav: (pagination, sorter) => dispatch(setAllShowsTableNav(pagination, sorter)),
 });
 
 export default connect(mapState, mapDispatch)(AllShows);

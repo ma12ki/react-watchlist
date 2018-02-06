@@ -39,6 +39,12 @@ export const getShowsRequest = () => ({ type: GET_SHOWS_REQUEST });
 export const getShowsResponse = shows => ({ type: GET_SHOWS_RESPONSE, payload: shows });
 export const getShowsError = err => ({ type: GET_SHOWS_ERROR, payload: err });
 
+export const SET_ALL_SHOWS_FILTERS = `${moduleName}/SET_ALL_SHOWS_FILTERS`;
+export const setAllShowsFilters = (title, types, following) => ({ type: SET_ALL_SHOWS_FILTERS, payload: { title, types, following } });
+
+export const SET_ALL_SHOWS_TABLE_NAV = `${moduleName}/SET_ALL_SHOWS_TABLE_NAV`;
+export const setAllShowsTableNav = (pagination, sorter) => ({ type: SET_ALL_SHOWS_TABLE_NAV, payload: { pagination, sorter } });
+
 export const GET_SHOW_REQUEST = `${moduleName}/GET_SHOW_REQUEST`;
 export const GET_SHOW_RESPONSE = `${moduleName}/GET_SHOW_RESPONSE`;
 export const GET_SHOW_ERROR = `${moduleName}/GET_SHOW_ERROR`;
@@ -49,42 +55,74 @@ export const getShowError = err => ({ type: GET_SHOW_ERROR, payload: err });
 //
 // reducers
 //
-const loading = (state = false, { type }) => {
-  switch (type) {
-    case GET_SHOWS_REQUEST: {
-      return true;
-    }
-    case GET_SHOWS_RESPONSE:
-    case GET_SHOWS_ERROR: {
-      return false;
-    }
-    default: {
-      return state;
-    }
-  }
-};
 
-const items = (state = [], { type, payload }) => {
-  switch (type) {
-    case GET_SHOWS_RESPONSE: {
-      return payload;
+const allShows = (() => {
+  const loading = (state = false, { type }) => {
+    switch (type) {
+      case GET_SHOWS_REQUEST: {
+        return true;
+      }
+      case GET_SHOWS_RESPONSE:
+      case GET_SHOWS_ERROR: {
+        return false;
+      }
+      default: {
+        return state;
+      }
     }
-    case FOLLOW_RESPONSE:
-    case UNFOLLOW_RESPONSE: {
-      const following = type === FOLLOW_RESPONSE;
-      return state.map(show => ({
-        ...show,
-        following: show.showId === payload.showId ? following : show.following,
-      }));
+  };
+
+  const items = (state = [], { type, payload }) => {
+    switch (type) {
+      case GET_SHOWS_RESPONSE: {
+        return payload;
+      }
+      case FOLLOW_RESPONSE:
+      case UNFOLLOW_RESPONSE: {
+        const following = type === FOLLOW_RESPONSE;
+        return state.map(show => ({
+          ...show,
+          following: show.showId === payload.showId ? following : show.following,
+        }));
+      }
+      case DELETE_SHOW_RESPONSE: {
+        return state.filter(({ showId }) => showId !== payload.showId);
+      }
+      default: {
+        return state;
+      }
     }
-    case DELETE_SHOW_RESPONSE: {
-      return state.filter(({ showId }) => showId !== payload.showId);
+  };
+
+  const filters = (state = {}, { type, payload }) => {
+    switch (type) {
+      case SET_ALL_SHOWS_FILTERS: {
+        return payload;
+      }
+      default: {
+        return state;
+      }
     }
-    default: {
-      return state;
+  };
+
+  const tableNav = (state = {}, { type, payload }) => {
+    switch (type) {
+      case SET_ALL_SHOWS_TABLE_NAV: {
+        return payload;
+      }
+      default: {
+        return state;
+      }
     }
-  }
-};
+  };
+
+  return {
+    loading,
+    items,
+    filters,
+    tableNav,
+  };
+})();
 
 const showLoading = (state = false, { type }) => {
   switch (type) {
@@ -174,8 +212,7 @@ const show = (state = {}, { type, payload }) => {
 };
 
 const reducers = combineReducers({
-  loading,
-  items,
+  allShows: combineReducers(allShows),
   showLoading,
   show,
 });
@@ -187,8 +224,8 @@ export default reducers;
 //
 const moduleSel = state => state[moduleName];
 
-export const loadingSel = state => moduleSel(state).loading;
-export const itemsSel = state => moduleSel(state).items;
+export const allShowsSel = state => moduleSel(state).allShows;
+
 export const showLoadingSel = state => moduleSel(state).showLoading;
 export const showSel = state => moduleSel(state).show;
 
