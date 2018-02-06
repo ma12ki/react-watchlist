@@ -31,3 +31,7 @@ button {
 :global(.MuiSvgIcon-root-1) {
   vertical-align: middle;
 }
+
+input::placeholder {
+  color: var(--text-disabled-color) !important;
+}
