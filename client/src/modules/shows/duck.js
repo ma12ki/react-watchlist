@@ -94,7 +94,13 @@ const allShows = (() => {
     }
   };
 
-  const filters = (state = {}, { type, payload }) => {
+  const defaultFilters = {
+    title: '',
+    types: ['movie', 'show', 'anime', 'comic'],
+    following: [true, false],
+  };
+
+  const filters = (state = defaultFilters, { type, payload }) => {
     switch (type) {
       case SET_ALL_SHOWS_FILTERS: {
         return payload;

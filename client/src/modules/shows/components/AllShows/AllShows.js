@@ -18,8 +18,31 @@ const defaultPagination = {
 };
 
 class AllShows extends React.Component {
+  state = {
+    filteredItems: [],
+  }
+
   componentDidMount() {
     this.props.onGetShows();
+  }
+
+  componentWillReceiveProps = ({ allShows }) => {
+    const { items: nextItems, filters: nextFilters } = allShows;
+    const { items, filters } = this.props.allShows;
+
+    if (items !== nextItems || filters !== nextFilters) {
+      this.updateFilteredItems(nextItems, nextFilters);
+    }
+  }
+
+  updateFilteredItems = (items, filters) => {
+    const { title, types, following } = filters;
+    const filteredItems = items.filter(show =>
+      (show.title.toLowerCase().includes(title.toLowerCase()) || (show.aka || '').toLowerCase().includes(title.toLowerCase())) &&
+      (types.includes(show.type)) &&
+      (following.includes(show.following)));
+
+    this.setState({ filteredItems });
   }
 
   handleTableChange = (pagination, _filters, sorter) => {
@@ -72,7 +95,8 @@ class AllShows extends React.Component {
 
   render() {
     const { allShows, onSetFilters } = this.props;
-    const { items, loading, tableNav, filters } = allShows;
+    const { filteredItems } = this.state;
+    const { loading, tableNav, filters } = allShows;
     const { pagination = defaultPagination } = tableNav;
 
     return (
@@ -86,11 +110,11 @@ class AllShows extends React.Component {
           rowKey="showId"
           size="middle"
           columns={this.getColumns()}
-          dataSource={items}
+          dataSource={filteredItems}
           loading={loading}
           pagination={{
             ...pagination,
-            showTotal: () => `${items.length} total`,
+            showTotal: () => `${filteredItems.length} total`,
           }}
           onChange={this.handleTableChange}
         />
