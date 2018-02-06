@@ -159,6 +159,7 @@ const getMockEpisodes = (dateFrom, dateTo) => {
         slug: faker.helpers.slugify(title),
         episodeId: faker.random.uuid(),
         title,
+        aka: faker.name.jobDescriptor(),
         premiereDate: faker.date.between(moment(dateFrom), moment(dateTo)).toISOString(),
         season: faker.random.number({ min: 1, max: 10 }),
         episode: faker.random.number({ min: 1, max: 100 }),

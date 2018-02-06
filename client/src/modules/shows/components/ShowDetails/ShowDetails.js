@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-// import cn from 'classnames';
 
-import { Card, H, ShowTypeIcon } from '../../../shared';
+import { Aka, Card, H, ShowTypeIcon } from '../../../shared';
 import { EditShowButton, FollowButton } from '../../../showOperations';
 import { showLoadingSel, showSel } from '../../duck';
 import EpisodesList from './EpisodesList';
@@ -13,7 +12,7 @@ import styles from './ShowDetails.css';
 class ShowDetails extends React.Component {
   render() {
     const { show, loading } = this.props;
-    const { showId, title, type, recurring, following, episodes } = show;
+    const { showId, title, aka, type, recurring, following, episodes } = show;
 
     return (
       <Card loading={loading} className={styles.card}>
@@ -22,6 +21,7 @@ class ShowDetails extends React.Component {
           <div>
             <div>
               <H size="2" className={styles.title}>{title}</H>
+              {aka && <Aka>{aka}</Aka>}
               <div className={styles.actions}>
                 <FollowButton showId={showId} title={title} following={following} />
                 <EditShowButton show={show} />

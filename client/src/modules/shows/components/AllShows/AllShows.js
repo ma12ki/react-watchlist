@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Link from 'redux-first-router-link';
 // import cn from 'classnames';
 
-import { ShowTypeIcon, Table, TableHeadingSort } from '../../../shared';
+import { Aka, ShowTypeIcon, Table, TableHeadingSort } from '../../../shared';
 import { tableSorters, tableSortOrder } from '../../../utils';
 import { FollowButton, DeleteShowButton } from '../../../showOperations';
 import { allShowsSel, setAllShowsFilters, setAllShowsTableNav, getShowsRequest } from '../../duck';
@@ -75,8 +75,13 @@ class AllShows extends React.Component {
         title: (
           <TableHeadingSort name="title" sorter={sorter}>Title</TableHeadingSort>
         ),
-        render(title, { slug }) {
-          return <Link to={`/shows/${slug}`} title="Go to details">{title}</Link>;
+        render(title, { aka, slug }) {
+          return (
+            <div>
+              <Link to={`/shows/${slug}`} title="Go to details">{title}</Link>
+              {aka && <Aka>{aka}</Aka>}
+            </div>
+          );
         },
       },
       {

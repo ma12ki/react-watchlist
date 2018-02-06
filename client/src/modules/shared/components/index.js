@@ -35,6 +35,7 @@ export {
   Table,
 };
 
+export { default as Aka } from './Aka';
 export { default as Card } from './Card';
 export { default as DateFormat } from './DateFormat';
 export { default as EpisodeLabel } from './EpisodeLabel';

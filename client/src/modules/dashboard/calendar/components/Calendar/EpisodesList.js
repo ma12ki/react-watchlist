@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Link from 'redux-first-router-link';
 import cn from 'classnames';
 
-import { Popover, ShowTypeIcon } from '../../../../shared';
+import { Aka, Popover, ShowTypeIcon } from '../../../../shared';
 import { episodeLabel, seasonLabel } from '../../../../utils';
 import { MarkWatchedButton, MarkWatchedBulkButton, PostponeButton } from '../../../../showOperations';
 import styles from './EpisodesList.css';
@@ -56,6 +56,7 @@ const EpisodesList = ({ episodes }) => {
             <ShowTypeIcon type={e.type} />
             {' '}
             <Link to={`/shows/${e.slug}`} title="Go to details">{title}</Link>
+            {e.aka && <Aka size="6">{e.aka}</Aka>}
           </React.Fragment>
         }
         content={content}

@@ -28,7 +28,7 @@ const ShowDetailsFields = ({ form, formItemLayout, show, editMode, onRecurrenceC
       </FormItem>
       <FormItem
         {...formItemLayout}
-        label="A.K.A"
+        label="a.k.a"
       >
         {getFieldDecorator('aka', {
           initialValue: show.aka,
@@ -36,7 +36,7 @@ const ShowDetailsFields = ({ form, formItemLayout, show, editMode, onRecurrenceC
             { max: 100, message: 'Max 100 characters allowed' },
           ],
         })(
-          <Input name="title" placeholder="Alternative title" />
+          <Input name="aka" placeholder="also known as" />
         )}
       </FormItem>
       <FormItem
