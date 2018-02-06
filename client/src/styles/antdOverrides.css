@@ -281,7 +281,7 @@
  * Tree
  */
 :global(.ant-tree) {
-  color: inherit;
+  color: var(--text-color);
 }
 :global(.ant-tree) li :global(.ant-tree-node-content-wrapper) {
   color: inherit;

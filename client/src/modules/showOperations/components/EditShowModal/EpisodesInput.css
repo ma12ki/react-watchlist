@@ -1,0 +1,9 @@
+.existingEpisode {
+  color: var(--text-disabled-color);
+}
+
+.deleteIcon {
+  margin-left: 10px;
+  cursor: pointer;
+  color: var(--error-color);
+}
