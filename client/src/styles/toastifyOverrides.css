@@ -9,3 +9,6 @@
     color: var(--text-disabled-color);
   }
 }
+:global(.toastify__progress--default) {
+  background: var(--primary-color);
+}
