@@ -82,7 +82,7 @@ const users = (state = [], { type, payload }) => {
 
     }
     case DELETE_USER_RESPONSE: {
-      return state.filter(({ userId }) => userId === payload.userId );
+      return state.filter(({ userId }) => userId !== payload.userId );
     }
     default: {
       return state;

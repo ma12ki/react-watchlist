@@ -1,148 +1,78 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Link from 'redux-first-router-link';
 // import cn from 'classnames';
 
-import { Aka, ShowTypeIcon, Table, TableHeadingSort } from '../../../shared';
-import { tableSorters, tableSortOrder } from '../../../utils';
-import { FollowButton, DeleteShowButton } from '../../../showOperations';
-import { allShowsSel, setAllShowsFilters, setAllShowsTableNav, getShowsRequest } from '../../duck';
-import SearchBar from './SearchBar';
-import styles from './AllShows.css';
+import { Table } from '../../../shared';
+import { usersLoadingSel, usersSel, getUsersRequest } from '../../duck';
+// import SearchBar from './SearchBar';
+import RoleSelect from './RoleSelect';
+import DeleteUserButton from './DeleteUserButton';
+import styles from './AllUsers.css';
 
-const defaultPagination = {
-  pageSize: 15,
-  pageSizeOptions: ['15', '30', '50', '100'],
-  showSizeChanger: true,
-};
-
-class AllShows extends React.Component {
-  state = {
-    filteredItems: [],
-  }
-
+class AllUsers extends React.Component {
   componentDidMount() {
-    this.props.onGetShows();
-  }
-
-  componentWillReceiveProps = ({ allShows }) => {
-    const { items: nextItems, filters: nextFilters } = allShows;
-    const { items, filters } = this.props.allShows;
-
-    if (items !== nextItems || filters !== nextFilters) {
-      this.updateFilteredItems(nextItems, nextFilters);
-    }
-  }
-
-  updateFilteredItems = (items, filters) => {
-    const { title, types, following } = filters;
-    const filteredItems = items.filter(show =>
-      (show.title.toLowerCase().includes(title.toLowerCase()) || (show.aka || '').toLowerCase().includes(title.toLowerCase())) &&
-      (types.includes(show.type)) &&
-      (following.includes(show.following)));
-
-    this.setState({ filteredItems });
-  }
-
-  handleTableChange = (pagination, _filters, sorter) => {
-    const { dataIndex, columnKey, field, order } = sorter;
-    const simpleSorter = {
-      dataIndex,
-      columnKey,
-      field,
-      order,
-    };
-
-    this.props.onSetTableNav(pagination, simpleSorter);
+    this.props.onGetUsers();
   }
 
   getColumns = () => {
-    const { sorter = {} } = this.props.allShows.tableNav;
-
     return [
       {
-        dataIndex: 'type',
-        width: '5rem',
-        render(type) {
-          return <ShowTypeIcon type={type} />;
+        dataIndex: 'email',
+        title: 'Email',
+        render(email) {
+          return email;
         },
       },
       {
-        dataIndex: 'title',
-        sorter: tableSorters.string('title'),
-        sortOrder: tableSortOrder(sorter, 'title'),
-        title: (
-          <TableHeadingSort name="title" sorter={sorter}>Title</TableHeadingSort>
-        ),
-        render(title, { aka, slug }) {
-          return (
-            <div>
-              <Link to={`/shows/${slug}`} title="Go to details">{title}</Link>
-              {aka && <Aka>{aka}</Aka>}
-            </div>
-          );
-        },
+        width: '11rem',
+        title: 'Role',
+        render: (_, user) => <RoleSelect user={user} />,
       },
       {
-        width: '5rem',
-        render(_, { showId, title, following }) {
-          return (
-            <div className={styles.operations}>
-              <FollowButton showId={showId} title={title} following={following} />
-              <DeleteShowButton showId={showId} title={title} />
-            </div>
-          );
-        },
+        width: '8rem',
+        className: styles.rightAlign,
+        render: (_, { userId }) => <DeleteUserButton userId={userId} />,
       },
     ];
   }
 
   render() {
-    const { allShows, onSetFilters } = this.props;
-    const { filteredItems } = this.state;
-    const { loading, tableNav, filters } = allShows;
-    const { pagination = defaultPagination } = tableNav;
+    const { loading, users } = this.props;
 
     return (
       <React.Fragment>
-        <SearchBar
+        {/* <SearchBar
           filters={filters}
           onSetFilters={onSetFilters}
-        />
+        /> */}
         <Table
           className={styles.table}
-          rowKey="showId"
+          rowKey="userId"
           size="middle"
           columns={this.getColumns()}
-          dataSource={filteredItems}
+          dataSource={users}
           loading={loading}
-          pagination={{
-            ...pagination,
-            showTotal: () => `${filteredItems.length} total`,
-          }}
-          onChange={this.handleTableChange}
+          pagination={false}
         />
       </React.Fragment>
     );
   }
 }
 
-AllShows.propTypes = {
-  allShows: PropTypes.object.isRequired,
-  onGetShows: PropTypes.func.isRequired,
-  onSetFilters: PropTypes.func.isRequired,
-  onSetTableNav: PropTypes.func.isRequired,
+AllUsers.propTypes = {
+  loading: PropTypes.bool.isRequired,
+  users: PropTypes.array.isRequired,
+  onGetUsers: PropTypes.func.isRequired,
 };
 
 const mapState = (state) => ({
-  allShows: allShowsSel(state),
+  loading: usersLoadingSel(state),
+  users: usersSel(state),
 });
 
 const mapDispatch = (dispatch) => ({
-  onGetShows: () => dispatch(getShowsRequest()),
-  onSetFilters: (title, types, following) => dispatch(setAllShowsFilters(title, types, following)),
-  onSetTableNav: (pagination, sorter) => dispatch(setAllShowsTableNav(pagination, sorter)),
+  onGetUsers: () => dispatch(getUsersRequest()),
 });
 
-export default connect(mapState, mapDispatch)(AllShows);
+export default connect(mapState, mapDispatch)(AllUsers);

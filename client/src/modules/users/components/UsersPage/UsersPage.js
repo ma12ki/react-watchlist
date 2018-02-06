@@ -1,8 +1,10 @@
 import React from 'react';
 
+import AllUsers from '../AllUsers';
+
 const UsersPage = () => {
   return (
-    <div>lol</div>
+    <AllUsers />
   );
 };
 

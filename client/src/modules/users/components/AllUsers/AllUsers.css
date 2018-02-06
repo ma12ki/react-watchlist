@@ -16,3 +16,7 @@
   flex-direction: row;
   justify-content: flex-end;
 }
+
+.rightAlign {
+  text-align: right;
+}

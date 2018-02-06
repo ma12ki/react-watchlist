@@ -1,1 +1,1 @@
-export { default } from './AllShows';
+export { default } from './AllUsers';
