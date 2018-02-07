@@ -4,6 +4,7 @@ import { moduleName as dashboardModuleName, reducers as dashboardReducers } from
 import { moduleName as showOperationsModuleName, reducers as showOperationsReducers } from '../modules/showOperations';
 import { moduleName as showsModuleName, reducers as showsReducers } from '../modules/shows';
 import { moduleName as usersModuleName, reducers as usersReducers } from '../modules/users';
+import { moduleName as userModuleName, reducers as userReducers } from '../modules/user';
 
 export default {
   [themesModuleName]: themesReducers,
@@ -12,4 +13,5 @@ export default {
   [showOperationsModuleName]: showOperationsReducers,
   [showsModuleName]: showsReducers,
   [usersModuleName]: usersReducers,
+  [userModuleName]: userReducers,
 };
