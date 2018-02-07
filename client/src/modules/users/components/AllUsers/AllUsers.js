@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import { Table } from '../../../shared';
 import { usersLoadingSel, usersSel, getUsersRequest } from '../../duck';
-// import SearchBar from './SearchBar';
+import NewUserForm from './NewUserForm';
 import RoleSelect from './RoleSelect';
 import DeleteUserButton from './DeleteUserButton';
 import styles from './AllUsers.css';
@@ -32,7 +32,7 @@ class AllUsers extends React.Component {
       {
         width: '8rem',
         className: styles.rightAlign,
-        render: (_, { userId }) => <DeleteUserButton userId={userId} />,
+        render: (_, { userId, email }) => <DeleteUserButton userId={userId} email={email} />,
       },
     ];
   }
@@ -42,10 +42,7 @@ class AllUsers extends React.Component {
 
     return (
       <React.Fragment>
-        {/* <SearchBar
-          filters={filters}
-          onSetFilters={onSetFilters}
-        /> */}
+        <NewUserForm />
         <Table
           className={styles.table}
           rowKey="userId"

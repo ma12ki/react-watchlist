@@ -36,9 +36,9 @@ export const editUserError = (user, err) => ({ type: EDIT_USER_ERROR, payload: {
 export const DELETE_USER_REQUEST = `${moduleName}/DELETE_USER_REQUEST`;
 export const DELETE_USER_RESPONSE = `${moduleName}/DELETE_USER_RESPONSE`;
 export const DELETE_USER_ERROR = `${moduleName}/DELETE_USER_ERROR`;
-export const deleteUserRequest = userId => ({ type: DELETE_USER_REQUEST, payload: { userId } });
-export const deleteUserResponse = userId => ({ type: DELETE_USER_RESPONSE, payload: { userId } });
-export const deleteUserError = (userId, err) => ({ type: DELETE_USER_ERROR, payload: { userId, err } });
+export const deleteUserRequest = (userId, email) => ({ type: DELETE_USER_REQUEST, payload: { userId, email } });
+export const deleteUserResponse = (userId, email) => ({ type: DELETE_USER_RESPONSE, payload: { userId, email } });
+export const deleteUserError = (userId, email, err) => ({ type: DELETE_USER_ERROR, payload: { userId, email, err } });
 
 //
 // reducers
@@ -96,7 +96,7 @@ const userLoading = (state = {}, { type, payload }) => {
     case DELETE_USER_REQUEST: {
       return {
         ...state,
-        [payload.userId]: true,
+        [payload.email]: true,
       };
     }
     case EDIT_USER_RESPONSE:
@@ -105,7 +105,7 @@ const userLoading = (state = {}, { type, payload }) => {
     case DELETE_USER_ERROR: {
       return {
         ...state,
-        [payload.userId]: false,
+        [payload.email]: false,
       };
     }
     default: {
@@ -130,7 +130,8 @@ const moduleSel = state => state[moduleName];
 export const usersLoadingSel = state => moduleSel(state).usersLoading;
 export const usersSel = state => moduleSel(state).users;
 
-export const userLoadingSel = (state, userId) => moduleSel(state).userLoading[userId] || false;
+export const userLoadingAllSel = state => moduleSel(state).userLoading;
+export const userLoadingSel = (state, email) => userLoadingAllSel(state)[email] || false;
 
 //
 // epics

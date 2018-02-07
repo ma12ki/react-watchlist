@@ -1,0 +1,13 @@
+.form {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.roleSelect.roleSelect {
+  width: 10rem;
+}
+
+.buttonItem {
+  margin-top: -2px;
+}

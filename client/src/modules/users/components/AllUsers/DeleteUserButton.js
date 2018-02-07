@@ -25,16 +25,17 @@ const DeleteUserButton = ({ loading, onDelete }) => (
 
 DeleteUserButton.propTypes = {
   userId: PropTypes.string.isRequired,
+  email: PropTypes.string.isRequired,
   loading: PropTypes.bool.isRequired,
   onDelete: PropTypes.func.isRequired,
 };
 
-const mapState = (state, { userId }) => ({
-  loading: userLoadingSel(state, userId),
+const mapState = (state, { email }) => ({
+  loading: userLoadingSel(state, email),
 });
 
-const mapDispatch = (dispatch, { userId }) => ({
-  onDelete: () => dispatch(deleteUserRequest(userId)),
+const mapDispatch = (dispatch, { userId, email }) => ({
+  onDelete: () => dispatch(deleteUserRequest(userId, email)),
 });
 
 export default connect(mapState, mapDispatch)(DeleteUserButton);
