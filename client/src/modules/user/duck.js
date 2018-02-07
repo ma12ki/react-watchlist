@@ -9,7 +9,7 @@ import 'rxjs/add/operator/switchMap';
 import faker from 'faker';
 
 // import { apiService } from '../../utils';
-import { moduleName, roles } from './constants';
+import { moduleName, roles, userStorageKey } from './constants';
 
 //
 // actions
@@ -82,11 +82,18 @@ export const userLoadingSel = state => moduleSel(state).loginLoading;
 const loginEpic$ = action$ => action$
   .ofType(LOGIN_REQUEST)
   .switchMap(() => login$()
+    .do(storeUser)
     .map(loginResponse)
     .catch(err => Observable.of(loginError(err))));
 
+const logoutEpic$ = action$ =>
+  action$.ofType(LOGOUT)
+    .do(removeUser)
+    .mapTo(({ type: ROUTE_LOGIN }));
+
 export const epics = combineEpics(
   loginEpic$,
+  logoutEpic$,
 );
 
 //
@@ -99,3 +106,7 @@ const getMockUser = () => ({
   email: faker.internet.email(),
   role: faker.random.arrayElement(roles),
 });
+
+export const storeUser = user => localStorage.setItem(userStorageKey, user);
+export const retrieveUser = () => localStorage.getItem(userStorageKey);
+export const removeUser = () => localStorage.removeItem(userStorageKey);
