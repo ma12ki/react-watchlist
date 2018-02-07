@@ -12,8 +12,8 @@ import SearchBar from './SearchBar';
 import styles from './AllShows.css';
 
 const defaultPagination = {
-  pageSize: 15,
-  pageSizeOptions: ['15', '30', '50', '100'],
+  pageSize: 10,
+  pageSizeOptions: ['10', '25', '50', '100'],
   showSizeChanger: true,
 };
 
