@@ -5,14 +5,11 @@
     "no-empty": false,
     "no-unused-variable": [
       true,
-      "check-parameters",
-      {"ignore-pattern": "^_"}
+      { "ignore-pattern": "^_" }
     ],
     "object-literal-sort-keys": false,
     "ordered-imports": false,
-    "quotemark": [
-      "single"
-    ],
+    "quotemark": [ true, "single" ],
     "variable-name": [
       true,
       "ban-keywords",
