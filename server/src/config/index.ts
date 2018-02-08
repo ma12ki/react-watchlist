@@ -3,14 +3,15 @@ import { config as dotenvConfig } from 'dotenv';
 
 import { logger } from '../helpers';
 
-const env = dotenvConfig({
+const config = dotenvConfig({
   path: path.resolve('./', '..', '.env'),
 });
 
 logger.info('Read .env file:');
-console.log(env);
+console.log(config);
 
-const production = process.env.NODE_ENV === 'production';
+const env = process.env.NODE_ENV;
+const production = env === 'production';
 const dbHost = process.env.MYSQL_HOST;
 const dbPort = Number(process.env.WL_DB_PORT);
 const dbName = process.env.MYSQL_DATABASE;
@@ -20,6 +21,7 @@ const port = Number(process.env.WL_SERVER_PORT);
 const jwtSecret = process.env.WL_JWT_SECRET;
 
 export {
+  env,
   production,
   dbHost,
   dbPort,

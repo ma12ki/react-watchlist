@@ -20,16 +20,14 @@ const getConnection: () => Promise<Connection> = async () => {
 
   try {
     connection = await createConnection({
-      driver: {
-        type: 'mysql',
-        host: dbHost,
-        port: dbPort,
-        username: dbUser,
-        password: dbPass,
-        database: dbName,
-      },
+      type: 'mysql',
+      host: dbHost,
+      port: dbPort,
+      username: dbUser,
+      password: dbPass,
+      database: dbName,
       entities,
-      autoSchemaSync: true,
+      synchronize: true,
     });
 
     logger.info(`Connected to db at ${dbHost}:${dbPort}`);
