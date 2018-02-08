@@ -7,6 +7,7 @@ import {
   dbName,
   dbUser,
   dbPass,
+  production,
 } from '../config';
 import { logger } from '../helpers';
 import { dbEntities as entities } from '../entities';
@@ -21,7 +22,7 @@ const connect: () => Promise<void> = async () => {
       password: dbPass,
       database: dbName,
       entities,
-      synchronize: true,
+      synchronize: !production,
     });
 
     logger.info(`Connected to db at ${dbHost}:${dbPort}`);

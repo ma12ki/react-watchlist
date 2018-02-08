@@ -3,15 +3,15 @@ import * as chalk from 'chalk';
 const appName = '[WL]';
 
 const error = (...msgs: any[]): void => {
-  console.error(chalk.red(appName, ...msgs));
+  console.error((chalk as any).red(appName, ...msgs));
 };
 
 const success = (...msgs: any[]): void => {
-  console.log(chalk.green(appName, ...msgs));
+  console.log((chalk as any).green(appName, ...msgs));
 };
 
 const info = (...msgs: any[]): void => {
-  console.info(chalk.blue(appName, ...msgs));
+  console.info((chalk as any).blue(appName, ...msgs));
 };
 
 const logger = {

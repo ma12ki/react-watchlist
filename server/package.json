@@ -11,7 +11,7 @@
     "build:tsc": "tsc",
     "build:tsc:w": "tsc -w",
     "pretest": "npm run build",
-    "test": "jest",
+    "test": "cross-env NODE_ENV=test jest",
     "test:watch": "npm test -- --watch",
     "test:notify": "npm run test:watch -- --notify",
     "coverage": "npm test -- --coverage",
@@ -85,7 +85,7 @@
     "transform": {
       ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     },
-    "testResultsProcessor": "<rootDir>/node_modules/ts-jest/coverageprocessor.js",
+    "mapCoverage": true,
     "testEnvironment": "node",
     "testRegex": ".*\\.spec\\.ts$",
     "moduleFileExtensions": [

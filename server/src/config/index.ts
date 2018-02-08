@@ -3,14 +3,13 @@ import { config as dotenvConfig } from 'dotenv';
 
 import { logger } from '../helpers';
 
-const config = dotenvConfig({
-  path: path.resolve('./', '..', '.env'),
-});
+const env = process.env.NODE_ENV;
+const dotenvPath = env === 'TEST' ? path.resolve('./', '..', '.env.test') : path.resolve('./', '..', '.env');
+const config = dotenvConfig({ path: dotenvPath });
 
 logger.info('Read .env file:');
 console.log(config);
 
-const env = process.env.NODE_ENV;
 const production = env === 'production';
 const dbHost = process.env.MYSQL_HOST;
 const dbPort = Number(process.env.WL_DB_PORT);
