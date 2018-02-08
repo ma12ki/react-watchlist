@@ -33,4 +33,3 @@ const connect: () => Promise<void> = async () => {
 };
 
 export default connect;
-``
