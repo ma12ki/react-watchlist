@@ -9,7 +9,7 @@ import {
   dbPass,
 } from '../config';
 import { logger } from '../helpers';
-import { entities } from '../entities';
+import { dbEntities as entities } from '../entities';
 
 const connect: () => Promise<void> = async () => {
   try {

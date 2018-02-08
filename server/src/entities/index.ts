@@ -1,15 +1,13 @@
-import { Show } from './show';
-import { Season } from './season';
-import { Episode } from './episode';
+import { Show, Episode, User } from './dbEntities';
 
-export * from './show';
-export * from './season';
-export * from './episode';
+export * from './enums';
+export * from './interfaces';
+export * from './dbEntities';
 
-const entities = [
+const dbEntities = [
   Show,
-  Season,
   Episode,
+  User,
 ];
 
-export { entities };
+export { dbEntities };
