@@ -6,14 +6,21 @@ import * as helmet from 'helmet';
 import * as morgan from 'morgan';
 
 import { port, production } from './config';
-import { db } from './db';
-import { bearerToken, extractUser, logger } from './helpers';
+import connect from './db';
+import { logger } from './helpers';
 import { app } from './app';
 
 interface IMainOptions {
   production: boolean;
   port: number;
 }
+
+main({
+  production,
+  port,
+}).then(() => {
+  logger.success('######### All services started successfully #########');
+});
 
 export async function main(options: IMainOptions) {
   const serverStart = () => new Promise((resolve, reject) => {
@@ -28,12 +35,5 @@ export async function main(options: IMainOptions) {
     });
   });
 
-  return Promise.all([serverStart() as any, db.getConnection() as any]);
+  return Promise.all([serverStart() as any, connect() as any]);
 }
-
-main({
-  production,
-  port,
-}).then(() => {
-  logger.success('######### All services started successfully #########');
-});

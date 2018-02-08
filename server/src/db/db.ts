@@ -11,15 +11,9 @@ import {
 import { logger } from '../helpers';
 import { entities } from '../entities';
 
-let connection: Connection;
-
-const getConnection: () => Promise<Connection> = async () => {
-  if (connection) {
-    return connection;
-  }
-
+const connect: () => Promise<void> = async () => {
   try {
-    connection = await createConnection({
+    await createConnection({
       type: 'mysql',
       host: dbHost,
       port: dbPort,
@@ -36,20 +30,7 @@ const getConnection: () => Promise<Connection> = async () => {
     logger.error((connectionError as Error).stack);
     throw connectionError;
   }
-
-  return connection;
 };
 
-export interface IDb {
-  getConnection: () => Promise<Connection>;
-  connection: Connection;
-}
-
-const db: IDb = {
-  getConnection,
-  get connection() {
-    return connection;
-  },
-};
-
-export { db };
+export default connect;
+``
