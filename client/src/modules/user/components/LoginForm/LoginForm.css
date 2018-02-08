@@ -1,0 +1,30 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.spinnerWrapper {
+  transition: all 0.2s ease;
+  opacity: 0;
+  width: 0;
+}
+
+.loading {
+  opacity: 1;
+  width: 40px;
+}
+
+.button {
+  background-color: transparent;
+  border: 1px solid var(--primary-color);
+  color: var(--primary-color);
+  padding: 10px 20px;;
+
+  &:hover {
+    color: var(--primary-hover-color);
+  }
+  &:active {
+    color: var(--primary-active-color);
+  }
+}
