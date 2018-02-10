@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-// import cn from 'classnames';
 
 import { Table } from '../../../shared';
+import { userSel } from '../../../user';
 import { usersLoadingSel, usersSel, getUsersRequest } from '../../duck';
 import NewUserForm from './NewUserForm';
 import RoleSelect from './RoleSelect';
@@ -16,6 +16,8 @@ class AllUsers extends React.Component {
   }
 
   getColumns = () => {
+    const { currentUserId } = this.props;
+
     return [
       {
         dataIndex: 'email',
@@ -27,12 +29,12 @@ class AllUsers extends React.Component {
       {
         width: '11rem',
         title: 'Role',
-        render: (_, user) => <RoleSelect user={user} />,
+        render: (_, user) => <RoleSelect user={user} disabled={currentUserId === user.userId} />,
       },
       {
         width: '8rem',
         className: styles.rightAlign,
-        render: (_, { userId, email }) => <DeleteUserButton userId={userId} email={email} />,
+        render: (_, { userId, email }) => <DeleteUserButton userId={userId} email={email} disabled={currentUserId === userId} />,
       },
     ];
   }
@@ -58,12 +60,14 @@ class AllUsers extends React.Component {
 }
 
 AllUsers.propTypes = {
+  currentUserId: PropTypes.number.isRequired,
   loading: PropTypes.bool.isRequired,
   users: PropTypes.array.isRequired,
   onGetUsers: PropTypes.func.isRequired,
 };
 
 const mapState = (state) => ({
+  currentUserId: userSel(state).userId,
   loading: usersLoadingSel(state),
   users: usersSel(state),
 });

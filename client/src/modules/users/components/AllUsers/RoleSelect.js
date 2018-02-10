@@ -8,15 +8,14 @@ import styles from './RoleSelect.css';
 
 const { Option } = Select;
 
-const RoleSelect = ({ user, currentUserId, loading, onSetRole }) => {
-  const { role, userId } = user;
-  const isCurrentUser = userId === currentUserId;
+const RoleSelect = ({ user, loading, disabled, onSetRole }) => {
+  const { role } = user;
 
   return (
     <Select
       className={styles.select}
       value={role}
-      disabled={isCurrentUser || loading}
+      disabled={disabled || loading}
       onChange={role => onSetRole({ ...user, role })}
     >
       <Option value="root" disabled>Root</Option>
@@ -28,13 +27,12 @@ const RoleSelect = ({ user, currentUserId, loading, onSetRole }) => {
 
 RoleSelect.propTypes = {
   user: PropTypes.object.isRequired,
-  currentUserId: PropTypes.string.isRequired,
   loading: PropTypes.bool.isRequired,
+  disabled: PropTypes.bool.isRequired,
   onSetRole: PropTypes.func.isRequired,
 };
 
 const mapState = (state, { user }) => ({
-  currentUserId: 'lolmao',
   loading: userLoadingSel(state, user.userId),
 });
 

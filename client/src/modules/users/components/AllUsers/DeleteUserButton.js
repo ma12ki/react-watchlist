@@ -6,7 +6,7 @@ import DeleteIcon from 'material-ui-icons/Delete';
 import { IconButton, Popconfirm } from '../../../shared';
 import { userLoadingSel, deleteUserRequest } from '../../duck';
 
-const DeleteUserButton = ({ loading, onDelete }) => (
+const DeleteUserButton = ({ loading, disabled, onDelete }) => (
   <Popconfirm
     title={`Are you sure?`}
     okText="Yes"
@@ -17,6 +17,7 @@ const DeleteUserButton = ({ loading, onDelete }) => (
       type="danger"
       title="Delete"
       loading={loading}
+      disabled={disabled || loading}
     >
       <DeleteIcon />
     </IconButton>
@@ -27,6 +28,7 @@ DeleteUserButton.propTypes = {
   userId: PropTypes.number.isRequired,
   email: PropTypes.string.isRequired,
   loading: PropTypes.bool.isRequired,
+  disabled: PropTypes.bool,
   onDelete: PropTypes.func.isRequired,
 };
 
