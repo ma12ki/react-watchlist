@@ -63,7 +63,7 @@ class NewUserForm extends React.Component {
               { required: true, message: 'This field is required' },
             ],
           })(
-            <Input />
+            <Input addonAfter="@gmail.com" />
           )}
         </FormItem>
         <FormItem label="Role">

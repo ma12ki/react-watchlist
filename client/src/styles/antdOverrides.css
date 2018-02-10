@@ -71,6 +71,12 @@
   background-color: transparent;
   color: var(--text-color);
 }
+:global(.ant-input-group-addon) {
+  border-radius: 0;
+  border-color: var(--text-color);
+  background-color: var(--bg-accent-color);
+  color: var(--text-color);
+}
 
 /*
  * Switch
