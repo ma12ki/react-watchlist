@@ -65,6 +65,28 @@ export class ShowsController extends BaseHttpController {
     await this.showsService.unmarkEpisodeWatched(episodeId, this.user.details);
   }
 
+  @httpPost('/:showId/episodes/mark-watched')
+  public async bulkMarkEpisodeWatched(
+    @requestParam('showId') showId: number,
+    @requestBody('season') season: number,
+    // @requestBody('episode') episode: number,
+  ): Promise<void> {
+    await this.user.isInRole('root,admin,user');
+    const episode = Number(this.request.body.episode);
+    await this.showsService.bulkMarkEpisodeWatched(showId, season, episode, this.user.details);
+  }
+
+  @httpDelete('/:showId/episodes/mark-watched')
+  public async bulkUnmarkEpisodeWatched(
+    @requestParam('showId') showId: number,
+    @requestBody('season') season: number,
+    // @requestBody('episode') episode: number,
+  ): Promise<void> {
+    await this.user.isInRole('root,admin,user');
+    const episode = Number(this.request.body.episode);
+    await this.showsService.bulkUnmarkEpisodeWatched(showId, season, episode, this.user.details);
+  }
+
   // @httpPost('/')
   // public async createUser(): Promise<IUser> {
   //   await this.user.isInRole('root');

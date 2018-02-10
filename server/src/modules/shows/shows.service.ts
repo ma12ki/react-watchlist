@@ -15,6 +15,8 @@ export interface IShowsService {
   unfollowShow: (showId: number, user: IUser) => Promise<void>;
   markEpisodeWatched: (episodeId: number, user: IUser) => Promise<void>;
   unmarkEpisodeWatched: (episodeId: number, user: IUser) => Promise<void>;
+  bulkMarkEpisodeWatched: (showId: number, season: number, episode: number, user: IUser) => Promise<void>;
+  bulkUnmarkEpisodeWatched: (showId: number, season: number, episode: number, user: IUser) => Promise<void>;
 }
 
 @injectable()
@@ -90,6 +92,42 @@ export class ShowsService implements IShowsService {
     const episode = await this.getEpisodeRepository().findOneById(episodeId, { relations: ['users'] });
     episode.users = episode.users.filter(u => u.userId !== user.userId);
     await this.getEpisodeRepository().save(episode);
+  }
+
+  public async bulkMarkEpisodeWatched(showId: number, season: number, episode: number, user: IUser): Promise<void> {
+    let episodes = await this.getEpisodeRepository()
+      .createQueryBuilder('episodes')
+      .leftJoinAndSelect('episodes.users', 'users')
+      .where({ showShowId: showId, season })
+      .andWhere('episodes.episode <= :episode', { episode: episode || 1000 })
+      .getMany();
+
+    episodes = episodes.map(e => ({
+      ...e,
+      users: e.users.concat(user as any),
+    }));
+
+    console.log(showId, season, episode);
+
+    await this.getEpisodeRepository().save(episodes);
+  }
+
+  public async bulkUnmarkEpisodeWatched(showId: number, season: number, episode: number, user: IUser): Promise<void> {
+    let episodes = await this.getEpisodeRepository()
+      .createQueryBuilder('episodes')
+      .leftJoinAndSelect('episodes.users', 'users')
+      .where({ showShowId: showId, season })
+      .andWhere('episodes.episode <= :episode', { episode: episode || 1000 })
+      .getMany();
+
+    console.log(episode);
+
+    episodes = episodes.map(e => ({
+      ...e,
+      users: e.users.filter(u => u.userId !== user.userId),
+    }));
+
+    await this.getEpisodeRepository().save(episodes);
   }
 
   private getShowRepository(): Repository<Show> {

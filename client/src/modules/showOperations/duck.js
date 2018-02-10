@@ -293,14 +293,14 @@ const unmarkWatchedEpic$ = action$ => action$
 
 const markWatchedBulkEpic$ = action$ => action$
   .ofType(MARK_WATCHED_BULK_REQUEST)
-  .switchMap(({ payload }) => markWatchedBulk$(/* episodeId */)
+  .switchMap(({ payload }) => markWatchedBulk$(payload.showId, payload.season, payload.episode)
     .map(() => markWatchedBulkResponse(payload.showId, payload.season, payload.episode))
     .do(() => toast(`"${payload.title}" marked watched`))
     .apiCatch(err => Observable.of(markWatchedBulkError(payload.showId, err))));
 
 const unmarkWatchedBulkEpic$ = action$ => action$
   .ofType(UNMARK_WATCHED_BULK_REQUEST)
-  .switchMap(({ payload }) => unmarkWatchedBulk$(/* episodeId */)
+  .switchMap(({ payload }) => unmarkWatchedBulk$(payload.showId, payload.season, payload.episode)
     .map(() => unmarkWatchedBulkResponse(payload.showId, payload.season, payload.episode))
     .do(() => toast(`"${payload.title}" marked NOT watched`))
     .apiCatch(err => Observable.of(unmarkWatchedBulkError(payload.showId, err))));
@@ -346,17 +346,8 @@ const postponeEpisodes$ = () => Observable.of({}).delay(1000);
 const markWatched$ = (showId, episodeId) => apiService.post$(`/shows/${showId}/episodes/${episodeId}/mark-watched`);
 const unmarkWatched$ = (showId, episodeId) => apiService.delete$(`/shows/${showId}/episodes/${episodeId}/mark-watched`);
 
-const markWatchedBulk$ = (/* episodeId */) => Observable.of({}).delay(1000);
-const unmarkWatchedBulk$ = (/* episodeId */) => Observable.of({}).delay(1000);
+const markWatchedBulk$ = (showId, season, episode) => apiService.post$(`/shows/${showId}/episodes/mark-watched`, { season, episode });
+const unmarkWatchedBulk$ = (showId, season, episode) => apiService.delete$(`/shows/${showId}/episodes/mark-watched`, { season, episode });
 
 const follow$ = (showId) => apiService.post$(`/shows/${showId}/follow`);
 const unfollow$ = (showId) => apiService.delete$(`/shows/${showId}/follow`);
-
-// const createMockShow = show => ({
-//   ...show,
-//   showId: faker.random.uuid(),
-//   episodes: show.episodes.map(e => ({
-//     ...e,
-//     episodeId: faker.random.uuid(),
-//   })),
-// });
