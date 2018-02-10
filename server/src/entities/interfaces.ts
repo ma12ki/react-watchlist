@@ -33,3 +33,7 @@ export interface IUser {
   email: string;
   role: UserRole;
 }
+
+export interface IGoogleUser {
+  email: string;
+}

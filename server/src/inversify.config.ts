@@ -1,6 +1,6 @@
 import { Container } from 'inversify';
 
-import { modules } from './endpoints';
+import { modules } from './modules';
 
 const container = new Container();
 container.load(

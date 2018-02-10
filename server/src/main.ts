@@ -20,6 +20,10 @@ main({
   port,
 }).then(() => {
   logger.success('######### All services started successfully #########');
+}).catch(rejection => {
+  logger.error('!!!!!!!!! App init failed !!!!!!!!!');
+  logger.error(rejection);
+  process.exit(1);
 });
 
 export async function main(options: IMainOptions) {
