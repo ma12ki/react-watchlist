@@ -5,16 +5,15 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/concat';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/delay';
+import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/switchMap';
 import jwt from 'jwt-simple';
-import faker from 'faker';
 
-// import { apiService } from '../../utils';
-import { moduleName, roles, userStorageKey } from './constants';
-
-const mockJwtKey = 'asd';
+import '../utils/rxjs.add.operator.apiCatch';
+import { apiService } from '../utils';
+import { moduleName, userStorageKey } from './constants';
 
 //
 // actions
@@ -24,7 +23,7 @@ export const ROUTE_LOGIN = `${moduleName}/ROUTE_LOGIN`;
 export const LOGIN_REQUEST = `${moduleName}/LOGIN_REQUEST`;
 export const LOGIN_RESPONSE = `${moduleName}/LOGIN_RESPONSE`;
 export const LOGIN_ERROR = `${moduleName}/LOGIN_ERROR`;
-export const loginRequest = googleToken => ({ type: LOGIN_REQUEST, payload: googleToken });
+export const loginRequest = googleAccessToken => ({ type: LOGIN_REQUEST, payload: googleAccessToken });
 export const loginResponse = userToken => ({ type: LOGIN_RESPONSE, payload: userToken });
 export const loginError = err => ({ type: LOGIN_ERROR, payload: err });
 
@@ -105,14 +104,14 @@ const loginEpic$ = action$ => action$
   .switchMap(({ payload }) => login$(payload)
     .do(storeUserToken)
     .map(token => {
-      const user = jwt.decode(token, mockJwtKey, true);
+      const user = decodeToken(token);
       return { user, token };
     })
     .mergeMap(res => Observable.concat(
       Observable.of(loginResponse(res)),
       Observable.of({ type: 'dashboard/ROUTE_DASHBOARD' }),
     ))
-    .catch(err => Observable.of(loginError(err))));
+    .apiCatch(err => Observable.of(loginError(err))));
 
 const logoutEpic$ = action$ =>
   action$.ofType(LOGOUT)
@@ -127,25 +126,18 @@ export const epics = combineEpics(
 //
 // services
 //
-const login$ = () => Observable.of(getMockUserToken()).delay(1000);
+const login$ = googleAccessToken => apiService
+  .post$('/users/login', { googleAccessToken })
+  .map(({ token }) => token);
 
-const getMockUserToken = () => {
-  const user = {
-    userId: faker.random.uuid(),
-    email: faker.internet.email(),
-    role: faker.random.arrayElement(roles),
-  };
-
-  return jwt.encode(user, mockJwtKey);
-};
-
-export const storeUserToken = user => localStorage.setItem(userStorageKey, user);
+export const storeUserToken = token => localStorage.setItem(userStorageKey, token);
 export const retrieveUser = () => {
   const token = retrieveUserToken();
   if (token) {
-    return jwt.decode(token, mockJwtKey, true);
+    return decodeToken(token);
   }
   return null;
 };
+export const decodeToken = token => jwt.decode(token, null, true);
 export const retrieveUserToken = () => localStorage.getItem(userStorageKey);
 export const removeUserToken = () => localStorage.removeItem(userStorageKey);

@@ -28,7 +28,7 @@ const LoginPage = ({ loading, onLogin }) => {
   );
 };
 
-const googleLoginFailure = () => toast.error('Google login unsuccessful');
+const googleLoginFailure = () => toast.error('Google login failed');
 
 LoginPage.propTypes = {
   loading: PropTypes.bool.isRequired,
@@ -40,7 +40,7 @@ const mapState = state => ({
 });
 
 const mapDispatch = dispatch => ({
-  onLogin: ({ tokenId: googleJwt }) => dispatch(loginRequest(googleJwt)),
+  onLogin: ({ accessToken: googleAccessToken /*, tokenId: googleToken */ }) => dispatch(loginRequest(googleAccessToken)),
 });
 
 export default connect(mapState, mapDispatch)(LoginPage);

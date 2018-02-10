@@ -2,6 +2,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/fromPromise';
 import 'rxjs/add/operator/switchMap';
 
+import { API_URL } from '../config';
 import http from './http';
 
 const getBaseOptions = () => {
@@ -27,11 +28,11 @@ const apiCalls = {
 };
 
 const apiCall$ = (method, endpoint, body, options) =>
-  Observable.fromPromise(method(endpoint, mergeOptions(body, options)))
+  Observable.fromPromise(method(`${API_URL}${endpoint}`, mergeOptions(body, options)))
     .switchMap(response => response.json());
 
 const apiCall = async (method, endpoint, body, options) => {
-  const response = await method(endpoint, mergeOptions(body, options));
+  const response = await method(`${API_URL}${endpoint}`, mergeOptions(body, options));
 
   return response.json();
 };
