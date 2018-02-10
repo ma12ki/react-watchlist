@@ -29,12 +29,14 @@ export class ShowsService implements IShowsService {
       .leftJoinAndMapOne('episodes.watched', 'episodes.users', 'user2', 'user2.userId = :userId', { userId })
       .where({ slug })
       .getOne();
-    // .findOne({
-    //   relations: ['episodes'],
-    //   where: { slug },
-    // })
 
-    console.log(show);
+    show.recurring = Boolean(show.recurring);
+    show.following = Boolean(show.following);
+    show.episodes = show.episodes.map(e => ({
+      ...e,
+      watched: Boolean(e.watched),
+    }));
+
     return show;
   }
 
