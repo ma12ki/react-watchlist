@@ -12,7 +12,7 @@ import 'rxjs/add/operator/switchMap';
 import jwt from 'jwt-simple';
 
 import '../utils/rxjs.add.operator.apiCatch';
-import { apiService } from '../utils';
+import { apiService, resetOnLogoutReducer } from '../utils';
 import { moduleName, userStorageKey } from './constants';
 
 //
@@ -84,7 +84,7 @@ const reducers = combineReducers({
   loginLoading,
 });
 
-export default reducers;
+export default resetOnLogoutReducer(reducers);
 
 //
 // selectors

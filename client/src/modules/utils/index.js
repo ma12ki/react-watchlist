@@ -7,3 +7,4 @@ export { default as http } from './http';
 export { default as tableSorters } from './tableSorters';
 export { default as tableSortOrder } from './tableSortOrder';
 export { default as defaultValidationMessages } from './defaultValidationMessages';
+export { default as resetOnLogoutReducer } from './resetOnLogoutReducer';
