@@ -8,9 +8,10 @@ import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
 import { toast } from 'react-toastify';
-import faker from 'faker';
+// import faker from 'faker';
 
-// import { apiService } from '../../utils';
+import '../utils/rxjs.add.operator.apiCatch';
+import { apiService } from '../utils';
 import { moduleName } from './constants';
 
 //
@@ -252,7 +253,7 @@ const editShowEpic$ = action$ => action$
     return request$
       .map(editShowResponse)
       .do(() => editMode ? toast(`"${show.title}" updated`) : toast(`"${show.title}" created`))
-      .catch(err => Observable.of(editShowError(err)));
+      .apiCatch(err => Observable.of(editShowError(err)));
   });
 
 const deleteShowEpic$ = action$ => action$
@@ -260,63 +261,63 @@ const deleteShowEpic$ = action$ => action$
   .switchMap(({ payload }) => deleteShow$()
     .map(() => deleteShowResponse(payload.showId))
     .do(() => toast(`"${payload.title}" removed`))
-    .catch(err => Observable.of(deleteShowError(payload.showId, err))));
+    .apiCatch(err => Observable.of(deleteShowError(payload.showId, err))));
 
 const deleteEpisodesEpic$ = action$ => action$
   .ofType(DELETE_EPISODES_REQUEST)
   .switchMap(({ payload }) => deleteEpisodes$()
     .map(() => deleteEpisodesResponse(payload.showId, payload.season, payload.episode))
     .do(() => toast(`"${payload.title}" removed`))
-    .catch(err => Observable.of(deleteEpisodesError(payload.showId, err))));
+    .apiCatch(err => Observable.of(deleteEpisodesError(payload.showId, err))));
 
 const postponeEpisodesEpic$ = action$ => action$
   .ofType(POSTPONE_EPISODES_REQUEST)
   .switchMap(({ payload }) => postponeEpisodes$()
     .map(() => postponeEpisodesResponse(payload.showId))
     .do(() => toast(`"${payload.title}" postponed`))
-    .catch(err => Observable.of(postponeEpisodesError(payload.showId, err))));
+    .apiCatch(err => Observable.of(postponeEpisodesError(payload.showId, err))));
 
 const markWatchedEpic$ = action$ => action$
   .ofType(MARK_WATCHED_REQUEST)
   .switchMap(({ payload }) => markWatched$(/* episodeId */)
     .map(() => markWatchedResponse(payload.showId, payload.episodeId))
     .do(() => toast(`"${payload.title}" marked watched`))
-    .catch(err => Observable.of(markWatchedError(payload.showId, err))));
+    .apiCatch(err => Observable.of(markWatchedError(payload.showId, err))));
 
 const unmarkWatchedEpic$ = action$ => action$
   .ofType(UNMARK_WATCHED_REQUEST)
   .switchMap(({ payload }) => unmarkWatched$(/* episodeId */)
     .map(() => unmarkWatchedResponse(payload.showId, payload.episodeId))
     .do(() => toast(`"${payload.title}" marked NOT watched`))
-    .catch(err => Observable.of(unmarkWatchedError(payload.showId, err))));
+    .apiCatch(err => Observable.of(unmarkWatchedError(payload.showId, err))));
 
 const markWatchedBulkEpic$ = action$ => action$
   .ofType(MARK_WATCHED_BULK_REQUEST)
   .switchMap(({ payload }) => markWatchedBulk$(/* episodeId */)
     .map(() => markWatchedBulkResponse(payload.showId, payload.season, payload.episode))
     .do(() => toast(`"${payload.title}" marked watched`))
-    .catch(err => Observable.of(markWatchedBulkError(payload.showId, err))));
+    .apiCatch(err => Observable.of(markWatchedBulkError(payload.showId, err))));
 
 const unmarkWatchedBulkEpic$ = action$ => action$
   .ofType(UNMARK_WATCHED_BULK_REQUEST)
   .switchMap(({ payload }) => unmarkWatchedBulk$(/* episodeId */)
     .map(() => unmarkWatchedBulkResponse(payload.showId, payload.season, payload.episode))
     .do(() => toast(`"${payload.title}" marked NOT watched`))
-    .catch(err => Observable.of(unmarkWatchedBulkError(payload.showId, err))));
+    .apiCatch(err => Observable.of(unmarkWatchedBulkError(payload.showId, err))));
 
 const followEpic$ = action$ => action$
   .ofType(FOLLOW_REQUEST)
   .switchMap(({ payload }) => follow$(/* showId */)
     .map(() => followResponse(payload.showId))
     .do(() => toast(`Following "${payload.title}"`))
-    .catch(err => Observable.of(followError(payload.showId, err))));
+    .apiCatch(err => Observable.of(followError(payload.showId, err))));
 
 const unfollowEpic$ = action$ => action$
   .ofType(UNFOLLOW_REQUEST)
   .switchMap(({ payload }) => unfollow$(/* showId */)
     .map(() => unfollowResponse(payload.showId))
     .do(() => toast(`No longer following "${payload.title}"`))
-    .catch(err => Observable.of(unfollowError(payload.showId, err))));
+    .apiCatch(err => Observable.of(unfollowError(payload.showId, err))));
 
 export const epics = combineEpics(
   editShowEpic$,
@@ -334,10 +335,8 @@ export const epics = combineEpics(
 //
 // services
 //
-const createShow$ = show => Observable.of(createMockShow(show)).delay(1000);
-
+const createShow$ = show => apiService.post$('/shows', show);
 const updateShow$ = () => Observable.of({}).delay(1000);
-
 const deleteShow$ = () => Observable.of({}).delay(1000);
 
 const deleteEpisodes$ = () => Observable.of({}).delay(1000);
@@ -353,11 +352,11 @@ const unmarkWatchedBulk$ = (/* episodeId */) => Observable.of({}).delay(1000);
 const follow$ = (/* showId */) => Observable.of({}).delay(1000);
 const unfollow$ = (/* showId */) => Observable.of({}).delay(1000);
 
-const createMockShow = show => ({
-  ...show,
-  showId: faker.random.uuid(),
-  episodes: show.episodes.map(e => ({
-    ...e,
-    episodeId: faker.random.uuid(),
-  })),
-});
+// const createMockShow = show => ({
+//   ...show,
+//   showId: faker.random.uuid(),
+//   episodes: show.episodes.map(e => ({
+//     ...e,
+//     episodeId: faker.random.uuid(),
+//   })),
+// });

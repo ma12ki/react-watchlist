@@ -23,7 +23,7 @@ const ShowDetailsFields = ({ form, formItemLayout, show, editMode, onRecurrenceC
             { max: 100, message: 'Max 100 characters allowed' },
           ],
         })(
-          <Input name="title" />
+          <Input name="title" autoComplete="off" />
         )}
       </FormItem>
       <FormItem
@@ -36,7 +36,7 @@ const ShowDetailsFields = ({ form, formItemLayout, show, editMode, onRecurrenceC
             { max: 100, message: 'Max 100 characters allowed' },
           ],
         })(
-          <Input name="aka" placeholder="also known as" />
+          <Input name="aka" placeholder="also known as" autoComplete="off" />
         )}
       </FormItem>
       <FormItem

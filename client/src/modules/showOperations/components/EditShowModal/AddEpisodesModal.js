@@ -102,7 +102,7 @@ class AddEpisodesModal extends React.Component {
               { validator: this.validateSeason },
             ],
           })(
-            <Input disabled={season != null} name="season" type="number" min="1" max="99" step="1" placeholder="1 - 99" />
+            <Input disabled={season != null} name="season" type="number" min="1" max="99" step="1" placeholder="1 - 99" autoComplete="off" />
           )}
         </FormItem>
         <FormItem
@@ -114,7 +114,7 @@ class AddEpisodesModal extends React.Component {
               { required: true, message: 'Required' },
             ],
           })(
-            <Input name="episodes" type="number" min="1" max="999" step="1" placeholder="1 - 999" />
+            <Input name="episodes" type="number" min="1" max="999" step="1" placeholder="1 - 999" autoComplete="off" />
           )}
         </FormItem>
         <FormItem

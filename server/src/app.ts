@@ -12,7 +12,8 @@ import { container } from './inversify.config';
 import { port, production } from './config';
 import AuthProvider from './modules/auth/AuthProvider';
 
-const server = new InversifyExpressServer(container, null, { rootPath: '/api/v1' }, null, AuthProvider);
+const rootPath = '/api/v1';
+const server = new InversifyExpressServer(container, null, { rootPath }, null, AuthProvider);
 
 server.setConfig((application) => {
   application.set('port', port);
@@ -29,7 +30,7 @@ server.setErrorConfig((application) => {
 
 const app = server.build();
 const routeInfo = getRouteInfo(container);
-logger.info('Route Map')
+logger.info(`Route Map (root path ${rootPath})`)
 console.log(prettyjson.render({ routes: routeInfo }));
 
 export { app };

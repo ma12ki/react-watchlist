@@ -2,7 +2,7 @@ import { ShowType, UserRole } from './enums';
 
 export interface IShow {
   showId?: number;
-  slug: string;
+  slug?: string;
   title: string;
   aka: string;
   type: ShowType;
@@ -11,6 +11,14 @@ export interface IShow {
 
 export interface IShowForUser extends IShow {
   following: boolean;
+}
+
+export interface IShowDetails extends IShow {
+  episodes: IEpisode[];
+}
+
+export interface IShowDetailsForUser extends IShowForUser {
+  episodes: IEpisodeForUser[];
 }
 
 export interface IEpisode {

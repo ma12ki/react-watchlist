@@ -1,5 +1,4 @@
 import { interfaces, ContainerModule } from 'inversify';
-import { interfaces as interfacesExpressUtils, TYPE } from 'inversify-express-utils';
 
 import { authTokens } from './auth.tokens';
 import './AuthService';
