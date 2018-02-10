@@ -33,7 +33,7 @@ const PremiereDate = ({ showId, title, episode }) => {
 };
 
 PremiereDate.propTypes = {
-  showId: PropTypes.string.isRequired,
+  showId: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
   episode: PropTypes.object.isRequired,
 };

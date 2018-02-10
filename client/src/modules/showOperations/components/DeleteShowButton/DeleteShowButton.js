@@ -50,7 +50,7 @@ class DeleteShowButton extends React.Component {
 
 DeleteShowButton.propTypes = {
   title: PropTypes.string.isRequired,
-  showId: PropTypes.string.isRequired,
+  showId: PropTypes.number.isRequired,
   loading: PropTypes.bool,
   disabled: PropTypes.bool,
   className: PropTypes.string,

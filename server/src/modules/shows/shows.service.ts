@@ -3,10 +3,10 @@ import { getConnection, Repository } from 'typeorm';
 import * as slug from 'slug';
 import * as uniqueSlug from 'unique-slug';
 
-import { IShow, IShowForUser, IShowDetails, Show, Episode } from '../../entities';
+import { IShow, IShowForUser, IShowDetails, Show, Episode, User } from '../../entities';
 
 export interface IShowsService {
-  // getShows: () => Promise<IShowForUser[]>;
+  getShows: (userId: number) => Promise<IShowForUser[]>;
   // getShow: (showId: number) => Promise<IShowForUser>;
   createShow: (show: IShowDetails) => Promise<IShowDetails>;
   // updateShow: (show: IShowDetails) => Promise<IShowDetails>;
@@ -23,9 +23,18 @@ export class ShowsService implements IShowsService {
   //   return this.getRepository().findOne({ email });
   // }
 
-  // public async getUsers(): Promise<IUser[]> {
-  //   return this.getRepository().find();
-  // }
+  public async getShows(userId: number): Promise<IShowForUser[]> {
+    const shows: any = await this.getShowRepository()
+      .createQueryBuilder('show')
+      .leftJoinAndMapOne('show.following', 'show.users', 'user', 'user.userId = :userId', { userId })
+      .getMany();
+
+    return shows.map(s => ({
+      ...s,
+      recurring: Boolean(s.recurring),
+      following: Boolean(s.following),
+    }));
+  }
 
   public async createShow(show: IShowDetails): Promise<IShowDetails> {
     show = (this.mapShowDtoToModel(show) as IShowDetails);

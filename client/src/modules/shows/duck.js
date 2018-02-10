@@ -9,7 +9,8 @@ import 'rxjs/add/operator/switchMap';
 import { range } from 'lodash';
 import faker from 'faker';
 
-// import { apiService } from '../../utils';
+import '../utils/rxjs.add.operator.apiCatch';
+import { apiService } from '../utils';
 import {
   FOLLOW_RESPONSE,
   UNFOLLOW_RESPONSE,
@@ -242,7 +243,7 @@ const getShowsEpic$ = action$ => action$
   .ofType(GET_SHOWS_REQUEST)
   .switchMap(() => getShows$()
     .map(getShowsResponse)
-    .catch(err => Observable.of(getShowsError(err))));
+    .apiCatch(err => Observable.of(getShowsError(err))));
 
 const refreshShowsEpic$ = (action$, store) => action$
   .ofType(EDIT_SHOW_RESPONSE)
@@ -257,7 +258,7 @@ const getShowEpic$ = action$ => action$
   .ofType(GET_SHOW_REQUEST)
   .switchMap(() => getShow$()
     .map(getShowResponse)
-    .catch(err => Observable.of(getShowResponse(err))));
+    .apiCatch(err => Observable.of(getShowResponse(err))));
 
 const refreshShowEpic$ = (action$, store) => action$
   .ofType(POSTPONE_EPISODES_RESPONSE, EDIT_SHOW_RESPONSE)
@@ -278,15 +279,15 @@ export const epics = combineEpics(
 //
 // services
 //
-const getShows$ = () => Observable.of(getMockShows()).delay(1000);
+const getShows$ = () => apiService.get$('/shows');
 
 const getShow$ = () => Observable.of({
   ...getMockShow(),
   episodes: getMockEpisodes(),
 }).delay(1000);
 
-const getMockShows = () => range(30)
-  .map(getMockShow);
+// const getMockShows = () => range(30)
+//   .map(getMockShow);
 
 const getMockShow = () => {
   const title = faker.name.jobTitle();

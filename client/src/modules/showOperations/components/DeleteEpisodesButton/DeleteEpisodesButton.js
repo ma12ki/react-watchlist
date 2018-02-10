@@ -50,7 +50,7 @@ class DeleteEpisodesButton extends React.Component {
 
 DeleteEpisodesButton.propTypes = {
   title: PropTypes.string.isRequired,
-  showId: PropTypes.string.isRequired,
+  showId: PropTypes.number.isRequired,
   season: PropTypes.number.isRequired,
   episode: PropTypes.number,
   loading: PropTypes.bool,

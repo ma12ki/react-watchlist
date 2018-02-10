@@ -48,7 +48,7 @@ class FollowButton extends React.Component {
 
 FollowButton.propTypes = {
   title: PropTypes.string.isRequired,
-  showId: PropTypes.string.isRequired,
+  showId: PropTypes.number.isRequired,
   loading: PropTypes.bool.isRequired,
   following: PropTypes.bool.isRequired,
   onFollow: PropTypes.func.isRequired,

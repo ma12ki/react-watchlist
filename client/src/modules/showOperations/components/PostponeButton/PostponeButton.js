@@ -19,7 +19,7 @@ const PostponeButton = ({ disabled, title, className, onPostpone }) => (
 
 PostponeButton.propTypes = {
   title: PropTypes.string.isRequired,
-  showId: PropTypes.string.isRequired,
+  showId: PropTypes.number.isRequired,
   season: PropTypes.number,
   episode: PropTypes.number,
   currentPremiereDate: PropTypes.string.isRequired,

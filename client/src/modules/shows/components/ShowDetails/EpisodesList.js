@@ -117,7 +117,7 @@ const EpisodesList = ({ showId, title, episodes }) => {
 };
 
 EpisodesList.propTypes = {
-  showId: PropTypes.string.isRequired,
+  showId: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
   episodes: PropTypes.array.isRequired,
 };

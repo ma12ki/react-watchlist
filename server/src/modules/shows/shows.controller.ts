@@ -11,7 +11,7 @@ import {
 } from 'inversify-express-utils';
 
 import { BadRequestError, NotAuthorizedError } from '../../helpers';
-import { IUser, IShowDetails } from '../../entities';
+import { IUser, IShowDetails, IShowForUser } from '../../entities';
 import { BaseHttpController } from '../utils';
 import { authTokens, IAuthService } from '../auth';
 import { showsTokens } from './shows.tokens';
@@ -29,11 +29,11 @@ export class ShowsController extends BaseHttpController {
     return this.showsService.createShow(show);
   }
 
-  // @httpGet('/')
-  // public async getUsers(): Promise<IUser[]> {
-  //   await this.user.isInRole('root');
-  //   return this.usersService.getUsers();
-  // }
+  @httpGet('/')
+  public async getShow(): Promise<IShowForUser[]> {
+    await this.user.isInRole('root,admin');
+    return this.showsService.getShows(this.user.details.userId);
+  }
 
   // @httpPost('/')
   // public async createUser(): Promise<IUser> {
