@@ -6,9 +6,12 @@ import { API_URL } from '../config';
 import http from './http';
 
 const getBaseOptions = () => {
+  const token = localStorage.getItem('USER') || '';
+
   return {
     headers: {
       'Content-Type': 'application/json',
+      'Authorization': token,
     },
   };
 };

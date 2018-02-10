@@ -29,6 +29,7 @@ const request = async (method, url, options) => {
 
   const error = new Error(response.statusText);
   error.response = response;
+  error.status = response.status;
   await showErrorNotification(response);
   throw error;
 };

@@ -10,7 +10,8 @@ import { toast } from 'react-toastify';
 import { range } from 'lodash';
 import faker from 'faker';
 
-// import { apiService } from '../../utils';
+import '../utils/rxjs.add.operator.apiCatch';
+import { apiService } from '../utils';
 import { roles } from '../user';
 import { moduleName } from './constants';
 
@@ -140,7 +141,7 @@ const getUsersEpic$ = action$ => action$
   .ofType(GET_USERS_REQUEST)
   .switchMap(() => getUsers$()
     .map(getUsersResponse)
-    .catch(err => Observable.of(getUsersError(err))));
+    .apiCatch(err => Observable.of(getUsersError(err))));
 
 const editUserEpic$ = action$ => action$
   .ofType(EDIT_USER_REQUEST)
@@ -165,16 +166,13 @@ export const epics = combineEpics(
 //
 // services
 //
-const getUsers$ = () => Observable.of(getMockUsers()).delay(1000);
+const getUsers$ = () => apiService.get$('/users');
 
 const createUser$ = () => Observable.of(getMockUser()).delay(1000);
 
 const updateUser$ = () => Observable.of(getMockUser()).delay(1000);
 
 const deleteUser$ = () => Observable.of({}).delay(1000);
-
-const getMockUsers = () => range(10)
-  .map(getMockUser);
 
 const getMockUser = () => ({
   userId: faker.random.uuid(),

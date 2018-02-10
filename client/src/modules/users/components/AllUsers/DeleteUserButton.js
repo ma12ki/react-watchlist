@@ -24,7 +24,7 @@ const DeleteUserButton = ({ loading, onDelete }) => (
 );
 
 DeleteUserButton.propTypes = {
-  userId: PropTypes.string.isRequired,
+  userId: PropTypes.number.isRequired,
   email: PropTypes.string.isRequired,
   loading: PropTypes.bool.isRequired,
   onDelete: PropTypes.func.isRequired,

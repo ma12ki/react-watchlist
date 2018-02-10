@@ -17,9 +17,10 @@ import 'rxjs/add/operator/catch';
 export default function (handler) {
   return this
     .catch(err => {
+      // eslint-disable-next-line no-console
       console.error(err);
       if (err.status && err.status === 401) {
-        return Observable.of({ type: 'LOGOUT' });
+        return Observable.of({ type: 'user/LOGOUT' });
       }
       return handler.call(this, err);
     });
