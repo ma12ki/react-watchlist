@@ -7,12 +7,9 @@ import 'rxjs/add/operator/delay';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
 import { toast } from 'react-toastify';
-import { range } from 'lodash';
-import faker from 'faker';
 
 import '../utils/rxjs.add.operator.apiCatch';
-import { apiService } from '../utils';
-import { roles } from '../user';
+import { apiService, resetOnLogoutReducer } from '../utils';
 import { moduleName } from './constants';
 
 //
@@ -32,7 +29,7 @@ export const EDIT_USER_RESPONSE = `${moduleName}/EDIT_USER_RESPONSE`;
 export const EDIT_USER_ERROR = `${moduleName}/EDIT_USER_ERROR`;
 export const editUserRequest = user => ({ type: EDIT_USER_REQUEST, payload: user });
 export const editUserResponse = user => ({ type: EDIT_USER_RESPONSE, payload: user });
-export const editUserError = (user, err) => ({ type: EDIT_USER_ERROR, payload: { user, err } });
+export const editUserError = (email, err) => ({ type: EDIT_USER_ERROR, payload: { email, err } });
 
 export const DELETE_USER_REQUEST = `${moduleName}/DELETE_USER_REQUEST`;
 export const DELETE_USER_RESPONSE = `${moduleName}/DELETE_USER_RESPONSE`;
@@ -121,7 +118,7 @@ const reducers = combineReducers({
   userLoading,
 });
 
-export default reducers;
+export default resetOnLogoutReducer(reducers);
 
 //
 // selectors
@@ -145,17 +142,17 @@ const getUsersEpic$ = action$ => action$
 
 const editUserEpic$ = action$ => action$
   .ofType(EDIT_USER_REQUEST)
-  .switchMap(({ payload }) => (payload.userId == null ? createUser$() : updateUser$())
+  .switchMap(({ payload }) => (payload.userId == null ? createUser$(payload) : updateUser$(payload))
     .map(editUserResponse)
     .do(() => payload.userId == null ? toast('User added') : toast('User updated'))
-    .catch(err => Observable.of(editUserError(err))));
+    .apiCatch(err => Observable.of(editUserError(payload.email, err))));
 
 const deleteUserEpic$ = action$ => action$
   .ofType(DELETE_USER_REQUEST)
-  .switchMap(({ payload }) => deleteUser$(/* episodeId */)
+  .switchMap(({ payload }) => deleteUser$(payload.userId)
     .map(() => deleteUserResponse(payload.userId))
     .do(() => toast('User deleted'))
-    .catch(err => Observable.of(deleteUserError(payload.userId, err))));
+    .apiCatch(err => Observable.of(deleteUserError(payload.userId, payload.email, err))));
 
 export const epics = combineEpics(
   getUsersEpic$,
@@ -167,15 +164,6 @@ export const epics = combineEpics(
 // services
 //
 const getUsers$ = () => apiService.get$('/users');
-
-const createUser$ = () => Observable.of(getMockUser()).delay(1000);
-
-const updateUser$ = () => Observable.of(getMockUser()).delay(1000);
-
-const deleteUser$ = () => Observable.of({}).delay(1000);
-
-const getMockUser = () => ({
-  userId: faker.random.uuid(),
-  email: faker.internet.email(),
-  role: faker.random.arrayElement(roles),
-});
+const createUser$ = user => apiService.post$('/users', user);
+const updateUser$ = user => apiService.put$(`/users/${user.userId}`, user);
+const deleteUser$ = userId => apiService.delete$(`/users/${userId}`);

@@ -8,7 +8,7 @@ export interface IUsersService {
   getUserByEmail: (email: string) => Promise<IUser>;
   getUsers: () => Promise<IUser[]>;
   createUser: (user: IUser) => Promise<IUser>;
-  updateUser: (user: IUser) => Promise<void>;
+  updateUser: (user: IUser) => Promise<IUser>;
   deleteUser: (userId: number) => Promise<void>;
 }
 
@@ -30,8 +30,8 @@ export class UsersService implements IUsersService {
     return this.getRepository().save(user);
   }
 
-  public async updateUser(user: IUser): Promise<void> {
-    await this.getRepository().save(user);
+  public async updateUser(user: IUser): Promise<IUser> {
+    return this.getRepository().save(user);
   }
 
   public async deleteUser(userId: number): Promise<void> {

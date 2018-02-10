@@ -14,7 +14,7 @@ class NewUserForm extends React.Component {
 
   componentWillReceiveProps = ({ allUsersLoading: nextAllUsersLoading }) => {
     const { form } = this.props;
-    const nextLoading = nextAllUsersLoading[form.getFieldValue('email')];
+    const nextLoading = nextAllUsersLoading[this.getEmailWithSuffix(form.getFieldValue('email'))];
 
     if (this.getLoading() !== nextLoading) {
       form.resetFields();

@@ -1,5 +1,6 @@
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/fromPromise';
+import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/switchMap';
 
 import { API_URL } from '../config';
@@ -32,12 +33,12 @@ const apiCalls = {
 
 const apiCall$ = (method, endpoint, body, options) =>
   Observable.fromPromise(method(`${API_URL}${endpoint}`, mergeOptions(body, options)))
-    .switchMap(response => response.json());
+    .switchMap(response => response.status !== 204 ? response.json() : Observable.of(undefined));
 
 const apiCall = async (method, endpoint, body, options) => {
   const response = await method(`${API_URL}${endpoint}`, mergeOptions(body, options));
 
-  return response.json();
+  return response.status !== 204 ? response.json() : undefined;
 };
 
 const mergeOptions = (body, options) => ({
