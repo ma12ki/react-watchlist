@@ -60,7 +60,7 @@ class AllUsers extends React.Component {
 }
 
 AllUsers.propTypes = {
-  currentUserId: PropTypes.number.isRequired,
+  currentUserId: PropTypes.number,
   loading: PropTypes.bool.isRequired,
   users: PropTypes.array.isRequired,
   onGetUsers: PropTypes.func.isRequired,
