@@ -11,7 +11,7 @@ import {
 } from 'inversify-express-utils';
 
 import { BadRequestError, NotAuthorizedError } from '../../helpers';
-import { IUser, IShowDetails, IShowForUser } from '../../entities';
+import { IUser, IShowDetails, IShowForUser, IShowDetailsForUser } from '../../entities';
 import { BaseHttpController } from '../utils';
 import { authTokens, IAuthService } from '../auth';
 import { showsTokens } from './shows.tokens';
@@ -30,9 +30,27 @@ export class ShowsController extends BaseHttpController {
   }
 
   @httpGet('/')
-  public async getShow(): Promise<IShowForUser[]> {
-    await this.user.isInRole('root,admin');
+  public async getShows(): Promise<IShowForUser[]> {
+    await this.user.isInRole('root,admin,user');
     return this.showsService.getShows(this.user.details.userId);
+  }
+
+  @httpGet('/:slug')
+  public async getShowBySlug(@requestParam('slug') slug: string): Promise<IShowDetailsForUser> {
+    await this.user.isInRole('root,admin,user');
+    return this.showsService.getShowBySlug(slug, this.user.details.userId);
+  }
+
+  @httpPost('/:showId/episodes/:episodeId/mark-watched')
+  public async markEpisodeWatched(@requestParam('episodeId') episodeId: number): Promise<void> {
+    await this.user.isInRole('root,admin,user');
+    await this.showsService.markEpisodeWatched(episodeId, this.user.details);
+  }
+
+  @httpDelete('/:showId/episodes/:episodeId/mark-watched')
+  public async unmarkEpisodeWatched(@requestParam('episodeId') episodeId: number): Promise<void> {
+    await this.user.isInRole('root,admin,user');
+    await this.showsService.unmarkEpisodeWatched(episodeId, this.user.details);
   }
 
   // @httpPost('/')

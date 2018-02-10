@@ -6,8 +6,6 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/delay';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
-import { range } from 'lodash';
-import faker from 'faker';
 
 import '../utils/rxjs.add.operator.apiCatch';
 import { apiService } from '../utils';
@@ -23,7 +21,6 @@ import {
   EDIT_SHOW_RESPONSE,
   POSTPONE_EPISODES_RESPONSE,
 } from '../showOperations';
-import { showTypes } from '../shared';
 import { isCurrentLocationSel, payloadSel } from '../location';
 import { moduleName } from './constants';
 
@@ -49,7 +46,7 @@ export const setAllShowsTableNav = (pagination, sorter) => ({ type: SET_ALL_SHOW
 export const GET_SHOW_REQUEST = `${moduleName}/GET_SHOW_REQUEST`;
 export const GET_SHOW_RESPONSE = `${moduleName}/GET_SHOW_RESPONSE`;
 export const GET_SHOW_ERROR = `${moduleName}/GET_SHOW_ERROR`;
-export const getShowRequest = showId => ({ type: GET_SHOW_REQUEST, payload: showId });
+export const getShowRequest = slug => ({ type: GET_SHOW_REQUEST, payload: slug });
 export const getShowResponse = show => ({ type: GET_SHOW_RESPONSE, payload: show });
 export const getShowError = err => ({ type: GET_SHOW_ERROR, payload: err });
 
@@ -256,7 +253,7 @@ const getShowFromRouteEpic$ = action$ => action$
 
 const getShowEpic$ = action$ => action$
   .ofType(GET_SHOW_REQUEST)
-  .switchMap(() => getShow$()
+  .switchMap(({ payload }) => getShow$(payload)
     .map(getShowResponse)
     .apiCatch(err => Observable.of(getShowResponse(err))));
 
@@ -281,33 +278,30 @@ export const epics = combineEpics(
 //
 const getShows$ = () => apiService.get$('/shows');
 
-const getShow$ = () => Observable.of({
-  ...getMockShow(),
-  episodes: getMockEpisodes(),
-}).delay(1000);
+const getShow$ = slug => apiService.get$(`/shows/${slug}`);
 
 // const getMockShows = () => range(30)
 //   .map(getMockShow);
 
-const getMockShow = () => {
-  const title = faker.name.jobTitle();
+// const getMockShow = () => {
+//   const title = faker.name.jobTitle();
 
-  return {
-    showId: faker.random.uuid(),
-    slug: faker.helpers.slugify(title),
-    title,
-    aka: faker.name.jobArea(),
-    type: faker.random.arrayElement(showTypes),
-    following: false,
-    recurring: Math.random() > 0.5,
-  };
-};
+//   return {
+//     showId: faker.random.uuid(),
+//     slug: faker.helpers.slugify(title),
+//     title,
+//     aka: faker.name.jobArea(),
+//     type: faker.random.arrayElement(showTypes),
+//     following: false,
+//     recurring: Math.random() > 0.5,
+//   };
+// };
 
-const getMockEpisodes = () => range(faker.random.number({ min: 0, max: 100 }))
-  .map(() => ({
-    episodeId: faker.random.uuid(),
-    season: faker.random.number({ min: 1, max: 10 }),
-    episode: faker.random.number({ min: 1, max: 100 }),
-    premiereDate: faker.date.recent().toISOString(),
-    watched: Math.random() > 0.7,
-  }));
+// const getMockEpisodes = () => range(faker.random.number({ min: 0, max: 100 }))
+//   .map(() => ({
+//     episodeId: faker.random.uuid(),
+//     season: faker.random.number({ min: 1, max: 10 }),
+//     episode: faker.random.number({ min: 1, max: 100 }),
+//     premiereDate: faker.date.recent().toISOString(),
+//     watched: Math.random() > 0.7,
+//   }));

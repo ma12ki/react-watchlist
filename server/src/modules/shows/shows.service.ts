@@ -3,14 +3,16 @@ import { getConnection, Repository } from 'typeorm';
 import * as slug from 'slug';
 import * as uniqueSlug from 'unique-slug';
 
-import { IShow, IShowForUser, IShowDetails, Show, Episode, User } from '../../entities';
+import { IShow, IShowForUser, IShowDetails, IShowDetailsForUser, IUser, Show, Episode, User } from '../../entities';
 
 export interface IShowsService {
   getShows: (userId: number) => Promise<IShowForUser[]>;
-  // getShow: (showId: number) => Promise<IShowForUser>;
+  getShowBySlug: (slug: string, userId: number) => Promise<IShowDetailsForUser>;
   createShow: (show: IShowDetails) => Promise<IShowDetails>;
   // updateShow: (show: IShowDetails) => Promise<IShowDetails>;
   // deleteShow: (showId: number) => Promise<void>;
+  markEpisodeWatched: (episodeId: number, user: IUser) => Promise<void>;
+  unmarkEpisodeWatched: (episodeId: number, user: IUser) => Promise<void>;
 }
 
 @injectable()
@@ -19,9 +21,22 @@ export class ShowsService implements IShowsService {
   //   return this.getRepository().findOneById(userId);
   // }
 
-  // public async getUserByEmail(email: string): Promise<IUser> {
-  //   return this.getRepository().findOne({ email });
-  // }
+  public async getShowBySlug(slug: string, userId: number): Promise<IShowDetailsForUser> {
+    const show: any = await this.getShowRepository()
+      .createQueryBuilder('show')
+      .leftJoinAndSelect('show.episodes', 'episodes')
+      .leftJoinAndMapOne('show.following', 'show.users', 'user', 'user.userId = :userId', { userId })
+      .leftJoinAndMapOne('episodes.watched', 'episodes.users', 'user2', 'user2.userId = :userId', { userId })
+      .where({ slug })
+      .getOne();
+    // .findOne({
+    //   relations: ['episodes'],
+    //   where: { slug },
+    // })
+
+    console.log(show);
+    return show;
+  }
 
   public async getShows(userId: number): Promise<IShowForUser[]> {
     const shows: any = await this.getShowRepository()
@@ -49,6 +64,18 @@ export class ShowsService implements IShowsService {
   //   return this.getRepository().deleteById(userId);
   // }
 
+  public async markEpisodeWatched(episodeId: number, user: IUser): Promise<void> {
+    const episode = await this.getEpisodeRepository().findOneById(episodeId, { relations: ['users'] });
+    episode.users.push((user as any));
+    await this.getEpisodeRepository().save(episode);
+  }
+
+  public async unmarkEpisodeWatched(episodeId: number, user: IUser): Promise<void> {
+    const episode = await this.getEpisodeRepository().findOneById(episodeId, { relations: ['users'] });
+    episode.users = episode.users.filter(u => u.userId !== user.userId);
+    await this.getEpisodeRepository().save(episode);
+  }
+
   private getShowRepository(): Repository<Show> {
     const connection = getConnection();
     return connection.getRepository(Show);
@@ -57,8 +84,16 @@ export class ShowsService implements IShowsService {
     const connection = getConnection();
     return connection.getRepository(Episode);
   }
+  private getUserRepository(): Repository<User> {
+    const connection = getConnection();
+    return connection.getRepository(User);
+  }
 
   private mapShowDtoToModel(show: IShow | IShowDetails): IShow | IShowDetails {
+    show.title = show.title.trim();
+    if (show.aka) {
+      show.aka = show.aka.trim();
+    }
     if (!show.slug) {
       show.slug = `${slug(show.title)}-${uniqueSlug()}`;
     }

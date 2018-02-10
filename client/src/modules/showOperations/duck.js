@@ -279,14 +279,14 @@ const postponeEpisodesEpic$ = action$ => action$
 
 const markWatchedEpic$ = action$ => action$
   .ofType(MARK_WATCHED_REQUEST)
-  .switchMap(({ payload }) => markWatched$(/* episodeId */)
+  .switchMap(({ payload }) => markWatched$(payload.showId, payload.episodeId)
     .map(() => markWatchedResponse(payload.showId, payload.episodeId))
     .do(() => toast(`"${payload.title}" marked watched`))
     .apiCatch(err => Observable.of(markWatchedError(payload.showId, err))));
 
 const unmarkWatchedEpic$ = action$ => action$
   .ofType(UNMARK_WATCHED_REQUEST)
-  .switchMap(({ payload }) => unmarkWatched$(/* episodeId */)
+  .switchMap(({ payload }) => unmarkWatched$(payload.showId, payload.episodeId)
     .map(() => unmarkWatchedResponse(payload.showId, payload.episodeId))
     .do(() => toast(`"${payload.title}" marked NOT watched`))
     .apiCatch(err => Observable.of(unmarkWatchedError(payload.showId, err))));
@@ -343,8 +343,8 @@ const deleteEpisodes$ = () => Observable.of({}).delay(1000);
 
 const postponeEpisodes$ = () => Observable.of({}).delay(1000);
 
-const markWatched$ = (/* episodeId */) => Observable.of({}).delay(1000);
-const unmarkWatched$ = (/* episodeId */) => Observable.of({}).delay(1000);
+const markWatched$ = (showId, episodeId) => apiService.post$(`/shows/${showId}/episodes/${episodeId}/mark-watched`);
+const unmarkWatched$ = (showId, episodeId) => apiService.delete$(`/shows/${showId}/episodes/${episodeId}/mark-watched`);
 
 const markWatchedBulk$ = (/* episodeId */) => Observable.of({}).delay(1000);
 const unmarkWatchedBulk$ = (/* episodeId */) => Observable.of({}).delay(1000);

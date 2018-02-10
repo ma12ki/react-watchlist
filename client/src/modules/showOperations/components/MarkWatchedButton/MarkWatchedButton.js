@@ -50,7 +50,7 @@ class MarkWatchedButton extends React.Component {
 MarkWatchedButton.propTypes = {
   title: PropTypes.string.isRequired,
   showId: PropTypes.number.isRequired,
-  episodeId: PropTypes.string.isRequired,
+  episodeId: PropTypes.number.isRequired,
   loading: PropTypes.bool.isRequired,
   watched: PropTypes.bool.isRequired,
   onMarkWatched: PropTypes.func.isRequired,
