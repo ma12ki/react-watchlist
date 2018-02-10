@@ -307,14 +307,14 @@ const unmarkWatchedBulkEpic$ = action$ => action$
 
 const followEpic$ = action$ => action$
   .ofType(FOLLOW_REQUEST)
-  .switchMap(({ payload }) => follow$(/* showId */)
+  .switchMap(({ payload }) => follow$(payload.showId)
     .map(() => followResponse(payload.showId))
     .do(() => toast(`Following "${payload.title}"`))
     .apiCatch(err => Observable.of(followError(payload.showId, err))));
 
 const unfollowEpic$ = action$ => action$
   .ofType(UNFOLLOW_REQUEST)
-  .switchMap(({ payload }) => unfollow$(/* showId */)
+  .switchMap(({ payload }) => unfollow$(payload.showId)
     .map(() => unfollowResponse(payload.showId))
     .do(() => toast(`No longer following "${payload.title}"`))
     .apiCatch(err => Observable.of(unfollowError(payload.showId, err))));
@@ -349,8 +349,8 @@ const unmarkWatched$ = (showId, episodeId) => apiService.delete$(`/shows/${showI
 const markWatchedBulk$ = (/* episodeId */) => Observable.of({}).delay(1000);
 const unmarkWatchedBulk$ = (/* episodeId */) => Observable.of({}).delay(1000);
 
-const follow$ = (/* showId */) => Observable.of({}).delay(1000);
-const unfollow$ = (/* showId */) => Observable.of({}).delay(1000);
+const follow$ = (showId) => apiService.post$(`/shows/${showId}/follow`);
+const unfollow$ = (showId) => apiService.delete$(`/shows/${showId}/follow`);
 
 // const createMockShow = show => ({
 //   ...show,

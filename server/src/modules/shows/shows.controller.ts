@@ -41,6 +41,18 @@ export class ShowsController extends BaseHttpController {
     return this.showsService.getShowBySlug(slug, this.user.details.userId);
   }
 
+  @httpPost('/:showId/follow')
+  public async followShow(@requestParam('showId') showId: number): Promise<void> {
+    await this.user.isInRole('root,admin,user');
+    await this.showsService.followShow(showId, this.user.details);
+  }
+
+  @httpDelete('/:showId/follow')
+  public async unfollowShow(@requestParam('showId') showId: number): Promise<void> {
+    await this.user.isInRole('root,admin,user');
+    await this.showsService.unfollowShow(showId, this.user.details);
+  }
+
   @httpPost('/:showId/episodes/:episodeId/mark-watched')
   public async markEpisodeWatched(@requestParam('episodeId') episodeId: number): Promise<void> {
     await this.user.isInRole('root,admin,user');

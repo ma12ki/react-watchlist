@@ -11,6 +11,8 @@ export interface IShowsService {
   createShow: (show: IShowDetails) => Promise<IShowDetails>;
   // updateShow: (show: IShowDetails) => Promise<IShowDetails>;
   // deleteShow: (showId: number) => Promise<void>;
+  followShow: (showId: number, user: IUser) => Promise<void>;
+  unfollowShow: (showId: number, user: IUser) => Promise<void>;
   markEpisodeWatched: (episodeId: number, user: IUser) => Promise<void>;
   unmarkEpisodeWatched: (episodeId: number, user: IUser) => Promise<void>;
 }
@@ -65,6 +67,18 @@ export class ShowsService implements IShowsService {
   // public async deleteUser(userId: number): Promise<void> {
   //   return this.getRepository().deleteById(userId);
   // }
+
+  public async followShow(showId: number, user: IUser): Promise<void> {
+    const show = await this.getShowRepository().findOneById(showId, { relations: ['users'] });
+    show.users.push((user as any));
+    await this.getShowRepository().save(show);
+  }
+
+  public async unfollowShow(showId: number, user: IUser): Promise<void> {
+    const show = await this.getShowRepository().findOneById(showId, { relations: ['users'] });
+    show.users = show.users.filter(u => u.userId !== user.userId);
+    await this.getShowRepository().save(show);
+  }
 
   public async markEpisodeWatched(episodeId: number, user: IUser): Promise<void> {
     const episode = await this.getEpisodeRepository().findOneById(episodeId, { relations: ['users'] });
