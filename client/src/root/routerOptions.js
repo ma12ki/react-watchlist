@@ -1,18 +1,33 @@
-// import { redirect } from 'redux-first-router';
+import { redirect } from 'redux-first-router';
 import restoreScroll from 'redux-first-router-restore-scroll';
 import qs from 'qs';
 
+import { userSel, ROUTE_LOGIN } from '../modules/user';
+import { routesMapSel } from '../modules/location';
+
 const options = {
-  // this can be used to guard routes that require special permissions
-  // onBeforeChange: (dispatch, getState, { action, extra }) => {
-    // const { user, location: { routesMap } } = getState()
-    // const allowed = isAllowed(action.type, user, routesMap)
-    // if (!allowed) {
-    //   dispatch(redirect({ type: 'LOGIN' }))
-    // }
-  // },
+  onBeforeChange: (dispatch, getState, { action /*, extra*/ }) => {
+    const state = getState();
+    checkAccess(dispatch, state, action);
+  },
   querySerializer: qs,
   restoreScroll: restoreScroll()
+};
+
+const checkAccess = (dispatch, state, action) => {
+  const user = userSel(state);
+  const routesMap = routesMapSel(state);
+  const allowed = isAllowed(routesMap, action.type, user.role);
+
+  if (!allowed) {
+    dispatch(redirect({ type: ROUTE_LOGIN }));
+  }
+};
+
+const isAllowed = (routesMap, actionType, userRole) => {
+  const { freeAccess, roles = [] } = routesMap[actionType];
+
+  return freeAccess || roles.length === 0 || roles.includes(userRole);
 };
 
 export default options;

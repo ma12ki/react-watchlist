@@ -10,7 +10,7 @@ import ExitToAppIcon from 'material-ui-icons/ExitToApp';
 import cn from 'classnames';
 
 import { ThemePicker } from '../../../themes';
-import { logout } from '../../../user';
+import { logout, isLoggedInSel, isRootSel, isAtLeastAdminSel } from '../../../user';
 import styles from './Nav.css';
 
 const activeClassName = styles.active;
@@ -27,36 +27,36 @@ class Nav extends React.Component {
   }
 
   render() {
-    const { onLogout } = this.props;
+    const { isLoggedIn, isAtLeastAdmin, isRoot, onLogout } = this.props;
     const { themePickerOpen } = this.state;
 
     return (
       <ul className={styles.nav}>
-        <li className={styles.item}>
+        {isAtLeastAdmin && <li className={styles.item}>
           <NavLink to={'/'} exact activeClassName={activeClassName} className={styles.link} title="Dashboard">
             <DashboardIcon className={styles.icon} />
           </NavLink>
-        </li>
-        <li className={styles.item}>
+        </li>}
+        {isAtLeastAdmin && <li className={styles.item}>
           <NavLink to={'/shows'} activeClassName={activeClassName} className={styles.link} title="All">
             <ViewListIcon className={styles.icon} />
           </NavLink>
-        </li>
+        </li>}
         <li className={styles.spacer} />
+        {isRoot && <li className={styles.item}>
+          <NavLink to={'/users'} activeClassName={activeClassName} className={styles.link} title="Users">
+            <PeopleIcon className={styles.icon} />
+          </NavLink>
+        </li>}
+        {isLoggedIn && <li className={styles.item}>
+          <div className={styles.link} title="Logout" onClick={onLogout}>
+            <ExitToAppIcon className={styles.icon} />
+          </div>
+        </li>}
         <li className={cn(styles.item, styles.themePickerItem)} onClick={this.toggleThemePicker}>
           <ThemePicker className={cn(styles.themePicker, { [styles.open]: themePickerOpen })} />
           <div className={cn(styles.link, styles.themePickerLink)} title="Theme">
             <ColorLensIcon className={styles.icon} />
-          </div>
-        </li>
-        <li className={styles.item}>
-          <NavLink to={'/users'} activeClassName={activeClassName} className={styles.link} title="Users">
-            <PeopleIcon className={styles.icon} />
-          </NavLink>
-        </li>
-        <li className={styles.item}>
-          <div className={styles.link} title="Logout" onClick={onLogout}>
-            <ExitToAppIcon className={styles.icon} />
           </div>
         </li>
       </ul>
@@ -65,11 +65,20 @@ class Nav extends React.Component {
 }
 
 Nav.propTypes = {
+  isLoggedIn: PropTypes.bool.isRequired,
+  isAtLeastAdmin: PropTypes.bool.isRequired,
+  isRoot: PropTypes.bool.isRequired,
   onLogout: PropTypes.func.isRequired,
 };
+
+const mapState = state => ({
+  isLoggedIn: isLoggedInSel(state),
+  isAtLeastAdmin: isAtLeastAdminSel(state),
+  isRoot: isRootSel(state),
+});
 
 const mapDispatch = dispatch => ({
   onLogout: () => dispatch(logout()),
 });
 
-export default connect(null, mapDispatch)(Nav);
+export default connect(mapState, mapDispatch)(Nav);

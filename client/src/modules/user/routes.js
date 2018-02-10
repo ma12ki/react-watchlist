@@ -10,6 +10,7 @@ const routes = {
   [ROUTE_LOGIN]: {
     path: '/login',
     component: () => <LoginPage />,
+    freeAccess: true,
   },
 };
 

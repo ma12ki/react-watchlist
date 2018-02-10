@@ -10,6 +10,7 @@ const routes = {
   [ROUTE_USERS]: {
     path: '/users',
     component: () => <UsersPage />,
+    roles: ['root'],
   },
 };
 

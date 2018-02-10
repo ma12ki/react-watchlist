@@ -93,6 +93,8 @@ const moduleSel = state => state[moduleName];
 
 export const userSel = state => moduleSel(state).user || {};
 export const isLoggedInSel = state => Boolean(moduleSel(state).user);
+export const isRootSel = state => userSel(state).role === 'root';
+export const isAtLeastAdminSel = state => ['root', 'admin'].includes(userSel(state).role);
 
 export const loginLoadingSel = state => moduleSel(state).loginLoading;
 
