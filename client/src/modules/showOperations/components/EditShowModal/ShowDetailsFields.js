@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { Input, Form, Radio, Switch, ShowTypeIcon } from '../../../shared';
-// import styles from './ShowDetailsFields.css';
+import styles from './ShowDetailsFields.css';
 
 const FormItem = Form.Item;
 
@@ -50,10 +50,10 @@ const ShowDetailsFields = ({ form, formItemLayout, show, editMode, onRecurrenceC
           ],
         })(
           <Radio.Group name="type">
-            <Radio.Button value="movie"><ShowTypeIcon type="movie" /></Radio.Button>
-            <Radio.Button value="show"><ShowTypeIcon type="show" /></Radio.Button>
-            <Radio.Button value="anime"><ShowTypeIcon type="anime" /></Radio.Button>
-            <Radio.Button value="comic"><ShowTypeIcon type="comic" /></Radio.Button>
+            <Radio.Button value="movie"><div className={styles.showTypeIcon}><ShowTypeIcon type="movie" /></div></Radio.Button>
+            <Radio.Button value="show"><div className={styles.showTypeIcon}><ShowTypeIcon type="show" /></div></Radio.Button>
+            <Radio.Button value="anime"><div className={styles.showTypeIcon}><ShowTypeIcon type="anime" /></div></Radio.Button>
+            <Radio.Button value="comic"><div className={styles.showTypeIcon}><ShowTypeIcon type="comic" /></div></Radio.Button>
           </Radio.Group>
         )}
       </FormItem>
