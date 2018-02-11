@@ -30,8 +30,8 @@ class EpisodesInput extends React.Component {
   }
 
   render() {
-    const { value = [], existingEpisodes = [] } = this.props;
-    const allEpisodes = [...existingEpisodes, ...value];
+    const { value = [] } = this.props;
+    const allEpisodes = value;
     const seasonNumbers = uniqSeasons(allEpisodes);
     const seasons = groupEpisodes(allEpisodes);
     const seasonNodes = seasons.map(episodes => {
@@ -114,7 +114,6 @@ class EpisodesInput extends React.Component {
 
 EpisodesInput.propTypes = {
   value: PropTypes.array,
-  existingEpisodes: PropTypes.array,
   onChange: PropTypes.func,
 };
 

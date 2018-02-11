@@ -2,10 +2,12 @@ import { combineReducers } from 'redux';
 import { combineEpics } from 'redux-observable';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
+import 'rxjs/add/observable/concat';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/delay';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/switchMap';
 import { toast } from 'react-toastify';
 // import faker from 'faker';
@@ -244,15 +246,25 @@ export const episodeToPostponeSel = state => moduleSel(state).episodeToPostpone;
 //
 // epics
 //
-const editShowEpic$ = action$ => action$
+const editShowEpic$ = (action$, store) => action$
   .ofType(EDIT_SHOW_REQUEST)
   .switchMap(({ payload: show }) => {
     const editMode = show.showId != null;
     const request$ = editMode ? updateShow$(show) : createShow$(show);
 
     return request$
-      .map(editShowResponse)
       .do(() => editMode ? toast(`"${show.title}" updated`) : toast(`"${show.title}" created`))
+      .mergeMap(res => {
+        const actions = [Observable.of(editShowResponse(res))];
+        if (editMode) {
+          const state = store.getState();
+          const oldShow = showSel(state);
+          if (oldShow.title !== res.title) {
+            actions.unshift(Observable.of({ type: 'shows/ROUTE_ALL_SHOWS' }));
+          }
+        }
+        return Observable.concat(...actions);
+      })
       .apiCatch(err => Observable.of(editShowError(err)));
   });
 
@@ -336,7 +348,7 @@ export const epics = combineEpics(
 // services
 //
 const createShow$ = show => apiService.post$('/shows', show);
-const updateShow$ = () => Observable.of({}).delay(1000);
+const updateShow$ = show => apiService.put$(`/shows/${show.showId}`, show);
 const deleteShow$ = () => Observable.of({}).delay(1000);
 
 const deleteEpisodes$ = () => Observable.of({}).delay(1000);

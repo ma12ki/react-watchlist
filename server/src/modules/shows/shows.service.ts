@@ -9,7 +9,7 @@ export interface IShowsService {
   getShows: (userId: number) => Promise<IShowForUser[]>;
   getShowBySlug: (slug: string, userId: number) => Promise<IShowDetailsForUser>;
   createShow: (show: IShowDetails) => Promise<IShowDetails>;
-  // updateShow: (show: IShowDetails) => Promise<IShowDetails>;
+  updateShow: (show: IShowDetails) => Promise<IShowDetails>;
   // deleteShow: (showId: number) => Promise<void>;
   followShow: (showId: number, user: IUser) => Promise<void>;
   unfollowShow: (showId: number, user: IUser) => Promise<void>;
@@ -62,6 +62,15 @@ export class ShowsService implements IShowsService {
     return this.getShowRepository().save(show);
   }
 
+  public async updateShow(show: IShowDetails): Promise<IShowDetails> {
+    const oldShow = await this.getShowRepository().findOneById(show.showId);
+    if (oldShow.title !== show.title) {
+      show.slug = null;
+    }
+    show = (this.mapShowDtoToModel(show) as IShowDetails);
+    return this.getShowRepository().save(show);
+  }
+
   // public async updateUser(user: IUser): Promise<IUser> {
   //   return this.getRepository().save(user);
   // }
@@ -107,8 +116,6 @@ export class ShowsService implements IShowsService {
       users: e.users.concat(user as any),
     }));
 
-    console.log(showId, season, episode);
-
     await this.getEpisodeRepository().save(episodes);
   }
 
@@ -119,8 +126,6 @@ export class ShowsService implements IShowsService {
       .where({ showShowId: showId, season })
       .andWhere('episodes.episode <= :episode', { episode: episode || 1000 })
       .getMany();
-
-    console.log(episode);
 
     episodes = episodes.map(e => ({
       ...e,

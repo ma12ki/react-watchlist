@@ -23,9 +23,10 @@ class EditShowForm extends React.Component {
     const values = await this.validateForm();
     const formData = editMode ? {
       ...values,
-      recurring: undefined,
-      episodes: values.recurring ? values.episodes : undefined,
+      // recurring: undefined,
+      episodes: [...show.episodes, ...values.episodes],
       showId: show.showId,
+      slug: show.slug,
     } : values;
 
     this.props.onEdit(formData);

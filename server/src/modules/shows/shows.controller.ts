@@ -19,15 +19,7 @@ import { IShowsService } from './shows.service';
 
 @controller('/shows')
 export class ShowsController extends BaseHttpController {
-  // @inject(authTokens.AuthService) private readonly authService: IAuthService;
   @inject(showsTokens.ShowsService) private readonly showsService: IShowsService;
-
-  @httpPost('/')
-  public async createShow(): Promise<IShowDetails> {
-    await this.user.isInRole('root,admin');
-    const show = (this.request.body as IShowDetails);
-    return this.showsService.createShow(show);
-  }
 
   @httpGet('/')
   public async getShows(): Promise<IShowForUser[]> {
@@ -39,6 +31,20 @@ export class ShowsController extends BaseHttpController {
   public async getShowBySlug(@requestParam('slug') slug: string): Promise<IShowDetailsForUser> {
     await this.user.isInRole('root,admin,user');
     return this.showsService.getShowBySlug(slug, this.user.details.userId);
+  }
+
+  @httpPost('/')
+  public async createShow(): Promise<IShowDetails> {
+    await this.user.isInRole('root,admin');
+    const show = (this.request.body as IShowDetails);
+    return this.showsService.createShow(show);
+  }
+
+  @httpPut('/:showId')
+  public async updateShow(): Promise<IShowDetails> {
+    await this.user.isInRole('root,admin');
+    const show = (this.request.body as IShowDetails);
+    return this.showsService.updateShow(show);
   }
 
   @httpPost('/:showId/follow')
@@ -69,9 +75,9 @@ export class ShowsController extends BaseHttpController {
   public async bulkMarkEpisodeWatched(
     @requestParam('showId') showId: number,
     @requestBody('season') season: number,
-    // @requestBody('episode') episode: number,
   ): Promise<void> {
     await this.user.isInRole('root,admin,user');
+    // getting like this because it's optional and if not provided then @requestBody('episodes') returns thole body instead
     const episode = Number(this.request.body.episode);
     await this.showsService.bulkMarkEpisodeWatched(showId, season, episode, this.user.details);
   }
@@ -80,36 +86,10 @@ export class ShowsController extends BaseHttpController {
   public async bulkUnmarkEpisodeWatched(
     @requestParam('showId') showId: number,
     @requestBody('season') season: number,
-    // @requestBody('episode') episode: number,
   ): Promise<void> {
     await this.user.isInRole('root,admin,user');
+    // getting like this because it's optional and if not provided then @requestBody('episodes') returns thole body instead
     const episode = Number(this.request.body.episode);
     await this.showsService.bulkUnmarkEpisodeWatched(showId, season, episode, this.user.details);
   }
-
-  // @httpPost('/')
-  // public async createUser(): Promise<IUser> {
-  //   await this.user.isInRole('root');
-  //   const user = this.request.body;
-  //   return this.usersService.createUser(user);
-  // }
-
-  // @httpPut('/:userId')
-  // public async updateUser(): Promise<IUser> {
-  //   await this.user.isInRole('root');
-  //   const user: IUser = this.request.body;
-  //   if (this.user.details.userId == user.userId) {
-  //     throw new BadRequestError('You cannot edit your own privileges');
-  //   }
-  //   return this.usersService.updateUser(user);
-  // }
-
-  // @httpDelete('/:userId')
-  // public async deleteUser(@requestParam('userId') userId: number): Promise<void> {
-  //   await this.user.isInRole('root');
-  //   if (this.user.details.userId == userId) {
-  //     throw new BadRequestError('You cannot delete yourself');
-  //   }
-  //   return this.usersService.deleteUser(userId);
-  // }
 }
