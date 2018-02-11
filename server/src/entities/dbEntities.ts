@@ -1,6 +1,7 @@
 import {
   Entity,
   Column,
+  Index,
   PrimaryGeneratedColumn,
   OneToMany,
   ManyToOne,
@@ -64,11 +65,13 @@ export class Episode implements IEpisode {
   @PrimaryGeneratedColumn()
   public episodeId: number;
 
+  @Index()
   @Column({
     type: 'tinyint',
   })
   public season: number;
 
+  @Index()
   @Column({
     type: 'smallint',
   })
@@ -76,6 +79,7 @@ export class Episode implements IEpisode {
 
   // 'timestamp' resulted in the hh:mm:ss being persisted incorrectly sometimes
   // probably an issue with typeorm
+  @Index()
   @Column({
     type: 'bigint',
     transformer: {
