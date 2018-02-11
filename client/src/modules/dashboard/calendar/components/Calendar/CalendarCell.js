@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import cn from 'classnames';
 import moment from 'moment';
 
-import EpisodesList from './EpisodesList';
+import { EpisodesList } from '../../../common';
 import styles from './CalendarCell.css';
 
 const CalendarCell = ({ cellDate, selectedMonth, episodes }) => {

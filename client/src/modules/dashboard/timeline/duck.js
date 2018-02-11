@@ -19,7 +19,7 @@ import {
   POSTPONE_EPISODES_RESPONSE,
 } from '../../showOperations';
 import { isCurrentLocationSel } from '../../location';
-import { dashboardModuleName, ROUTE_DASHBOARD } from '../common';
+import { dashboardModuleName, ROUTE_DASHBOARD, effectiveViewSel } from '../common';
 import { moduleName } from './constants';
 
 //
@@ -87,7 +87,7 @@ const episodes = (state = [], { type, payload }) => {
   }
 };
 
-const maxDate = (state = moment().startOf('day').add(7, 'days').toISOString(), { type, payload }) => {
+const maxDate = (state = moment().startOf('day').add(1, 'month').toISOString(), { type, payload }) => {
   switch (type) {
     case SET_MAX_DATE: {
       return payload;
@@ -128,7 +128,10 @@ const getEpisodesEpic$ = (action$, store) => action$
 
 const refreshEpisodesEpic$ = (action$, store) => action$
   .ofType(SET_MAX_DATE, POSTPONE_EPISODES_RESPONSE)
-  .filter(() => isCurrentLocationSel(store.getState(), ROUTE_DASHBOARD))
+  .filter(() => {
+    const state = store.getState();
+    return isCurrentLocationSel(state, ROUTE_DASHBOARD) && effectiveViewSel(state) === 'timeline';
+  })
   .mapTo(episodesRequest());
 
 export const epics = combineEpics(

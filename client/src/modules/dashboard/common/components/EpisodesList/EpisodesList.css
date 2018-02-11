@@ -21,7 +21,6 @@
   transition: all 0.3s ease;
 }
 
-
 .watched {
   text-decoration: line-through;
   color: var(--text-disabled-color);

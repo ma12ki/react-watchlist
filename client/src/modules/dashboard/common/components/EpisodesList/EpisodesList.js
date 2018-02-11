@@ -53,6 +53,7 @@ const EpisodesList = ({ episodes }) => {
         key={episodeId}
         overlayClassName={styles.popoverOverlay}
         trigger="click"
+        placement="bottomLeft"
         title={
           <React.Fragment>
             <ShowTypeIcon type={type} />

@@ -2,8 +2,6 @@ import { combineReducers } from 'redux';
 import { combineEpics } from 'redux-observable';
 
 import { resetOnLogoutReducer } from '../utils';
-import { isDesktopSel } from '../screen';
-import { dashboardModuleSel as moduleSel } from './common';
 import {
   moduleName as calendarModuleName,
   reducers as calendarReducers,
@@ -50,9 +48,7 @@ export default resetOnLogoutReducer(reducers);
 //
 // selectors
 //
-export { moduleSel };
-export const preferredViewSel = state => moduleSel(state).view;
-export const effectiveViewSel = state => isDesktopSel(state) ? moduleSel(state).view : 'timeline';
+export { preferredViewSel, effectiveViewSel } from './common';
 
 //
 // epics

@@ -19,7 +19,7 @@ import {
   POSTPONE_EPISODES_RESPONSE,
 } from '../../showOperations';
 import { isCurrentLocationSel } from '../../location';
-import { dashboardModuleName, ROUTE_DASHBOARD } from '../common';
+import { dashboardModuleName, ROUTE_DASHBOARD, effectiveViewSel } from '../common';
 import { moduleName } from './constants';
 
 //
@@ -134,7 +134,10 @@ const getEpisodesEpic$ = (action$, store) => action$
 
 const refreshEpisodesEpic$ = (action$, store) => action$
   .ofType(SET_CALENDAR_DATES, POSTPONE_EPISODES_RESPONSE)
-  .filter(() => isCurrentLocationSel(store.getState(), ROUTE_DASHBOARD))
+  .filter(() => {
+    const state = store.getState();
+    return isCurrentLocationSel(state, ROUTE_DASHBOARD) && effectiveViewSel(state) === 'calendar';
+  })
   .mapTo(episodesRequest());
 
 export const epics = combineEpics(

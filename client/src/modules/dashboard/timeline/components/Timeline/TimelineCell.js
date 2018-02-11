@@ -1,60 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cn from 'classnames';
 import moment from 'moment';
 
-import EpisodesList from './EpisodesList';
-import styles from './TimelineCell.css';
+import { H, Timeline } from '../../../../shared';
+import { EpisodesList } from '../../../common';
 
-const TimelineCell = ({ cellDate, selectedMonth, episodes }) => {
-  const now = moment();
-  const isPastDate = now.isAfter(cellDate, 'day');
-  const isToday = now.isSame(cellDate, 'day');
-  const isFutureDate = now.isBefore(cellDate, 'day');
+const { Item } = Timeline;
 
-  const isSelectedMonth = selectedMonth.isSame(cellDate, 'month');
-
-  const isWeekend = [6, 7].includes(cellDate.isoWeekday());
-  const dayOfMonth = moment(cellDate).format('DD');
-
-  const containerClassNames = cn(
-    styles.container,
-    {
-      [styles.containerPast]: isPastDate,
-      [styles.containerToday]: isToday,
-      [styles.containerFuture]: isFutureDate,
-      [styles.containerSelectedMonth]: isSelectedMonth,
-    },
-  );
-  const dayOfMonthClassNames = cn(
-    styles.dayOfMonth,
-    {
-      [styles.dayOfMonthToday]: isToday,
-      [styles.dayOfMonthSelected]: isSelectedMonth,
-      [styles.dayOfMonthWeekend]: isWeekend,
-    }
-  );
-  const episodesClassNames = cn(
-    styles.episodes,
-    {
-      [styles.episodesSelectedMonth]: isSelectedMonth,
-      [styles.episodesFuture]: isFutureDate,
-    }
-  );
+const TimelineCell = ({ cellDate, episodes }) => {
+  const futureCell = moment().isBefore(cellDate);
+  const color = futureCell ? 'orange' : 'green';
 
   return (
-    <div className={containerClassNames}>
-      <div className={dayOfMonthClassNames}>{dayOfMonth}</div>
-      <div className={episodesClassNames}>
-        <EpisodesList episodes={episodes} />
-      </div>
-    </div>
+    <Item color={color}>
+      <H size="4">{moment(cellDate).format('DD.MM.YYYY')}</H>
+      <EpisodesList episodes={episodes} />
+    </Item>
   );
 };
 
 TimelineCell.propTypes = {
-  cellDate: PropTypes.object.isRequired,
-  selectedMonth: PropTypes.object.isRequired,
+  cellDate: PropTypes.string.isRequired,
   episodes: PropTypes.array,
 };
 
