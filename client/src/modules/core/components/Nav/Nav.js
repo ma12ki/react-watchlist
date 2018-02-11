@@ -67,7 +67,6 @@ class Nav extends React.Component {
 Nav.propTypes = {
   user: PropTypes.object.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
-  isAtLeastAdmin: PropTypes.bool.isRequired,
   isRoot: PropTypes.bool.isRequired,
   onLogout: PropTypes.func.isRequired,
 };

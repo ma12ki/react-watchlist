@@ -32,6 +32,7 @@ export class Show implements IShow {
   @Column({
     type: 'varchar',
     length: 100,
+    nullable: true,
     comment: 'also known as',
   })
   public aka: string;
@@ -50,6 +51,7 @@ export class Show implements IShow {
   @OneToMany(type => Episode, episode => episode.show, {
     cascadeInsert: true,
     cascadeUpdate: true,
+
   })
   public episodes: Episode[];
 
@@ -79,6 +81,7 @@ export class Episode implements IEpisode {
 
   @ManyToOne(type => Show, show => show.episodes, {
     cascadeAll: true,
+    onDelete: 'CASCADE',
   })
   public show: Show;
 

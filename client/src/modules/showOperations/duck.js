@@ -10,7 +10,6 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/switchMap';
 import { toast } from 'react-toastify';
-// import faker from 'faker';
 
 import '../utils/rxjs.add.operator.apiCatch';
 import { apiService } from '../utils';
@@ -270,14 +269,14 @@ const editShowEpic$ = (action$, store) => action$
 
 const deleteShowEpic$ = action$ => action$
   .ofType(DELETE_SHOW_REQUEST)
-  .switchMap(({ payload }) => deleteShow$()
+  .switchMap(({ payload }) => deleteShow$(payload.showId)
     .map(() => deleteShowResponse(payload.showId))
     .do(() => toast(`"${payload.title}" removed`))
     .apiCatch(err => Observable.of(deleteShowError(payload.showId, err))));
 
 const deleteEpisodesEpic$ = action$ => action$
   .ofType(DELETE_EPISODES_REQUEST)
-  .switchMap(({ payload }) => deleteEpisodes$()
+  .switchMap(({ payload }) => deleteEpisodes$(payload.showId, payload.season, payload.episode)
     .map(() => deleteEpisodesResponse(payload.showId, payload.season, payload.episode))
     .do(() => toast(`"${payload.title}" removed`))
     .apiCatch(err => Observable.of(deleteEpisodesError(payload.showId, err))));
@@ -349,9 +348,9 @@ export const epics = combineEpics(
 //
 const createShow$ = show => apiService.post$('/shows', show);
 const updateShow$ = show => apiService.put$(`/shows/${show.showId}`, show);
-const deleteShow$ = () => Observable.of({}).delay(1000);
+const deleteShow$ = showId => apiService.delete$(`/shows/${showId}`);
 
-const deleteEpisodes$ = () => Observable.of({}).delay(1000);
+const deleteEpisodes$ = (showId, season, episode) => apiService.delete$(`/shows/${showId}/episodes`, { season, episode });
 
 const postponeEpisodes$ = () => Observable.of({}).delay(1000);
 

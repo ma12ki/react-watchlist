@@ -47,6 +47,21 @@ export class ShowsController extends BaseHttpController {
     return this.showsService.updateShow(show);
   }
 
+  @httpDelete('/:showId')
+  public async deleteShow(@requestParam('showId') showId: number): Promise<void> {
+    await this.user.isInRole('root,admin');
+    const show = (this.request.body as IShowDetails);
+    await this.showsService.deleteShow(showId);
+  }
+
+  @httpDelete('/:showId/episodes')
+  public async deleteEpisodes(@requestParam('showId') showId: number, @requestBody('season') season: number): Promise<void> {
+    await this.user.isInRole('root,admin');
+    // getting like this because it's optional and if not provided then @requestBody('episodes') returns thole body instead
+    const episode = Number(this.request.body.episode);
+    await this.showsService.deleteEpisodes(showId, season, episode);
+  }
+
   @httpPost('/:showId/follow')
   public async followShow(@requestParam('showId') showId: number): Promise<void> {
     await this.user.isInRole('root,admin,user');

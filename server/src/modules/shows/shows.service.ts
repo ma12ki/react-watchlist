@@ -10,7 +10,8 @@ export interface IShowsService {
   getShowBySlug: (slug: string, userId: number) => Promise<IShowDetailsForUser>;
   createShow: (show: IShowDetails) => Promise<IShowDetails>;
   updateShow: (show: IShowDetails) => Promise<IShowDetails>;
-  // deleteShow: (showId: number) => Promise<void>;
+  deleteShow: (showId: number) => Promise<void>;
+  deleteEpisodes: (showId: number, season: number, episode: number) => Promise<void>;
   followShow: (showId: number, user: IUser) => Promise<void>;
   unfollowShow: (showId: number, user: IUser) => Promise<void>;
   markEpisodeWatched: (episodeId: number, user: IUser) => Promise<void>;
@@ -71,13 +72,30 @@ export class ShowsService implements IShowsService {
     return this.getShowRepository().save(show);
   }
 
-  // public async updateUser(user: IUser): Promise<IUser> {
-  //   return this.getRepository().save(user);
-  // }
+  // can't easily remove entities with ManyToMany relations
+  public async deleteShow(showId: number): Promise<void> {
+    const show = await this.getShowRepository().findOneById(showId);
+    await this.deleteEpisodes(showId, null, null);
+    await this.getShowRepository().remove(show);
+  }
 
-  // public async deleteUser(userId: number): Promise<void> {
-  //   return this.getRepository().deleteById(userId);
-  // }
+  // can't easily remove entities with ManyToMany relations
+  public async deleteEpisodes(showId: number, season: number, episode: number): Promise<void> {
+    const q = this.getEpisodeRepository()
+      .createQueryBuilder('episodes')
+      .where({ showShowId: showId });
+
+    if (episode) {
+      q.andWhere('episodes.season = :season', { season });
+    }
+    if (episode) {
+      q.andWhere('episodes.episode = :episode', { episode });
+    }
+
+    const episodes = await q.getMany();
+
+    await this.getEpisodeRepository().remove(episodes);
+  }
 
   public async followShow(showId: number, user: IUser): Promise<void> {
     const show = await this.getShowRepository().findOneById(showId, { relations: ['users'] });
