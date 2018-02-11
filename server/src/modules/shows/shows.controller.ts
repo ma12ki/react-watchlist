@@ -29,9 +29,11 @@ export class ShowsController extends BaseHttpController {
   }
 
   @httpGet('/episodes')
-  public async getEpisodes(@queryParam('dateFrom') dateFrom: string, @queryParam('dateTo') dateTo: string): Promise<IEpisodeDetailsForUser[]> {
+  public async getEpisodes(@queryParam('dateFrom') dateFrom: string, @queryParam('dateTo') dateTo: string, @queryParam('noWatched') noWatched: string): Promise<IEpisodeDetailsForUser[]> {
     await this.user.isInRole('root,admin,user');
-    return this.showsService.getEpisodes(new Date(dateFrom), new Date(dateTo), this.user.details.userId);
+    const dateFromDate = dateFrom ? new Date(dateFrom) : undefined;
+    const noWatchedBool = noWatched === 'true';
+    return this.showsService.getEpisodes(dateFromDate, new Date(dateTo), noWatchedBool, this.user.details.userId);
   }
 
   @httpGet('/:slug')

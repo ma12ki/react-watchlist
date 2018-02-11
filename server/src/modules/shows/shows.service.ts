@@ -9,7 +9,7 @@ import { IShow, IShowForUser, IShowDetails, IShowDetailsForUser, IEpisodeDetails
 export interface IShowsService {
   getShows: (userId: number) => Promise<IShowForUser[]>;
   getShowBySlug: (slug: string, userId: number) => Promise<IShowDetailsForUser>;
-  getEpisodes: (dateFrom: Date, dateTo: Date, userId: number) => Promise<IEpisodeDetailsForUser[]>;
+  getEpisodes: (dateFrom: Date, dateTo: Date, noWatched: boolean, userId: number) => Promise<IEpisodeDetailsForUser[]>;
   createShow: (show: IShowDetails) => Promise<IShowDetails>;
   updateShow: (show: IShowDetails) => Promise<IShowDetails>;
   deleteShow: (showId: number) => Promise<void>;
@@ -58,15 +58,25 @@ export class ShowsService implements IShowsService {
     }));
   }
 
-  public async getEpisodes(dateFrom: Date, dateTo: Date, userId: number): Promise<IEpisodeDetailsForUser[]> {
-    const episodes: any = await this.getEpisodeRepository()
+  public async getEpisodes(dateFrom: Date, dateTo: Date, noWatched: boolean, userId: number): Promise<IEpisodeDetailsForUser[]> {
+    let query = await this.getEpisodeRepository()
       .createQueryBuilder('episodes')
       .innerJoinAndSelect('episodes.show', 'show')
       .innerJoin('show.users', 'user', 'user.userId = :userId', { userId })
       .leftJoinAndMapOne('episodes.watched', 'episodes.users', 'watchedUser', 'watchedUser.userId = :userId', { userId })
-      .where('episodes.premiereDate >= :dateFrom', { dateFrom: dateFrom.valueOf() })
-      .andWhere('episodes.premiereDate <= :dateTo', { dateTo: dateTo.valueOf() })
-      .getMany();
+      .where('1=1');
+
+    if (noWatched) {
+      query.andWhere('watchedUser.userId is null');
+    }
+    if (dateFrom) {
+      query.andWhere('episodes.premiereDate >= :dateFrom', { dateFrom: dateFrom.valueOf() });
+    }
+    if (dateTo) {
+      query.andWhere('episodes.premiereDate <= :dateTo', { dateTo: dateTo.valueOf() });
+    }
+
+    const episodes: any = await query.getMany();
 
     return episodes.map(e => ({
       ...e,
