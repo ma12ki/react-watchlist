@@ -74,8 +74,14 @@ export class Episode implements IEpisode {
   })
   public episode: number;
 
+  // 'timestamp' resulted in the hh:mm:ss being persisted incorrectly sometimes
+  // probably an issue with typeorm
   @Column({
-    type: 'timestamp',
+    type: 'bigint',
+    transformer: {
+      to: dateString => new Date(dateString).valueOf(),
+      from: value => new Date(value),
+    },
   })
   public premiereDate: Date;
 

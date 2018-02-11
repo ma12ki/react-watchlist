@@ -12,7 +12,7 @@ class PremiereDateInput extends React.Component {
 
   render() {
     const { value, disabled } = this.props;
-    const internalValue = value && value.length ? moment(value[0].premiereDate) : undefined;
+    const internalValue = value && value.length ? moment(value[0].premiereDate).startOf('day') : undefined;
 
     return <DatePicker value={internalValue} disabled={disabled} onChange={this.handleChange} />;
   }

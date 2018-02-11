@@ -62,6 +62,17 @@ export class ShowsController extends BaseHttpController {
     await this.showsService.deleteEpisodes(showId, season, episode);
   }
 
+  @httpPost('/:showId/episodes/postpone')
+  public async postponeEpisodes(
+    @requestParam('showId') showId: number,
+    @requestBody('season') season: number,
+    @requestBody('episode') episode: number,
+    @requestBody('newPremiereDate') newPremiereDate: string,
+  ): Promise<void> {
+    await this.user.isInRole('root,admin');
+    await this.showsService.postponeEpisodes(showId, season, episode, new Date(newPremiereDate));
+  }
+
   @httpPost('/:showId/follow')
   public async followShow(@requestParam('showId') showId: number): Promise<void> {
     await this.user.isInRole('root,admin,user');

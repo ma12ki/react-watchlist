@@ -283,7 +283,7 @@ const deleteEpisodesEpic$ = action$ => action$
 
 const postponeEpisodesEpic$ = action$ => action$
   .ofType(POSTPONE_EPISODES_REQUEST)
-  .switchMap(({ payload }) => postponeEpisodes$()
+  .switchMap(({ payload }) => postponeEpisodes$(payload.showId, payload.season, payload.episode, payload.newPremiereDate)
     .map(() => postponeEpisodesResponse(payload.showId))
     .do(() => toast(`"${payload.title}" postponed`))
     .apiCatch(err => Observable.of(postponeEpisodesError(payload.showId, err))));
@@ -352,7 +352,7 @@ const deleteShow$ = showId => apiService.delete$(`/shows/${showId}`);
 
 const deleteEpisodes$ = (showId, season, episode) => apiService.delete$(`/shows/${showId}/episodes`, { season, episode });
 
-const postponeEpisodes$ = () => Observable.of({}).delay(1000);
+const postponeEpisodes$ = (showId, season, episode, newPremiereDate) => apiService.post$(`/shows/${showId}/episodes/postpone`, { season, episode, newPremiereDate });
 
 const markWatched$ = (showId, episodeId) => apiService.post$(`/shows/${showId}/episodes/${episodeId}/mark-watched`);
 const unmarkWatched$ = (showId, episodeId) => apiService.delete$(`/shows/${showId}/episodes/${episodeId}/mark-watched`);

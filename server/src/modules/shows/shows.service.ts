@@ -2,6 +2,7 @@ import { inject, injectable } from 'inversify';
 import { getConnection, Repository } from 'typeorm';
 import * as slug from 'slug';
 import * as uniqueSlug from 'unique-slug';
+import * as moment from 'moment';
 
 import { IShow, IShowForUser, IShowDetails, IShowDetailsForUser, IUser, Show, Episode, User } from '../../entities';
 
@@ -12,6 +13,7 @@ export interface IShowsService {
   updateShow: (show: IShowDetails) => Promise<IShowDetails>;
   deleteShow: (showId: number) => Promise<void>;
   deleteEpisodes: (showId: number, season: number, episode: number) => Promise<void>;
+  postponeEpisodes: (showId: number, season: number, episode: number, newPremiereDate: Date) => Promise<void>;
   followShow: (showId: number, user: IUser) => Promise<void>;
   unfollowShow: (showId: number, user: IUser) => Promise<void>;
   markEpisodeWatched: (episodeId: number, user: IUser) => Promise<void>;
@@ -22,9 +24,6 @@ export interface IShowsService {
 
 @injectable()
 export class ShowsService implements IShowsService {
-  // public async getShows(): Promise<IShowForUser[]> {
-  //   return this.getRepository().findOneById(userId);
-  // }
 
   public async getShowBySlug(slug: string, userId: number): Promise<IShowDetailsForUser> {
     const show: any = await this.getShowRepository()
@@ -95,6 +94,24 @@ export class ShowsService implements IShowsService {
     const episodes = await q.getMany();
 
     await this.getEpisodeRepository().remove(episodes);
+  }
+
+  public async postponeEpisodes(showId: number, season: number, episode: number, newPremiereDate: Date): Promise<void> {
+    let episodes = await this.getEpisodeRepository()
+      .createQueryBuilder('episodes')
+      .where({ showShowId: showId, season })
+      .andWhere('episodes.episode >= :episode', { episode: episode || 0 })
+      .orderBy('episode', 'ASC')
+      .getMany();
+
+    const diff = moment(newPremiereDate).diff(episodes[0].premiereDate, 'days');
+
+    episodes = episodes.map(e => ({
+      ...e,
+      premiereDate: moment(e.premiereDate).add(diff, 'days').toDate(),
+    }));
+
+    await this.getEpisodeRepository().save(episodes);
   }
 
   public async followShow(showId: number, user: IUser): Promise<void> {
@@ -175,6 +192,9 @@ export class ShowsService implements IShowsService {
       show.slug = `${slug(show.title)}-${uniqueSlug()}`;
     }
     if ((show as IShowDetails).episodes) {
+      // show.episodes.forEach(element => {
+      //   console.log(element.premiereDate, new Date((element.premiereDate)));
+      // });
       (show as IShowDetails).episodes = (show as IShowDetails).episodes.map(e => ({
         ...e,
         premiereDate: new Date(e.premiereDate),

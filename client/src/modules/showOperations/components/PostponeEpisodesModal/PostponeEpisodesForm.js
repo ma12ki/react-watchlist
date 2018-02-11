@@ -8,6 +8,15 @@ import styles from './PostponeEpisodesForm.css';
 const FormItem = Form.Item;
 
 class PostponeEpisodesForm extends React.Component {
+  state = {
+    premiereDateDiff: null,
+  }
+
+  handleNewPremiereDateChange = (newPremiereDate) => {
+    const { episode } = this.props;
+    const premiereDateDiff = moment(newPremiereDate).startOf('day').diff(episode.currentPremiereDate, 'days');
+    this.setState({ premiereDateDiff });
+  }
 
   handleSubmit = async (e) => {
     e.preventDefault();
@@ -15,7 +24,7 @@ class PostponeEpisodesForm extends React.Component {
 
     this.props.onPostpone({
       ...this.props.episode,
-      newPremiereDate,
+      newPremiereDate: moment(newPremiereDate).startOf('day').toISOString(),
     });
   }
 
@@ -32,6 +41,7 @@ class PostponeEpisodesForm extends React.Component {
 
   render() {
     const { form, season, episode, loading, onCancel } = this.props;
+    const { premiereDateDiff } = this.state;
     const { getFieldDecorator } = form;
     const formItemLayout = {
       labelCol: {
@@ -55,9 +65,17 @@ class PostponeEpisodesForm extends React.Component {
               { required: true, message: 'This field is required' },
             ],
           })(
-            <DatePicker name="newPremiereDate" placeholder={moment(episode.currentPremiereDate).format('YYYY-MM-DD')} />
+            <DatePicker
+              name="newPremiereDate"
+              placeholder={moment(episode.currentPremiereDate).format('YYYY-MM-DD')}
+              defaultPickerValue={moment(episode.currentPremiereDate)}
+              onChange={this.handleNewPremiereDateChange}
+            />
           )}
         </FormItem>
+        {premiereDateDiff != null && <div>
+          Postpone by {premiereDateDiff} days
+        </div>}
         {season && <div>
           <i>This operation will also affect all subsequent episodes in the same season</i>
         </div>}
