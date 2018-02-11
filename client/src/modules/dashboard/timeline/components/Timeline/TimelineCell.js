@@ -4,9 +4,9 @@ import cn from 'classnames';
 import moment from 'moment';
 
 import EpisodesList from './EpisodesList';
-import styles from './CalendarCell.css';
+import styles from './TimelineCell.css';
 
-const CalendarCell = ({ cellDate, selectedMonth, episodes }) => {
+const TimelineCell = ({ cellDate, selectedMonth, episodes }) => {
   const now = moment();
   const isPastDate = now.isAfter(cellDate, 'day');
   const isToday = now.isSame(cellDate, 'day');
@@ -52,10 +52,10 @@ const CalendarCell = ({ cellDate, selectedMonth, episodes }) => {
   );
 };
 
-CalendarCell.propTypes = {
+TimelineCell.propTypes = {
   cellDate: PropTypes.object.isRequired,
   selectedMonth: PropTypes.object.isRequired,
   episodes: PropTypes.array,
 };
 
-export default CalendarCell;
+export default TimelineCell;

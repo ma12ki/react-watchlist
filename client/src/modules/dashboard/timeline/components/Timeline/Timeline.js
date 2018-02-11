@@ -1,58 +1,28 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
-// import { connect } from 'react-redux';
-// import moment from 'moment';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import moment from 'moment';
 // import ChevronLeftIcon from 'material-ui-icons/ChevronLeft';
 // import ChevronRightIcon from 'material-ui-icons/ChevronRight';
-// import TodayIcon from 'material-ui-icons/Today';
+import ExpandMoreIcon from 'material-ui-icons/ExpandMore';
 
 import { Timeline as BaseTimeline } from '../../../../shared';
-// import { episodesRequest, setTimelineDates, episodesSel, loadingSel, datesSel } from '../../duck';
+import { episodesRequest, setMaxDate, episodesSel, loadingSel, maxDateSel } from '../../duck';
 // import TimelineCell from './TimelineCell';
 // import styles from './Timeline.css';
 
 const { Item } = BaseTimeline;
 
 class Timeline extends React.Component {
-  // componentDidMount() {
-  //   this.props.onLoadEpisodes();
-  // }
+  componentDidMount() {
+    this.props.onLoadEpisodes();
+  }
 
-  // handleNextMonth = () => {
-  //   const selectedMonth = this.getSelectedMonth();
-
-  //   this.handleDateChange(moment(selectedMonth).add(1, 'month'));
-  // }
-
-  // handlePrevMonth = () => {
-  //   const selectedMonth = this.getSelectedMonth();
-
-  //   this.handleDateChange(moment(selectedMonth).subtract(1, 'month'));
-  // }
-
-  // handleCurrentMonth = () => {
-  //   this.handleDateChange(moment());
-  // }
-
-  // handleDateChange = date => {
-  //   const { from, to } = this.getDateRange(date);
-  //   const { dates } = this.props;
-
-  //   if (!moment(from).isSame(dates.from) || !moment(to).isSame(dates.to)) {
-  //     this.props.onSetDates(from, to);
-  //   }
-  // }
-
-  // getDateRange = baseDate => ({
-  //   from: moment(baseDate).startOf('month').subtract(7, 'days').startOf('day'),
-  //   to: moment(baseDate).endOf('month').add(14, 'days').endOf('day'),
-  // })
-
-  // getSelectedMonth = () => {
-  //   const { from } = this.props.dates;
-
-  //   return moment(from).add(1, 'month').startOf('month');
-  // }
+  handleLoadMore = e => {
+    e.preventDefault();
+    const { maxDate } = this.props;
+    this.props.onSetMaxDate(moment(maxDate).add(7, 'days').toISOString());
+  }
 
   // renderFullCell = date => {
   //   const { episodes } = this.props;
@@ -69,47 +39,47 @@ class Timeline extends React.Component {
   // }
 
   render() {
-    // const { loading } = this.props;
-    // const selectedMonth = this.getSelectedMonth();
+    const { loading } = this.props;
 
     return (
-      <BaseTimeline>
+      <BaseTimeline pending={loading && 'Loading...'}>
         <Item>lol</Item>
         <Item>mao</Item>
         <Item>kakao</Item>
         <Item>roflolmao</Item>
         <Item>xD</Item>
+        {!loading && <Item dot={<ExpandMoreIcon />}><a onClick={this.handleLoadMore}>Load 7 days more</a></Item>}
       </BaseTimeline>
     );
   }
 }
 
 Timeline.propTypes = {
-  // episodes: PropTypes.array.isRequired,
-  // loading: PropTypes.bool.isRequired,
-  // dates: PropTypes.object.isRequired,
-  // onLoadEpisodes: PropTypes.func.isRequired,
-  // onSetDates: PropTypes.func.isRequired,
+  episodes: PropTypes.array.isRequired,
+  loading: PropTypes.bool.isRequired,
+  maxDate: PropTypes.string.isRequired,
+  onLoadEpisodes: PropTypes.func.isRequired,
+  onSetMaxDate: PropTypes.func.isRequired,
 };
 
-// const mapState = state => ({
-//   episodes: mapEpisodes(episodesSel(state)),
-//   loading: loadingSel(state),
-//   dates: datesSel(state),
-// });
+const mapState = state => ({
+  episodes: mapEpisodes(episodesSel(state)),
+  loading: loadingSel(state),
+  maxDate: maxDateSel(state),
+});
 
-// const mapEpisodes = episodes => episodes.map(e => ({
-//   ...e,
-//   prevEpisodesWatched: getPrevEpisodesWatched(episodes, e.showId, e.season, e.episode)
-// }));
+const mapEpisodes = episodes => episodes.map(e => ({
+  ...e,
+  prevEpisodesWatched: getPrevEpisodesWatched(episodes, e.showId, e.season, e.episode)
+}));
 
-// const getPrevEpisodesWatched = (episodes, showId, season, episode) => episodes
-//   .filter(e => e.showId === showId && ((e.season === season && e.episode < episode) || (e.season < season)))
-//   .reduce((watched, e) => watched && e.watched, true);
+const getPrevEpisodesWatched = (episodes, showId, season, episode) => episodes
+  .filter(e => e.showId === showId && ((e.season === season && e.episode < episode) || (e.season < season)))
+  .reduce((watched, e) => watched && e.watched, true);
 
-// const mapDispatch = dispatch => ({
-//   onLoadEpisodes: () => dispatch(episodesRequest()),
-//   onSetDates: (from, to) => dispatch(setTimelineDates(from, to))
-// });
+const mapDispatch = dispatch => ({
+  onLoadEpisodes: () => dispatch(episodesRequest()),
+  onSetMaxDate: maxDate => dispatch(setMaxDate(maxDate))
+});
 
-export default Timeline;
+export default connect(mapState, mapDispatch)(Timeline);

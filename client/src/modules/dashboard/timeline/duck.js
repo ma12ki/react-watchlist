@@ -12,10 +12,10 @@ import moment from 'moment';
 import '../../utils/rxjs.add.operator.apiCatch';
 import { apiService } from '../../utils';
 import {
-  MARK_WATCHED_RESPONSE,
-  UNMARK_WATCHED_RESPONSE,
-  MARK_WATCHED_BULK_RESPONSE,
-  UNMARK_WATCHED_BULK_RESPONSE,
+//   MARK_WATCHED_RESPONSE,
+//   UNMARK_WATCHED_RESPONSE,
+//   MARK_WATCHED_BULK_RESPONSE,
+//   UNMARK_WATCHED_BULK_RESPONSE,
   POSTPONE_EPISODES_RESPONSE,
 } from '../../showOperations';
 import { isCurrentLocationSel } from '../../location';
@@ -32,8 +32,8 @@ export const episodesRequest = () => ({ type: EPISODES_REQUEST });
 export const episodesResponse = episodes => ({ type: EPISODES_RESPONSE, payload: episodes });
 export const episodesError = err => ({ type: EPISODES_ERROR, payload: err });
 
-export const SET_CALENDAR_DATES = `${moduleName}/SET_CALENDAR_DATES`;
-export const setCalendarDates = (dateFrom, dateTo) => ({ type: SET_CALENDAR_DATES, payload: { dateFrom, dateTo } });
+export const SET_MAX_DATE = `${moduleName}/SET_MAX_DATE`;
+export const setMaxDate = date => ({ type: SET_MAX_DATE, payload: date });
 
 //
 // reducers
@@ -58,45 +58,39 @@ const episodes = (state = [], { type, payload }) => {
     case EPISODES_RESPONSE: {
       return payload;
     }
-    case MARK_WATCHED_RESPONSE:
-    case UNMARK_WATCHED_RESPONSE: {
-      const watched = type === MARK_WATCHED_RESPONSE;
-      return state.map(e => ({
-        ...e,
-        watched: e.episodeId === payload.episodeId ? watched : e.watched,
-      }));
-    }
-    case MARK_WATCHED_BULK_RESPONSE:
-    case UNMARK_WATCHED_BULK_RESPONSE: {
-      const watched = type === MARK_WATCHED_BULK_RESPONSE;
-      return state.map(e => {
-        if (e.showId === payload.showId) {
-          return {
-            ...e,
-            watched: (
-              e.season === payload.season && (e.episode <= payload.episode || payload.episode == null)
-            ) ? watched : e.watched,
-          };
-        }
-        return e;
-      });
-    }
+    // case MARK_WATCHED_RESPONSE:
+    // case UNMARK_WATCHED_RESPONSE: {
+    //   const watched = type === MARK_WATCHED_RESPONSE;
+    //   return state.map(e => ({
+    //     ...e,
+    //     watched: e.episodeId === payload.episodeId ? watched : e.watched,
+    //   }));
+    // }
+    // case MARK_WATCHED_BULK_RESPONSE:
+    // case UNMARK_WATCHED_BULK_RESPONSE: {
+    //   const watched = type === MARK_WATCHED_BULK_RESPONSE;
+    //   return state.map(e => {
+    //     if (e.showId === payload.showId) {
+    //       return {
+    //         ...e,
+    //         watched: (
+    //           e.season === payload.season && (e.episode <= payload.episode || payload.episode == null)
+    //         ) ? watched : e.watched,
+    //       };
+    //     }
+    //     return e;
+    //   });
+    // }
     default: {
       return state;
     }
   }
 };
 
-const dates = (state = {
-  from: moment().startOf('month').subtract(14, 'days').startOf('day').toISOString(),
-  to: moment().endOf('month').add(14, 'days').endOf('day').toISOString(),
-}, { type, payload }) => {
+const maxDate = (state = moment().startOf('day').add(7, 'days').toISOString(), { type, payload }) => {
   switch (type) {
-    case SET_CALENDAR_DATES: {
-      return {
-        from: moment(payload.dateFrom).toISOString(),
-        to: moment(payload.dateTo).toISOString(),
-      };
+    case SET_MAX_DATE: {
+      return payload;
     }
     default: {
       return state;
@@ -107,7 +101,7 @@ const dates = (state = {
 const reducers = combineReducers({
   loading,
   episodes,
-  dates,
+  maxDate,
 });
 
 export default reducers;
@@ -120,20 +114,20 @@ const moduleSel = state => parentModuleSel(state)[moduleName];
 
 export const loadingSel = state => moduleSel(state).loading;
 export const episodesSel = state => moduleSel(state).episodes;
-export const datesSel = state => moduleSel(state).dates;
+export const maxDateSel = state => moduleSel(state).maxDate;
 
 //
 // epics
 //
 const getEpisodesEpic$ = (action$, store) => action$
   .ofType(EPISODES_REQUEST)
-  .map(() => datesSel(store.getState()))
-  .switchMap(({ from, to }) => getEpisodes$(from, to)
+  .map(() => maxDateSel(store.getState()))
+  .switchMap(maxDate => getEpisodes$(maxDate)
     .map(episodesResponse)
-    .catch(err => Observable.of(err)));
+    .apiCatch(err => Observable.of(episodesError(err))));
 
 const refreshEpisodesEpic$ = (action$, store) => action$
-  .ofType(SET_CALENDAR_DATES, POSTPONE_EPISODES_RESPONSE)
+  .ofType(SET_MAX_DATE, POSTPONE_EPISODES_RESPONSE)
   .filter(() => isCurrentLocationSel(store.getState(), ROUTE_DASHBOARD))
   .mapTo(episodesRequest());
 
@@ -145,4 +139,4 @@ export const epics = combineEpics(
 //
 // services
 //
-const getEpisodes$ = (dateFrom, dateTo) => apiService.get$(`/shows/episodes?dateFrom=${dateFrom}&dateTo=${dateTo}`);
+const getEpisodes$ = maxDate => apiService.get$(`/shows/episodes?dateTo=${maxDate}&noWatched=true`);

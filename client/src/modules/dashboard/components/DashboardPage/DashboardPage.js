@@ -3,16 +3,17 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { PageTitle } from '../../../shared';
+import { isDesktopSel } from '../../../screen';
 import { Calendar } from '../../calendar';
 import { Timeline } from '../../timeline';
 import { effectiveViewSel } from '../../duck';
 import ViewSelector from '../ViewSelector';
 
-const DashboardPage = ({ view }) => {
+const DashboardPage = ({ view, isDesktop }) => {
   return (
     <React.Fragment>
       <PageTitle>Dashboard</PageTitle>
-      <ViewSelector />
+      {isDesktop && <ViewSelector />}
       {view === 'calendar' && <Calendar />}
       {view === 'timeline' && <Timeline />}
     </React.Fragment>
@@ -20,10 +21,12 @@ const DashboardPage = ({ view }) => {
 };
 
 DashboardPage.propTypes = {
+  isDesktop: PropTypes.bool.isRequired,
   view: PropTypes.string.isRequired,
 };
 
 const mapState = state => ({
+  isDesktop: isDesktopSel(state),
   view: effectiveViewSel(state),
 });
 

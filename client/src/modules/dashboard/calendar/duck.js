@@ -130,7 +130,7 @@ const getEpisodesEpic$ = (action$, store) => action$
   .map(() => datesSel(store.getState()))
   .switchMap(({ from, to }) => getEpisodes$(from, to)
     .map(episodesResponse)
-    .catch(err => Observable.of(err)));
+    .apiCatch(err => Observable.of(episodesError(err))));
 
 const refreshEpisodesEpic$ = (action$, store) => action$
   .ofType(SET_CALENDAR_DATES, POSTPONE_EPISODES_RESPONSE)

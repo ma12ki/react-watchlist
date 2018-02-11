@@ -316,3 +316,10 @@
   background-color: transparent;
   cursor: default;
 }
+
+/*
+ * Timeline
+ */
+:global(.ant-timeline-item-head) {
+  background-color: transparent;
+}
