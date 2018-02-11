@@ -323,3 +323,9 @@
 :global(.ant-timeline-item-head) {
   background-color: transparent;
 }
+:global(.ant-timeline-item-tail) {
+  border-color: var(--bg-accent-color);
+}
+:global(.ant-timeline) {
+  color: var(--text-color);
+}
