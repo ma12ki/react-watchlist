@@ -10,6 +10,7 @@ const routes = {
   [ROUTE_DASHBOARD]: {
     path: '/',
     component: () => <DashboardPage />,
+    roles: ['root', 'admin', 'user'],
   },
 };
 

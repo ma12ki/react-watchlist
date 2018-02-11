@@ -10,10 +10,12 @@ const routes = {
   [ROUTE_SHOW_DETAILS]: {
     path: '/shows/:slug',
     component: () => <ShowPage />,
+    roles: ['root', 'admin', 'user'],
   },
   [ROUTE_ALL_SHOWS]: {
     path: '/shows',
     component: () => <ShowsPage />,
+    roles: ['root', 'admin', 'user'],
   },
 };
 
