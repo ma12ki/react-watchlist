@@ -10,7 +10,7 @@ import ExitToAppIcon from 'material-ui-icons/ExitToApp';
 import cn from 'classnames';
 
 import { ThemePicker } from '../../../themes';
-import { logout, userSel, isLoggedInSel, isRootSel, isAtLeastAdminSel } from '../../../user';
+import { logout, userSel, isLoggedInSel, isRootSel } from '../../../user';
 import styles from './Nav.css';
 
 const activeClassName = styles.active;
@@ -27,17 +27,17 @@ class Nav extends React.Component {
   }
 
   render() {
-    const { user, isLoggedIn, isAtLeastAdmin, isRoot, onLogout } = this.props;
+    const { user, isLoggedIn, isRoot, onLogout } = this.props;
     const { themePickerOpen } = this.state;
 
     return (
       <ul className={styles.nav}>
-        {isAtLeastAdmin && <li className={styles.item}>
+        {isLoggedIn && <li className={styles.item}>
           <NavLink to={'/'} exact activeClassName={activeClassName} className={styles.link} title="Dashboard">
             <DashboardIcon className={styles.icon} />
           </NavLink>
         </li>}
-        {isAtLeastAdmin && <li className={styles.item}>
+        {isLoggedIn && <li className={styles.item}>
           <NavLink to={'/shows'} activeClassName={activeClassName} className={styles.link} title="All">
             <ViewListIcon className={styles.icon} />
           </NavLink>
@@ -75,7 +75,6 @@ Nav.propTypes = {
 const mapState = state => ({
   user: userSel(state),
   isLoggedIn: isLoggedInSel(state),
-  isAtLeastAdmin: isAtLeastAdminSel(state),
   isRoot: isRootSel(state),
 });
 
