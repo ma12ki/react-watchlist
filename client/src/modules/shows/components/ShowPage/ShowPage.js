@@ -1,11 +1,26 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
+import { PageTitle } from '../../../shared';
+import { showSel } from '../../duck';
 import ShowDetails from '../ShowDetails';
 
-const ShowPage = () => {
+const ShowPage = ({ title }) => {
   return (
-    <ShowDetails />
+    <React.Fragment>
+      <PageTitle>{title}</PageTitle>
+      <ShowDetails />
+    </React.Fragment>
   );
 };
 
-export default ShowPage;
+ShowPage.propTypes = {
+  title: PropTypes.string,
+};
+
+const mapState = state => ({
+  title: showSel(state).title,
+});
+
+export default connect(mapState)(ShowPage);

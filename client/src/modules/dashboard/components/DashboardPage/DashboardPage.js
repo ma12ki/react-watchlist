@@ -1,10 +1,14 @@
 import React from 'react';
 
+import { PageTitle } from '../../../shared';
 import { Calendar } from '../../calendar';
 
 const DashboardPage = () => {
   return (
-    <Calendar />
+    <React.Fragment>
+      <PageTitle>Dashboard</PageTitle>
+      <Calendar />
+    </React.Fragment>
   );
 };
 

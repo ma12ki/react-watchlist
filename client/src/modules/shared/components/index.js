@@ -45,6 +45,7 @@ export { default as FlexSpacer } from './FlexSpacer';
 export { default as H } from './H';
 export { default as IconButton } from './IconButton';
 export { default as NotFound } from './NotFound';
+export { default as PageTitle } from './PageTitle';
 export { default as PlaceholderIconButton } from './PlaceholderIconButton';
 export { default as SeasonLabel } from './SeasonLabel';
 export { default as ShowTypeIcon } from './ShowTypeIcon';
