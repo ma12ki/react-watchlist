@@ -49,6 +49,7 @@ export class ShowsService implements IShowsService {
     const shows: any = await this.getShowRepository()
       .createQueryBuilder('show')
       .leftJoinAndMapOne('show.following', 'show.users', 'user', 'user.userId = :userId', { userId })
+      .orderBy('show.slug', 'ASC')
       .getMany();
 
     return shows.map(s => ({
@@ -76,12 +77,18 @@ export class ShowsService implements IShowsService {
       query.andWhere('episodes.premiereDate <= :dateTo', { dateTo: dateTo.valueOf() });
     }
 
-    const episodes: any = await query.getMany();
+    const episodes: any = await query.orderBy({
+      'episodes.premiereDate': 'ASC',
+      'show.slug': 'ASC',
+      'episodes.season': 'ASC',
+      'episodes.episode': 'ASC',
+    }).getMany();
 
     return episodes.map(e => ({
       ...e,
       ...e.show,
       show: undefined,
+      users: undefined,
       recurring: Boolean(e.show.recurring),
       watched: Boolean(e.watched),
     }));
@@ -222,9 +229,6 @@ export class ShowsService implements IShowsService {
       show.slug = `${slug(show.title)}-${uniqueSlug()}`;
     }
     if ((show as IShowDetails).episodes) {
-      // show.episodes.forEach(element => {
-      //   console.log(element.premiereDate, new Date((element.premiereDate)));
-      // });
       (show as IShowDetails).episodes = (show as IShowDetails).episodes.map(e => ({
         ...e,
         premiereDate: new Date(e.premiereDate),

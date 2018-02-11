@@ -23,7 +23,10 @@ export class UsersService implements IUsersService {
   }
 
   public async getUsers(): Promise<IUser[]> {
-    return this.getRepository().find();
+    return this.getRepository()
+      .createQueryBuilder('users')
+      .orderBy('users.userId', 'ASC')
+      .getMany();
   }
 
   public async createUser(user: IUser): Promise<IUser> {
