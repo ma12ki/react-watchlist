@@ -1,5 +1,4 @@
 import {
-  Affix,
   Button,
   Calendar,
   Checkbox,
@@ -13,12 +12,12 @@ import {
   Select,
   Spin,
   Switch,
+  Timeline,
   Tree,
   Tooltip,
   Table,
 } from 'antd';
 export {
-  Affix,
   Button,
   Calendar,
   Checkbox,
@@ -32,6 +31,7 @@ export {
   Select,
   Spin,
   Switch,
+  Timeline,
   Tree,
   Tooltip,
   Table,

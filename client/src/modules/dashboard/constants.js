@@ -1,1 +1,1 @@
-export const moduleName = 'dashboard';
+export { dashboardModuleName as moduleName } from './common';

@@ -1,0 +1,13 @@
+.radioGroup {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.iconWrapper {
+  margin-top: -2px;
+}
+
+.timelineIcon {
+  transform: rotate(90deg);
+}

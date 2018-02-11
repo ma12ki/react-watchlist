@@ -1,0 +1,28 @@
+.popoverOverlay {
+  z-index: 3;
+}
+
+.popoverContent {
+  text-align: center;
+}
+
+.label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  color: var(--primary-color);
+  &:hover {
+    color: var(--primary-hover-color);
+  }
+  &:active {
+    color: var(--primary-active-color);
+  }
+  transition: all 0.3s ease;
+}
+
+
+.watched {
+  text-decoration: line-through;
+  color: var(--text-disabled-color);
+}
