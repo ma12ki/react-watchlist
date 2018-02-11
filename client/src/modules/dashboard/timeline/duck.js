@@ -12,10 +12,8 @@ import moment from 'moment';
 import '../../utils/rxjs.add.operator.apiCatch';
 import { apiService } from '../../utils';
 import {
-//   MARK_WATCHED_RESPONSE,
-//   UNMARK_WATCHED_RESPONSE,
-//   MARK_WATCHED_BULK_RESPONSE,
-//   UNMARK_WATCHED_BULK_RESPONSE,
+  MARK_WATCHED_RESPONSE,
+  MARK_WATCHED_BULK_RESPONSE,
   POSTPONE_EPISODES_RESPONSE,
 } from '../../showOperations';
 import { isCurrentLocationSel } from '../../location';
@@ -58,29 +56,17 @@ const episodes = (state = [], { type, payload }) => {
     case EPISODES_RESPONSE: {
       return payload;
     }
-    // case MARK_WATCHED_RESPONSE:
-    // case UNMARK_WATCHED_RESPONSE: {
-    //   const watched = type === MARK_WATCHED_RESPONSE;
-    //   return state.map(e => ({
-    //     ...e,
-    //     watched: e.episodeId === payload.episodeId ? watched : e.watched,
-    //   }));
-    // }
-    // case MARK_WATCHED_BULK_RESPONSE:
-    // case UNMARK_WATCHED_BULK_RESPONSE: {
-    //   const watched = type === MARK_WATCHED_BULK_RESPONSE;
-    //   return state.map(e => {
-    //     if (e.showId === payload.showId) {
-    //       return {
-    //         ...e,
-    //         watched: (
-    //           e.season === payload.season && (e.episode <= payload.episode || payload.episode == null)
-    //         ) ? watched : e.watched,
-    //       };
-    //     }
-    //     return e;
-    //   });
-    // }
+    case MARK_WATCHED_RESPONSE: {
+      return state.filter(e => e.episodeId !== payload.episodeId);
+    }
+    case MARK_WATCHED_BULK_RESPONSE: {
+      return state.filter(e => {
+        if (e.showId === payload.showId) {
+          return !(e.season === payload.season && (e.episode <= payload.episode || payload.episode == null));
+        }
+        return true;
+      });
+    }
     default: {
       return state;
     }
