@@ -85,7 +85,7 @@ export class ShowsService implements IShowsService {
       .createQueryBuilder('episodes')
       .where({ showShowId: showId });
 
-    if (episode) {
+    if (season) {
       q.andWhere('episodes.season = :season', { season });
     }
     if (episode) {
