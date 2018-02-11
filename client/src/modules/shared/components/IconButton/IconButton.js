@@ -5,14 +5,14 @@ import cn from 'classnames';
 
 import styles from './IconButton.css';
 
-const IconButton = ({ children, type, loading, className, ...rest }) => {
+const IconButton = ({ children, type, disabled, loading, className, ...rest }) => {
   const classNames = cn(
     styles.iconButton,
     className,
   );
 
   return (
-    <Button type={type} ghost loading={loading} className={classNames} {...rest}>
+    <Button type={type} ghost disabled={disabled} loading={loading} className={classNames} {...rest}>
       {children}
     </Button>
   );
@@ -21,6 +21,7 @@ const IconButton = ({ children, type, loading, className, ...rest }) => {
 IconButton.propTypes = {
   children: PropTypes.node.isRequired,
   type: PropTypes.oneOf(['primary', 'danger']),
+  disabled: PropTypes.bool,
   loading: PropTypes.bool,
   className: PropTypes.string,
 };

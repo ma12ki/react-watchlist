@@ -146,4 +146,3 @@ export const epics = combineEpics(
 // services
 //
 const getEpisodes$ = (dateFrom, dateTo) => apiService.get$(`/shows/episodes?dateFrom=${dateFrom}&dateTo=${dateTo}`);
-

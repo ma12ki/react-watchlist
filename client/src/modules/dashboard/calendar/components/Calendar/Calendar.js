@@ -75,20 +75,23 @@ class Calendar extends React.Component {
         <IconButton
           className={styles.prevMonth}
           title="Previous month"
+          disabled={loading}
           onClick={this.handlePrevMonth}
-          >
+        >
           <ChevronLeftIcon />
         </IconButton>
         <IconButton
           className={styles.nextMonth}
           title="Next month"
+          disabled={loading}
           onClick={this.handleNextMonth}
-          >
+        >
           <ChevronRightIcon />
         </IconButton>
         <IconButton
           className={styles.currentMonth}
           title="Current month"
+          disabled={loading}
           onClick={this.handleCurrentMonth}
         >
           <TodayIcon />
@@ -96,7 +99,6 @@ class Calendar extends React.Component {
         <BaseCalendar
           className={styles.calendar}
           value={selectedMonth}
-          disabledDate={() => loading}
           dateCellRender={() => {}}
           dateFullCellRender={this.renderFullCell}
         />
