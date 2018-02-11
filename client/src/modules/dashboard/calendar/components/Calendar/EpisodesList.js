@@ -20,7 +20,7 @@ const EpisodesList = ({ episodes }) => {
       return 0;
     })
     .map(e => {
-      const { showId, slug, type, title, aka, recurring, season, episode, episodeId, premiereDate, watched } = e;
+      const { showId, slug, type, title, aka, recurring, season, episode, episodeId, premiereDate, watched, prevEpisodesWatched } = e;
       const fullTitle = recurring ? `${title} ${episodeLabel(season, episode)}` : title;
 
       const content = (
@@ -35,6 +35,7 @@ const EpisodesList = ({ episodes }) => {
             showId={showId}
             season={season}
             episode={episode}
+            watched={watched && prevEpisodesWatched}
             title={`${fullTitle} ${seasonLabel(season)} through episode ${episode}`}
           />}
           <PostponeButton

@@ -116,10 +116,19 @@ Calendar.propTypes = {
 };
 
 const mapState = state => ({
-  episodes: episodesSel(state),
+  episodes: mapEpisodes(episodesSel(state)),
   loading: loadingSel(state),
   dates: datesSel(state),
 });
+
+const mapEpisodes = episodes => episodes.map(e => ({
+  ...e,
+  prevEpisodesWatched: getPrevEpisodesWatched(episodes, e.showId, e.season, e.episode)
+}));
+
+const getPrevEpisodesWatched = (episodes, showId, season, episode) => episodes
+  .filter(e => e.showId === showId && ((e.season === season && e.episode < episode) || (e.season < season)))
+  .reduce((watched, e) => watched && e.watched, true);
 
 const mapDispatch = dispatch => ({
   onLoadEpisodes: () => dispatch(episodesRequest()),
