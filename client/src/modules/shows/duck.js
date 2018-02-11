@@ -279,29 +279,3 @@ export const epics = combineEpics(
 const getShows$ = () => apiService.get$('/shows');
 
 const getShow$ = slug => apiService.get$(`/shows/${slug}`);
-
-// const getMockShows = () => range(30)
-//   .map(getMockShow);
-
-// const getMockShow = () => {
-//   const title = faker.name.jobTitle();
-
-//   return {
-//     showId: faker.random.uuid(),
-//     slug: faker.helpers.slugify(title),
-//     title,
-//     aka: faker.name.jobArea(),
-//     type: faker.random.arrayElement(showTypes),
-//     following: false,
-//     recurring: Math.random() > 0.5,
-//   };
-// };
-
-// const getMockEpisodes = () => range(faker.random.number({ min: 0, max: 100 }))
-//   .map(() => ({
-//     episodeId: faker.random.uuid(),
-//     season: faker.random.number({ min: 1, max: 10 }),
-//     episode: faker.random.number({ min: 1, max: 100 }),
-//     premiereDate: faker.date.recent().toISOString(),
-//     watched: Math.random() > 0.7,
-//   }));

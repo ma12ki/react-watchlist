@@ -7,11 +7,10 @@ import 'rxjs/add/operator/delay';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mapTo';
-import { range } from 'lodash';
-import faker from 'faker';
 import moment from 'moment';
 
-// import { apiService } from '../../utils';
+import '../../utils/rxjs.add.operator.apiCatch';
+import { apiService } from '../../utils';
 import {
   MARK_WATCHED_RESPONSE,
   UNMARK_WATCHED_RESPONSE,
@@ -20,7 +19,6 @@ import {
   POSTPONE_EPISODES_RESPONSE,
 } from '../../showOperations';
 import { isCurrentLocationSel } from '../../location';
-import { showTypes } from '../../shared';
 import { dashboardModuleName, ROUTE_DASHBOARD } from '../common';
 import { moduleName } from './constants';
 
@@ -76,7 +74,7 @@ const episodes = (state = [], { type, payload }) => {
           return {
             ...e,
             watched: (
-              e.season === payload.season && (e.episode === payload.episode || payload.episode == null)
+              e.season === payload.season && (e.episode <= payload.episode || payload.episode == null)
             ) ? watched : e.watched,
           };
         }
@@ -147,26 +145,5 @@ export const epics = combineEpics(
 //
 // services
 //
-const getEpisodes$ = (dateFrom, dateTo) => Observable.of(getMockEpisodes(dateFrom, dateTo)).delay(1000);
+const getEpisodes$ = (dateFrom, dateTo) => apiService.get$(`/shows/episodes?dateFrom=${dateFrom}&dateTo=${dateTo}`);
 
-const getMockEpisodes = (dateFrom, dateTo) => {
-  return range(30)
-    .map(() => {
-      const title = faker.name.jobTitle();
-      const recurring = Math.random() > 0.5;
-
-      return {
-        showId: faker.random.uuid(),
-        slug: faker.helpers.slugify(title),
-        episodeId: faker.random.uuid(),
-        title,
-        aka: faker.name.jobDescriptor(),
-        premiereDate: faker.date.between(moment(dateFrom), moment(dateTo)).toISOString(),
-        season: recurring ? faker.random.number({ min: 1, max: 10 }) : 0,
-        episode: recurring ? faker.random.number({ min: 1, max: 100 }) : 0,
-        type: faker.random.arrayElement(showTypes),
-        watched: false,
-        recurring,
-      };
-    });
-};

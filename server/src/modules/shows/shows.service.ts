@@ -4,11 +4,12 @@ import * as slug from 'slug';
 import * as uniqueSlug from 'unique-slug';
 import * as moment from 'moment';
 
-import { IShow, IShowForUser, IShowDetails, IShowDetailsForUser, IUser, Show, Episode, User } from '../../entities';
+import { IShow, IShowForUser, IShowDetails, IShowDetailsForUser, IEpisodeDetailsForUser, IUser, Show, Episode, User } from '../../entities';
 
 export interface IShowsService {
   getShows: (userId: number) => Promise<IShowForUser[]>;
   getShowBySlug: (slug: string, userId: number) => Promise<IShowDetailsForUser>;
+  getEpisodes: (dateFrom: Date, dateTo: Date, userId: number) => Promise<IEpisodeDetailsForUser[]>;
   createShow: (show: IShowDetails) => Promise<IShowDetails>;
   updateShow: (show: IShowDetails) => Promise<IShowDetails>;
   deleteShow: (showId: number) => Promise<void>;
@@ -54,6 +55,25 @@ export class ShowsService implements IShowsService {
       ...s,
       recurring: Boolean(s.recurring),
       following: Boolean(s.following),
+    }));
+  }
+
+  public async getEpisodes(dateFrom: Date, dateTo: Date, userId: number): Promise<IEpisodeDetailsForUser[]> {
+    const episodes: any = await this.getEpisodeRepository()
+      .createQueryBuilder('episodes')
+      .innerJoinAndSelect('episodes.show', 'show')
+      .innerJoin('show.users', 'user', 'user.userId = :userId', { userId })
+      .leftJoinAndMapOne('episodes.watched', 'episodes.users', 'watchedUser', 'watchedUser.userId = :userId', { userId })
+      .where('episodes.premiereDate >= :dateFrom', { dateFrom: dateFrom.valueOf() })
+      .andWhere('episodes.premiereDate <= :dateTo', { dateTo: dateTo.valueOf() })
+      .getMany();
+
+    return episodes.map(e => ({
+      ...e,
+      ...e.show,
+      show: undefined,
+      recurring: Boolean(e.show.recurring),
+      watched: Boolean(e.watched),
     }));
   }
 

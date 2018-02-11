@@ -6,12 +6,13 @@ import {
   httpPost,
   httpPut,
   httpDelete,
+  queryParam,
   requestParam,
   requestBody,
 } from 'inversify-express-utils';
 
 import { BadRequestError, NotAuthorizedError } from '../../helpers';
-import { IUser, IShowDetails, IShowForUser, IShowDetailsForUser } from '../../entities';
+import { IUser, IShowDetails, IShowForUser, IShowDetailsForUser, IEpisodeDetailsForUser } from '../../entities';
 import { BaseHttpController } from '../utils';
 import { authTokens, IAuthService } from '../auth';
 import { showsTokens } from './shows.tokens';
@@ -25,6 +26,12 @@ export class ShowsController extends BaseHttpController {
   public async getShows(): Promise<IShowForUser[]> {
     await this.user.isInRole('root,admin,user');
     return this.showsService.getShows(this.user.details.userId);
+  }
+
+  @httpGet('/episodes')
+  public async getEpisodes(@queryParam('dateFrom') dateFrom: string, @queryParam('dateTo') dateTo: string): Promise<IEpisodeDetailsForUser[]> {
+    await this.user.isInRole('root,admin,user');
+    return this.showsService.getEpisodes(new Date(dateFrom), new Date(dateTo), this.user.details.userId);
   }
 
   @httpGet('/:slug')
