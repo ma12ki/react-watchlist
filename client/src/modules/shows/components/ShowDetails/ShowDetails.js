@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { Aka, Card, H, ShowTypeIcon } from '../../../shared';
+import { isAtLeastAdminSel } from '../../../user';
 import { EditShowButton, FollowButton } from '../../../showOperations';
 import { showLoadingSel, showSel } from '../../duck';
 import EpisodesList from './EpisodesList';
@@ -11,7 +12,7 @@ import styles from './ShowDetails.css';
 
 class ShowDetails extends React.Component {
   render() {
-    const { show, loading } = this.props;
+    const { show, loading, isAtLeastAdmin } = this.props;
     const { showId, title, aka, type, recurring, following, episodes } = show;
 
     return (
@@ -24,13 +25,13 @@ class ShowDetails extends React.Component {
               {aka && <Aka>{aka}</Aka>}
               <div className={styles.actions}>
                 <FollowButton showId={showId} title={title} following={following} />
-                <EditShowButton show={show} />
+                {isAtLeastAdmin && <EditShowButton show={show} />}
               </div>
             </div>
             <div>
               {recurring ?
-                <EpisodesList showId={showId} title={title} episodes={episodes} /> :
-                <PremiereDate showId={showId} title={title} episode={episodes[0]} />
+                <EpisodesList showId={showId} title={title} episodes={episodes} isAtLeastAdmin={isAtLeastAdmin} /> :
+                <PremiereDate showId={showId} title={title} episode={episodes[0]} isAtLeastAdmin={isAtLeastAdmin} />
               }
             </div>
           </div>
@@ -41,11 +42,13 @@ class ShowDetails extends React.Component {
 }
 
 ShowDetails.propTypes = {
+  isAtLeastAdmin: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
   show: PropTypes.object.isRequired,
 };
 
 const mapState = (state) => ({
+  isAtLeastAdmin: isAtLeastAdminSel(state),
   loading: showLoadingSel(state),
   show: showSel(state),
 });

@@ -5,7 +5,7 @@ import { DateFormat, FlexSpacer } from '../../../shared';
 import { MarkWatchedButton, PostponeButton } from '../../../showOperations';
 import styles from './PremiereDate.css';
 
-const PremiereDate = ({ showId, title, episode }) => {
+const PremiereDate = ({ showId, title, episode, isAtLeastAdmin }) => {
   const { episodeId, watched, premiereDate } = episode;
 
   return (
@@ -22,17 +22,18 @@ const PremiereDate = ({ showId, title, episode }) => {
           watched={watched}
           title={title}
         />
-        <PostponeButton
+        {isAtLeastAdmin && <PostponeButton
           showId={showId}
           currentPremiereDate={premiereDate}
           title={title}
-        />
+        />}
       </div>
     </div>
   );
 };
 
 PremiereDate.propTypes = {
+  isAtLeastAdmin: PropTypes.bool.isRequired,
   showId: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
   episode: PropTypes.object.isRequired,

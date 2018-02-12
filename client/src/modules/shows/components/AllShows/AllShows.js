@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Link from 'redux-first-router-link';
-// import cn from 'classnames';
 
 import { Aka, ShowTypeIcon, Table, TableHeadingSort } from '../../../shared';
+import { isAtLeastAdminSel } from '../../../user';
 import { tableSorters, tableSortOrder } from '../../../utils';
 import { FollowButton, DeleteShowButton } from '../../../showOperations';
 import { allShowsSel, setAllShowsFilters, setAllShowsTableNav, getShowsRequest } from '../../duck';
@@ -58,6 +58,7 @@ class AllShows extends React.Component {
   }
 
   getColumns = () => {
+    const { isAtLeastAdmin } = this.props;
     const { sorter = {} } = this.props.allShows.tableNav;
 
     return [
@@ -90,7 +91,7 @@ class AllShows extends React.Component {
           return (
             <div className={styles.operations}>
               <FollowButton showId={showId} title={title} following={following} />
-              <DeleteShowButton showId={showId} title={title} />
+              {isAtLeastAdmin && <DeleteShowButton showId={showId} title={title} />}
             </div>
           );
         },
@@ -99,7 +100,7 @@ class AllShows extends React.Component {
   }
 
   render() {
-    const { allShows, onSetFilters } = this.props;
+    const { allShows, isAtLeastAdmin, onSetFilters } = this.props;
     const { filteredItems } = this.state;
     const { loading, tableNav, filters } = allShows;
     const { pagination = defaultPagination } = tableNav;
@@ -108,6 +109,7 @@ class AllShows extends React.Component {
       <React.Fragment>
         <SearchBar
           filters={filters}
+          isAtLeastAdmin={isAtLeastAdmin}
           onSetFilters={onSetFilters}
         />
         <Table
@@ -130,6 +132,7 @@ class AllShows extends React.Component {
 
 AllShows.propTypes = {
   allShows: PropTypes.object.isRequired,
+  isAtLeastAdmin: PropTypes.bool.isRequired,
   onGetShows: PropTypes.func.isRequired,
   onSetFilters: PropTypes.func.isRequired,
   onSetTableNav: PropTypes.func.isRequired,
@@ -137,6 +140,7 @@ AllShows.propTypes = {
 
 const mapState = (state) => ({
   allShows: allShowsSel(state),
+  isAtLeastAdmin: isAtLeastAdminSel(state),
 });
 
 const mapDispatch = (dispatch) => ({

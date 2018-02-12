@@ -38,7 +38,8 @@ class SearchBar extends React.Component {
   }
 
   render() {
-    const { title, types, following } = this.props.filters;
+    const { filters, isAtLeastAdmin } = this.props;
+    const { title, types, following } = filters;
 
     return (
       <div className={styles.container}>
@@ -61,13 +62,14 @@ class SearchBar extends React.Component {
           value={following}
           onChange={this.handleFollowingChange}
         />
-        <CreateShowButton />
+        {isAtLeastAdmin && <CreateShowButton />}
       </div>
     );
   }
 }
 
 SearchBar.propTypes = {
+  isAtLeastAdmin: PropTypes.bool.isRequired,
   filters: PropTypes.object.isRequired,
   onSetFilters: PropTypes.func.isRequired,
 };

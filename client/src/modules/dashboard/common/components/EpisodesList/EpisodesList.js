@@ -1,14 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Link from 'redux-first-router-link';
 import cn from 'classnames';
 
 import { Aka, Popover, ShowTypeIcon } from '../../../../shared';
+import { isAtLeastAdminSel } from '../../../../user';
 import { episodeLabel, seasonLabel } from '../../../../utils';
 import { MarkWatchedButton, MarkWatchedBulkButton, PostponeButton } from '../../../../showOperations';
 import styles from './EpisodesList.css';
 
-const EpisodesList = ({ episodes }) => {
+const EpisodesList = ({ episodes, isAtLeastAdmin }) => {
   return episodes
     .sort((e1, e2) => {
       if (e1.watched && !e2.watched) {
@@ -38,13 +40,13 @@ const EpisodesList = ({ episodes }) => {
             watched={watched && prevEpisodesWatched}
             title={`${fullTitle} ${seasonLabel(season)} through episode ${episode}`}
           />}
-          <PostponeButton
+          {isAtLeastAdmin && <PostponeButton
             showId={showId}
             season={season}
             episode={episode}
             currentPremiereDate={premiereDate}
             title={fullTitle}
-          />
+          />}
         </div>
       );
 
@@ -77,6 +79,7 @@ const EpisodesList = ({ episodes }) => {
 const stopPropagation = e => e.stopPropagation();
 
 EpisodesList.propTypes = {
+  isAtLeastAdmin: PropTypes.bool.isRequired,
   episodes: PropTypes.array,
 };
 
@@ -84,4 +87,8 @@ EpisodesList.defaultProps = {
   episodes: [],
 };
 
-export default EpisodesList;
+const mapState = state => ({
+  isAtLeastAdmin: isAtLeastAdminSel(state),
+});
+
+export default connect(mapState)(EpisodesList);

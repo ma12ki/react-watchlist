@@ -9,7 +9,7 @@ import styles from './EpisodesList.css';
 
 const { TreeNode } = Tree;
 
-const EpisodesList = ({ showId, title, episodes }) => {
+const EpisodesList = ({ showId, title, episodes, isAtLeastAdmin }) => {
   const seasons = groupEpisodes(episodes);
   const seasonNodes = seasons.map(episodes => {
     const { season } = episodes[0];
@@ -23,7 +23,7 @@ const EpisodesList = ({ showId, title, episodes }) => {
       watched,
     }, index) => {
       seasonUpToEpWatched = seasonUpToEpWatched && watched;
-      const canDelete = index === lastIndex && episodes.length > 1;
+      const canDelete = index === lastIndex && episodes.length > 1 && isAtLeastAdmin;
       const classNames = cn(
         styles.episodeRow,
         { [styles.watched]: watched },
@@ -53,13 +53,13 @@ const EpisodesList = ({ showId, title, episodes }) => {
                   watched={seasonUpToEpWatched}
                   title={`${title} ${seasonLabel(season)} through episode ${episode}`}
                 />
-                <PostponeButton
+                {isAtLeastAdmin && <PostponeButton
                   showId={showId}
                   season={season}
                   episode={episode}
                   currentPremiereDate={premiereDate}
                   title={`${title} ${episodeLabel(season, episode)}`}
-                />
+                /> || <PlaceholderIconButton />}
                 {canDelete && <DeleteEpisodesButton
                   showId={showId}
                   season={season}
@@ -73,7 +73,7 @@ const EpisodesList = ({ showId, title, episodes }) => {
       );
     });
 
-    const canDelete = seasons.length > 1;
+    const canDelete = seasons.length > 1 && isAtLeastAdmin;
     const classNames = cn(
       styles.seasonRow,
       { [styles.watched]: seasonWatched },
@@ -117,6 +117,7 @@ const EpisodesList = ({ showId, title, episodes }) => {
 };
 
 EpisodesList.propTypes = {
+  isAtLeastAdmin: PropTypes.bool.isRequired,
   showId: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
   episodes: PropTypes.array.isRequired,
