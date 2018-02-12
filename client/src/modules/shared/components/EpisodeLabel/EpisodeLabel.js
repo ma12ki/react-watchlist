@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { padStart } from 'lodash';
+import padStart from 'lodash/padStart';
 
 import styles from './EpisodeLabel.css';
 

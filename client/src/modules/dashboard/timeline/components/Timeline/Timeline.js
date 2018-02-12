@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { uniq } from 'lodash';
+import uniq from 'lodash/uniq';
 // import ChevronLeftIcon from 'material-ui-icons/ChevronLeft';
 // import ChevronRightIcon from 'material-ui-icons/ChevronRight';
 import ExpandMoreIcon from 'material-ui-icons/ExpandMore';

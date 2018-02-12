@@ -4,6 +4,7 @@ import 'whatwg-fetch';
 import React from 'react';
 import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
+import 'moment/locale/en-ie';
 
 import { store as configureStore } from './root';
 import { components } from './modules/core';

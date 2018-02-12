@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { throttle } from 'lodash';
+import throttle from 'lodash/throttle';
 
 import { metaSel, setScreenMeta } from '../../duck';
 import { getScreenMeta } from '../../services';

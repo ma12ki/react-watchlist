@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { range } from 'lodash';
+import range from 'lodash/range';
 
 import { Input, Button, DatePicker, Form, Select, Modal } from '../../../shared';
 import styles from './AddEpisodesModal.css';
