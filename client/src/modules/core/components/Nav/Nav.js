@@ -21,9 +21,9 @@ class Nav extends React.Component {
   }
 
   toggleThemePicker = () => {
-    this.setState({
-      themePickerOpen: !this.state.themePickerOpen,
-    });
+    this.setState(({ themePickerOpen }) => ({
+      themePickerOpen: !themePickerOpen,
+    }));
   }
 
   render() {

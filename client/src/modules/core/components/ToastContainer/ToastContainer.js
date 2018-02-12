@@ -1,9 +1,5 @@
 import React from 'react';
 import { ToastContainer as ToastifyContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.min.css';
-
-// import styles from './ToastContainer.css';
-// import toastStyles from '../Toast/Toast.css';
 
 const ToastContainer = () => (
   <ToastifyContainer

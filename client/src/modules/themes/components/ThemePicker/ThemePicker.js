@@ -51,9 +51,9 @@ class ThemePicker extends React.Component {
 }
 
 ThemePicker.propTypes = {
+  className: PropTypes.string,
   currentTheme: PropTypes.string.isRequired,
   onSetTheme: PropTypes.func.isRequired,
-  className: PropTypes.string,
 };
 
 const mapState = (state) => ({
