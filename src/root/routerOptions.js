@@ -6,12 +6,9 @@ import { BASE_URL } from '../modules/config';
 import { userSel, ROUTE_LOGIN } from '../modules/user';
 import { routesMapSel } from '../modules/location';
 
-console.log(BASE_URL);
-
 const options = {
   basename: BASE_URL,
   onBeforeChange: (dispatch, getState, { action /*, extra*/ }) => {
-    console.log(BASE_URL, action, getState());
     const state = getState();
     checkAccess(dispatch, state, action);
   },

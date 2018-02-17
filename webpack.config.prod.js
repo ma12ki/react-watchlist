@@ -12,6 +12,10 @@ config();
 
 const GLOBALS = {
   'process.env.NODE_ENV': JSON.stringify('production'),
+  // declare here so that vars declared by Travis CI are passed in
+  'process.env.API_URL': JSON.stringify(process.env.API_URL),
+  'process.env.BASE_URL': JSON.stringify(process.env.BASE_URL),
+  'process.env.GOOGLE_CLIENT_ID': JSON.stringify(process.env.GOOGLE_CLIENT_ID),
   __DEV__: false
 };
 
