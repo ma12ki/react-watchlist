@@ -9,7 +9,11 @@ import historyApiFallback from 'connect-history-api-fallback';
 import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
+import { config as dotenvConfig } from 'dotenv';
+
 import config from '../webpack.config.dev';
+
+dotenvConfig({ path: '../.env' });
 
 const bundler = webpack(config);
 

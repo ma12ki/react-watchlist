@@ -9,6 +9,7 @@ import { routesMapSel } from '../modules/location';
 const options = {
   basename: BASE_URL,
   onBeforeChange: (dispatch, getState, { action /*, extra*/ }) => {
+    console.log(BASE_URL, action, getState());
     const state = getState();
     checkAccess(dispatch, state, action);
   },

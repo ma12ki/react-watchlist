@@ -3,7 +3,11 @@
 
 import browserSync from 'browser-sync';
 import historyApiFallback from 'connect-history-api-fallback';
-import {chalkProcessing} from './chalkConfig';
+import { config as dotenvConfig } from 'dotenv';
+
+import { chalkProcessing } from './chalkConfig';
+
+dotenvConfig({ path: '../.env' });
 
 /* eslint-disable no-console */
 
@@ -16,7 +20,7 @@ browserSync({
     port: 4001
   },
   server: {
-    baseDir: 'dist'
+    baseDir: 'dist',
   },
 
   files: [
