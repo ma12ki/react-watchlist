@@ -2,10 +2,12 @@ import { redirect } from 'redux-first-router';
 import restoreScroll from 'redux-first-router-restore-scroll';
 import qs from 'qs';
 
+import { BASE_URL } from '../modules/config';
 import { userSel, ROUTE_LOGIN } from '../modules/user';
 import { routesMapSel } from '../modules/location';
 
 const options = {
+  basename: BASE_URL,
   onBeforeChange: (dispatch, getState, { action /*, extra*/ }) => {
     const state = getState();
     checkAccess(dispatch, state, action);

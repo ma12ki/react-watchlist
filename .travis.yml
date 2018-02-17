@@ -1,11 +1,18 @@
 language: node_js
 cache: yarn
 node_js:
-  - "7"
-  - "6"
-  - "5"
-  - "4"
-script: yarn run test:CI
-after_success:
-  # Send coverage data to coveralls.
-  - yarn run test:cover:CI
+  - "8"
+script: yarn build
+env:
+  global:
+    - API_URL: http://34.217.177.149/api/v1
+    - BASE_URL: /react-watchlist
+    - GOOGLE_CLIENT_ID: 539505879160-povfotva76gcajj42bbfg7bva763htbh.apps.googleusercontent.com
+deploy:
+  provider: pages
+  skip-cleanup: true
+  github-token: $GITHUB_TOKEN
+  keep-history: true
+  local-dir: dist
+  on:
+    branch: master
