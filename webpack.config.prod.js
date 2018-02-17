@@ -5,7 +5,10 @@ import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import WebpackMd5Hash from 'webpack-md5-hash';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import Dotenv from 'dotenv-webpack';
+import { config } from 'dotenv';
 import path from 'path';
+
+config();
 
 const GLOBALS = {
   'process.env.NODE_ENV': JSON.stringify('production'),
@@ -62,6 +65,7 @@ export default {
         minifyURLs: true
       },
       inject: true,
+      baseUrl: process.env.BASE_URL,
       // Note that you can add custom options here if you need to handle other custom logic in index.html
       // To track JavaScript errors via TrackJS, sign up for a free trial at TrackJS.com and enter your token below.
       trackJSToken: ''

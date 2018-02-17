@@ -1,7 +1,10 @@
 import webpack from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import Dotenv from 'dotenv-webpack';
+import { config } from 'dotenv';
 import path from 'path';
+
+config();
 
 export default {
   resolve: {
@@ -43,7 +46,8 @@ export default {
         removeComments: true,
         collapseWhitespace: true
       },
-      inject: true
+      inject: true,
+      baseUrl: process.env.BASE_URL,
     })
   ],
   module: {
