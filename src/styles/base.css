@@ -28,7 +28,8 @@ button {
   }
 }
 
-:global(.MuiSvgIcon-root-1) {
+:global(.MuiSvgIcon-root-1),
+:global(.c1) {
   vertical-align: middle;
 }
 
