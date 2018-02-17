@@ -1,1 +1,0 @@
-export { BaseHttpController } from './BaseHttpController';
