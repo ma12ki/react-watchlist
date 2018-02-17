@@ -27,7 +27,7 @@ export default {
   target: 'web',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    publicPath: '/',
+    publicPath: process.env.BASE_URL,
     filename: '[name].[chunkhash].js'
   },
   plugins: [
