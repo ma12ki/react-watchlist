@@ -9,6 +9,9 @@ const ToastContainer = () => (
     newestOnTop
     closeOnClick
     pauseOnHover
+    toastClassName="toastify-toast"
+    bodyClassName="toastify-body"
+    progressClassName="toastify-progress"
   />
 );
 
