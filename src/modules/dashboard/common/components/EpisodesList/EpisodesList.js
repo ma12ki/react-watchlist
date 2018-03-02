@@ -12,15 +12,7 @@ import styles from './EpisodesList.css';
 
 const EpisodesList = ({ episodes, isAtLeastAdmin }) => {
   return episodes
-    .sort((e1, e2) => {
-      if (e1.watched && !e2.watched) {
-        return 1;
-      }
-      if (!e1.watched && e2.watched) {
-        return -1;
-      }
-      return 0;
-    })
+    .sort(sortEpisodes)
     .map(e => {
       const { showId, slug, type, title, aka, recurring, season, episode, episodeId, premiereDate, watched, prevEpisodesWatched } = e;
       const fullTitle = recurring ? `${title} ${episodeLabel(season, episode)}` : title;
@@ -75,6 +67,39 @@ const EpisodesList = ({ episodes, isAtLeastAdmin }) => {
     );
   });
 };
+
+const sortEpisodes = (e1, e2) => [sortWatched, sortTitle, sortNumber('season'), sortNumber('episode')]
+  .reduce((sort, sortFn) => {
+    if (sort !== 0) {
+      return sort;
+    }
+    return sortFn(e1, e2);
+  }, 0);
+
+const sortWatched = (e1, e2) => {
+  if (e1.watched && !e2.watched) {
+    return 1;
+  }
+  if (!e1.watched && e2.watched) {
+    return -1;
+  }
+  return 0;
+};
+
+const sortTitle = (e1, e2) => {
+  const titleE1 = e1.title.toLowerCase();
+  const titleE2 = e2.title.toLowerCase();
+
+  if (titleE1 < titleE2) {
+    return -1;
+  }
+  if (titleE1 > titleE2) {
+    return 1;
+  }
+  return 0;
+};
+
+const sortNumber = (key) => (e1, e2) => e1[key] - e2[key];
 
 const stopPropagation = e => e.stopPropagation();
 
