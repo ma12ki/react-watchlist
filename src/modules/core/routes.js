@@ -11,7 +11,6 @@ import { ModuleLoader } from './components';
 
 const importShows = () => import('../+shows');
 const importUsers = () => import('../+users');
-const importLol = () => import('./+lol');
 
 export default {
   ...dashboardRoutes,
@@ -30,10 +29,6 @@ export default {
     path: '/users',
     component: () => <ModuleLoader importFn={importUsers} rootComponentName="UsersPage" />,
     roles: ['root'],
-  },
-  'lol/ROUTE_LOL': {
-    path: '/lol',
-    component: () => <ModuleLoader importFn={importLol} rootComponentName="LolPage" />,
   },
   [NOT_FOUND]: {
     component: () => <NotFound />
