@@ -17,19 +17,19 @@ class ModuleLoader extends React.Component {
   }
 
   loadAsyncModule = async () => {
-    const asyncModule = await this.props.moduleImport();
+    const asyncModule = await this.props.importFn();
     installModule(asyncModule);
     this.setState({ asyncModule, loading: false });
   }
 
   render() {
-    const { componentName } = this.props;
+    const { rootComponentName } = this.props;
     const { loading, asyncModule } = this.state;
 
     if (loading) {
       return <Spin delay={500} size="large" />;
     }
-    const Component = asyncModule[componentName];
+    const Component = asyncModule[rootComponentName];
     return <Component />;
   }
 }
@@ -59,8 +59,8 @@ const installEpics = (moduleName, epics) => {
 };
 
 ModuleLoader.propTypes = {
-  moduleImport: PropTypes.func.isRequired,
-  componentName: PropTypes.string.isRequired,
+  importFn: PropTypes.func.isRequired,
+  rootComponentName: PropTypes.string.isRequired,
 };
 
 export default ModuleLoader;

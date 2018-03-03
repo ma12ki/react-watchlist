@@ -6,7 +6,6 @@ import { NOT_FOUND } from 'redux-first-router';
 
 import { routes as dashboardRoutes } from '../dashboard';
 import { routes as showsRoutes } from '../shows';
-import { routes as usersRoutes } from '../users';
 import { routes as userRoutes } from '../user';
 import { NotFound } from '../shared';
 import { ModuleLoader } from './components';
@@ -14,13 +13,17 @@ import { ModuleLoader } from './components';
 export default {
   ...dashboardRoutes,
   ...showsRoutes,
-  ...usersRoutes,
   ...userRoutes,
   [NOT_FOUND]: {
     component: () => <NotFound />
   },
+  'users/ROUTE_USERS': {
+    path: '/users',
+    component: () => <ModuleLoader importFn={() => import('../+users')} rootComponentName="UsersPage" />,
+    roles: ['root'],
+  },
   'lol/ROUTE_LOL': {
     path: '/lol',
-    component: () => <ModuleLoader moduleImport={() => import('./+lol')} componentName="LolPage" />
+    component: () => <ModuleLoader importFn={() => import('./+lol')} rootComponentName="LolPage" />,
   }
 };
