@@ -58,6 +58,7 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
 const configureStore = process.env.NODE_ENV === 'production' ? configureStoreProd : configureStoreDev;
 
 const store = configureStore();
+store.installedAsyncModules = {};
 store.asyncReducers = {};
 
 export default store;

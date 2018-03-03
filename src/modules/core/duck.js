@@ -1,4 +1,5 @@
 import { combineEpics } from 'redux-observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import { moduleName as themesModuleName, reducers as themesReducers } from '../themes';
 import { moduleName as screenModuleName, reducers as screenReducers } from '../screen';
@@ -38,13 +39,15 @@ export default {
 //
 // epics
 //
-export const epics = combineEpics(
+
+export const epic$ = new BehaviorSubject(combineEpics(
   dashboardEpics,
   showOperationsEpics,
   showsEpics,
   usersEpics,
   userEpics,
-);
+));
+export const epics = (action$, store) => epic$.mergeMap(epic => epic(action$, store));
 
 //
 // services

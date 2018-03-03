@@ -4,6 +4,7 @@ import { combineReducers } from 'redux';
 import { Spin } from 'antd';
 
 import { default as store, rootReducer } from '../../store';
+import { epic$ } from '../../duck';
 
 class ModuleLoader extends React.Component {
   state = {
@@ -17,8 +18,7 @@ class ModuleLoader extends React.Component {
 
   loadAsyncModule = async () => {
     const asyncModule = await this.props.moduleImport();
-    console.log(asyncModule);
-    if (asyncModule.reducers) addNewReducer(asyncModule);
+    installModule(asyncModule);
     this.setState({ asyncModule, loading: false });
   }
 
@@ -34,15 +34,28 @@ class ModuleLoader extends React.Component {
   }
 }
 
-const addNewReducer = ({ reducers, moduleName }) => {
-  if (!store.asyncReducers[moduleName]) {
-    store.asyncReducers[moduleName] = reducers;
-    store.replaceReducer(combineReducers({
-      ...rootReducer,
-      ...store.asyncReducers,
-      [moduleName]: reducers,
-    }));
+const installModule = ({ moduleName, reducers, epics }) => {
+  if (!store.installedAsyncModules[moduleName]) {
+    if (reducers) {
+      store.asyncReducers[moduleName] = reducers;
+      installReducers(moduleName, reducers);
+    }
+    if (epics) {
+      installEpics(moduleName, epics);
+    }
   }
+};
+
+const installReducers = (moduleName, reducers) => {
+  store.replaceReducer(combineReducers({
+    ...rootReducer,
+    ...store.asyncReducers,
+    [moduleName]: reducers,
+  }));
+};
+
+const installEpics = (moduleName, epics) => {
+  epic$.next(epics);
 };
 
 ModuleLoader.propTypes = {

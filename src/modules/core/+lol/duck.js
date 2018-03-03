@@ -13,21 +13,29 @@ import { moduleName } from './constants';
 //
 export const ROUTE_LOL = `${moduleName}/ROUTE_LOL`;
 
+export const LOL = `${moduleName}/LOL`;
+export const MAO = `${moduleName}/MAO`;
+
 //
 // reducers
 //
-const mao = (state = {}) => {
+const mao = (state = 'RROFFFFLLLllzzzzz xDD') => {
   return state;
 };
 
 export default combineReducers({ mao });
 
 //
+// selectors
+//
+export const maoSel = state => state[moduleName].mao;
+
+//
 // epics
 //
 const roflEpic$ = action$ => action$
-  .ofType('XDDD')
-  .mapTo({ type: '%)%)%)%'});
+  .ofType(LOL)
+  .mapTo({ type: MAO });
 
 export const epics = combineEpics(
   roflEpic$,
