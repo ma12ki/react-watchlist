@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { routes } from '../../../../root';
+import routes from '../../routes';
 import { ResizeWatcher } from '../../../screen';
 import { EditShowModal, PostponeEpisodesModal } from '../../../showOperations';
 import LocaleProvider from '../LocaleProvider';

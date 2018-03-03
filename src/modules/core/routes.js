@@ -9,6 +9,7 @@ import { routes as showsRoutes } from '../shows';
 import { routes as usersRoutes } from '../users';
 import { routes as userRoutes } from '../user';
 import { NotFound } from '../shared';
+import { ModuleLoader } from './components';
 
 export default {
   ...dashboardRoutes,
@@ -18,4 +19,8 @@ export default {
   [NOT_FOUND]: {
     component: () => <NotFound />
   },
+  'lol/ROUTE_LOL': {
+    path: '/lol',
+    component: () => <ModuleLoader moduleImport={() => import('./+lol')} componentName="LolPage" />
+  }
 };
