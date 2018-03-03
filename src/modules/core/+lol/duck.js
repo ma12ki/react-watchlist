@@ -20,7 +20,7 @@ const mao = (state = {}) => {
   return state;
 };
 
-export default combineReducers(mao);
+export default combineReducers({ mao });
 
 //
 // epics

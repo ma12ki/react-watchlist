@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { combineReducers } from 'redux';
 import { Spin } from 'antd';
+
+import { default as store, rootReducer } from '../../store';
 
 class ModuleLoader extends React.Component {
   state = {
@@ -14,6 +17,8 @@ class ModuleLoader extends React.Component {
 
   loadAsyncModule = async () => {
     const asyncModule = await this.props.moduleImport();
+    console.log(asyncModule);
+    if (asyncModule.reducers) addNewReducer(asyncModule);
     this.setState({ asyncModule, loading: false });
   }
 
@@ -28,6 +33,17 @@ class ModuleLoader extends React.Component {
     return <Component />;
   }
 }
+
+const addNewReducer = ({ reducers, moduleName }) => {
+  if (!store.asyncReducers[moduleName]) {
+    store.asyncReducers[moduleName] = reducers;
+    store.replaceReducer(combineReducers({
+      ...rootReducer,
+      ...store.asyncReducers,
+      [moduleName]: reducers,
+    }));
+  }
+};
 
 ModuleLoader.propTypes = {
   moduleImport: PropTypes.func.isRequired,

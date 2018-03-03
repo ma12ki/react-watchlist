@@ -9,6 +9,8 @@ import options from './routerOptions';
 import { default as reducers, epics } from './duck';
 import initialState from './initialState';
 
+let rootReducer;
+
 const configureStoreProd = () => {
   const {
     reducer,
@@ -16,12 +18,12 @@ const configureStoreProd = () => {
     enhancer
   } = connectRoutes(routes, options);
 
-  const rootReducer = combineReducers({ ...reducers, location: reducer });
+  rootReducer = { ...reducers, location: reducer };
   const epicMiddleware = createEpicMiddleware(epics);
   const middlewares = applyMiddleware(middleware, epicMiddleware, thunk);
   const enhancers = compose(enhancer, middlewares);
 
-  return createStore(rootReducer, initialState, enhancers);
+  return createStore(combineReducers(rootReducer), initialState, enhancers);
 };
 
 const configureStoreDev = () => {
@@ -31,12 +33,12 @@ const configureStoreDev = () => {
     enhancer
   } = connectRoutes(routes, options);
 
-  const rootReducer = combineReducers({ ...reducers, location: reducer });
+  rootReducer = { ...reducers, location: reducer };
   const epicMiddleware = createEpicMiddleware(epics);
   const middlewares = applyMiddleware(reduxImmutableStateInvariant(), middleware, epicMiddleware, thunk);
   const enhancers = composeEnhancers(enhancer, middlewares);
 
-  const store = createStore(rootReducer, initialState, enhancers);
+  const store = createStore(combineReducers(rootReducer), initialState, enhancers);
 
   if (module.hot) {
     // Enable Webpack hot module replacement for reducers
@@ -55,4 +57,8 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
 
 const configureStore = process.env.NODE_ENV === 'production' ? configureStoreProd : configureStoreDev;
 
-export default configureStore();
+const store = configureStore();
+store.asyncReducers = {};
+
+export default store;
+export { rootReducer };
