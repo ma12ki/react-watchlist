@@ -1,6 +1,8 @@
 import React from 'react';
 import { ToastContainer as ToastifyContainer, toast } from 'react-toastify';
 
+import SlideInOutTransition from './SlideInOutTransition';
+
 const ToastContainer = () => (
   <ToastifyContainer
     position={toast.POSITION.BOTTOM_RIGHT}
@@ -12,6 +14,7 @@ const ToastContainer = () => (
     toastClassName="toastify-toast"
     bodyClassName="toastify-body"
     progressClassName="toastify-progress"
+    transition={SlideInOutTransition}
   />
 );
 

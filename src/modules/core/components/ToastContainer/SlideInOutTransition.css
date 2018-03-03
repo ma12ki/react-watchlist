@@ -1,0 +1,39 @@
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(120%);
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+.slideIn {
+  animation-name: slideIn;
+}
+
+@keyframes slideOut {
+  from {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+    transform: translateX(120%);
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+.slideOut {
+  animation-name: slideOut;
+}
+
+.animate {
+  animation-duration: .25s;
+  animation-fill-mode: both;
+  animation-timing-function: ease;
+}
