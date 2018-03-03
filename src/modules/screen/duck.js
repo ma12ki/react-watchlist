@@ -1,4 +1,5 @@
 import { moduleName, phone, tablet, desktop } from './constants';
+import { getScreenMeta } from './services';
 
 //
 // actions
@@ -31,3 +32,10 @@ const screen = (state = {}, { type, payload }) => {
 };
 
 export default screen;
+
+//
+// initial state
+//
+export const initialState = {
+  [moduleName]: getScreenMeta(),
+};

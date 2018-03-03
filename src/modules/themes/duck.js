@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 
 import { moduleName } from './constants';
-import { storeTheme } from './services';
+import { storeTheme, retrieveTheme } from './services';
 
 //
 // actions
@@ -36,3 +36,12 @@ export default combineReducers({
 //
 const moduleSel = (state) => state[moduleName];
 export const currentThemeSel = (state) => moduleSel(state).currentTheme;
+
+//
+// initial state
+//
+export const initialState = {
+  [moduleName]: {
+    currentTheme: retrieveTheme(),
+  },
+};

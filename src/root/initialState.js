@@ -1,13 +1,9 @@
-import { moduleName as themesModuleName, services as themesServices } from '../modules/themes';
-import { moduleName as screenModuleName, services as screenServices } from '../modules/screen';
-import { moduleName as userModuleName, retrieveUser } from '../modules/user';
+import { initialState as themesInitialState } from '../modules/themes';
+import { initialState as screenInitialState } from '../modules/screen';
+import { initialState as userInitialState } from '../modules/user';
 
 export default {
-  [themesModuleName]: {
-    currentTheme: themesServices.retrieveTheme(),
-  },
-  [screenModuleName]: screenServices.getScreenMeta(),
-  [userModuleName]: {
-    user: retrieveUser(),
-  }
+  ...themesInitialState,
+  ...screenInitialState,
+  ...userInitialState,
 };

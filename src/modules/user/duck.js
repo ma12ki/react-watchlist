@@ -143,3 +143,12 @@ export const retrieveUser = () => {
 export const decodeToken = token => jwt.decode(token, null, true);
 export const retrieveUserToken = () => localStorage.getItem(userStorageKey);
 export const removeUserToken = () => localStorage.removeItem(userStorageKey);
+
+//
+// initial state
+//
+export const initialState = {
+  [moduleName]: {
+    user: retrieveUser(),
+  }
+};
