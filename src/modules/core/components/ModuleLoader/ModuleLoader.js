@@ -8,25 +8,30 @@ import { epic$ } from '../../duck';
 
 class ModuleLoader extends React.Component {
   state = {
-    id: Math.random(),
     loading: true,
     asyncModule: {},
   }
 
   componentDidMount() {
-    this.loadAsyncModule();
+    this.loadAsyncModule(this.props.importFn);
   }
 
-  loadAsyncModule = async () => {
-    const asyncModule = await this.props.importFn();
+  componentWillReceiveProps = ({ importFn }) => {
+    if (importFn !== this.props.importFn) {
+      this.loadAsyncModule(importFn);
+    }
+  };
+
+  loadAsyncModule = async (importFn) => {
+    this.setState({ asyncModule: {}, loading: true });
+    const asyncModule = await importFn();
     installModule(asyncModule);
     this.setState({ asyncModule, loading: false });
   }
 
   render() {
     const { rootComponentName } = this.props;
-    const { loading, asyncModule, id } = this.state;
-    console.log(id, rootComponentName);
+    const { loading, asyncModule } = this.state;
 
     if (loading) {
       return <Spin delay={500} size="large" />;
@@ -38,6 +43,7 @@ class ModuleLoader extends React.Component {
 
 const installModule = ({ moduleName, reducers, epics }) => {
   if (!store.installedAsyncModules[moduleName]) {
+    store.installedAsyncModules[moduleName] = true;
     if (reducers) {
       store.asyncReducers[moduleName] = reducers;
       installReducers(moduleName, reducers);
