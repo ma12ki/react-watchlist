@@ -6,17 +6,14 @@ import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import 'moment/locale/en-ie';
 
-import { store as configureStore } from './root';
-import { components } from './modules/core';
+import { store, Main } from './modules/core';
 import './styles';
 
 require('./favicon.ico');
 
-const store = configureStore();
-
 render(
   <AppContainer>
-    <components.Main store={store} />
+    <Main store={store} />
   </AppContainer>,
   document.getElementById('app')
 );

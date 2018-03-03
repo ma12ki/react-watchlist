@@ -2,9 +2,9 @@ import { redirect } from 'redux-first-router';
 import restoreScroll from 'redux-first-router-restore-scroll';
 import qs from 'qs';
 
-import { BASE_URL } from '../modules/config';
-import { userSel, ROUTE_LOGIN } from '../modules/user';
-import { routesMapSel } from '../modules/location';
+import { BASE_URL } from '../config';
+import { userSel, ROUTE_LOGIN } from '../user';
+import { routesMapSel } from '../location';
 
 const options = {
   basename: BASE_URL,

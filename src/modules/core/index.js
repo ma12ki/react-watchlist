@@ -1,1 +1,2 @@
-export * as components from './components';
+export * from './components';
+export { default as store } from './store';

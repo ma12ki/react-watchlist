@@ -6,8 +6,7 @@ import { createEpicMiddleware } from 'redux-observable';
 
 import routes from './routes';
 import options from './routerOptions';
-import reducers from './reducers';
-import epics from './epics';
+import { default as reducers, epics } from './duck';
 import initialState from './initialState';
 
 const configureStoreProd = () => {
@@ -56,4 +55,4 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
 
 const configureStore = process.env.NODE_ENV === 'production' ? configureStoreProd : configureStoreDev;
 
-export default configureStore;
+export default configureStore();
