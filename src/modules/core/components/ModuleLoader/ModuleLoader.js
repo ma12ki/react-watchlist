@@ -8,6 +8,7 @@ import { epic$ } from '../../duck';
 
 class ModuleLoader extends React.Component {
   state = {
+    id: Math.random(),
     loading: true,
     asyncModule: {},
   }
@@ -24,7 +25,8 @@ class ModuleLoader extends React.Component {
 
   render() {
     const { rootComponentName } = this.props;
-    const { loading, asyncModule } = this.state;
+    const { loading, asyncModule, id } = this.state;
+    console.log(id, rootComponentName);
 
     if (loading) {
       return <Spin delay={500} size="large" />;

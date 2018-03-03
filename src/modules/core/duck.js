@@ -20,11 +20,6 @@ import {
   epics as showOperationsEpics,
 } from '../showOperations';
 import {
-  moduleName as showsModuleName,
-  reducers as showsReducers,
-  epics as showsEpics,
-} from '../shows';
-import {
   moduleName as userModuleName,
   reducers as userReducers,
   epics as userEpics,
@@ -38,7 +33,6 @@ export default {
   [screenModuleName]: screenReducers,
   [dashboardModuleName]: dashboardReducers,
   [showOperationsModuleName]: showOperationsReducers,
-  [showsModuleName]: showsReducers,
   [userModuleName]: userReducers,
 };
 
@@ -48,7 +42,6 @@ export default {
 export const epic$ = new BehaviorSubject(combineEpics(
   dashboardEpics,
   showOperationsEpics,
-  showsEpics,
   userEpics,
 ));
 export const epics = (action$, store) => epic$.mergeMap(epic => epic(action$, store));
