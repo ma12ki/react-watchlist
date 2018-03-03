@@ -1,14 +1,14 @@
 :global(.toastify-toast) {
-  border-radius: 0;
-  background-color: var(--bg-accent-color);
+  border-radius: 0 !important;
+  background-color: var(--bg-accent-color) !important;
 
   & > button {
-    color: var(--text-disabled-color);
+    color: var(--text-disabled-color) !important;
   }
 }
 :global(.toastify-body) {
-  color: var(--text-color);
+  color: var(--text-color) !important;
 }
 :global(.toastify-progress) {
-  background: var(--primary-color);
+  background: var(--primary-color) !important;
 }
