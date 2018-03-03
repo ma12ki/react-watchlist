@@ -1,5 +1,6 @@
 import webpack from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import CircularDependencyPlugin from 'circular-dependency-plugin';
 import Dotenv from 'dotenv-webpack';
 import { config } from 'dotenv';
 import path from 'path';
@@ -26,6 +27,13 @@ export default {
     filename: 'bundle.js'
   },
   plugins: [
+    // detect circular dependencies
+    new CircularDependencyPlugin({
+      exclude: /node_modules/,
+      failOnError: true,
+      cwd: process.cwd(),
+    }),
+
     // load env variables
     new Dotenv({
       safe: true // load .env.example
