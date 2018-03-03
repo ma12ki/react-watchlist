@@ -27,7 +27,7 @@ class ModuleLoader extends React.Component {
     const { loading, asyncModule } = this.state;
 
     if (loading) {
-      return <Spin />;
+      return <Spin delay={500} size="large" />;
     }
     const Component = asyncModule[componentName];
     return <Component />;
