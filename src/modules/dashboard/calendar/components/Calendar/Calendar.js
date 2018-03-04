@@ -6,7 +6,7 @@ import ChevronLeftIcon from 'material-ui-icons/ChevronLeft';
 import ChevronRightIcon from 'material-ui-icons/ChevronRight';
 import TodayIcon from 'material-ui-icons/Today';
 
-import { Calendar as BaseCalendar, IconButton } from '../../../../shared';
+import { Calendar as BaseCalendar, IconButton, Spin } from '../../../../shared';
 import { episodesRequest, setCalendarDates, episodesSel, loadingSel, datesSel } from '../../duck';
 import CalendarCell from './CalendarCell';
 import styles from './Calendar.css';
@@ -96,12 +96,14 @@ class Calendar extends React.Component {
         >
           <TodayIcon />
         </IconButton>
-        <BaseCalendar
-          className={styles.calendar}
-          value={selectedMonth}
-          dateCellRender={() => {}}
-          dateFullCellRender={this.renderFullCell}
-        />
+        <Spin size="large" spinning={loading} delay={200}>
+          <BaseCalendar
+            className={styles.calendar}
+            value={selectedMonth}
+            dateCellRender={() => {}}
+            dateFullCellRender={this.renderFullCell}
+          />
+        </Spin>
       </div>
     );
   }
