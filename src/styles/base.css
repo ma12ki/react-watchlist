@@ -36,3 +36,13 @@ button {
 input::placeholder {
   color: var(--text-disabled-color) !important;
 }
+
+::-webkit-scrollbar {
+  width: 1em;
+}
+::-webkit-scrollbar-track {
+  border: 1px solid var(--bg-accent-color);
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--bg-accent-color);
+}
