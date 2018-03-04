@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { combineReducers } from 'redux';
-import { Spin } from 'antd';
 
+import { Spin } from '../../../shared';
 import { default as store, rootReducer } from '../../store';
 import { epic$ } from '../../duck';
 
