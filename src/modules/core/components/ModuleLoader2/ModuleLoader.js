@@ -13,30 +13,30 @@ class ModuleLoader extends React.Component {
   }
 
   componentDidMount() {
-    this.loadAsyncModule(this.props.modulePromise);
+    this.loadAsyncModule(this.props.importFn);
   }
 
-  componentWillReceiveProps = ({ modulePromise }) => {
-    if (modulePromise !== this.props.modulePromise) {
-      this.loadAsyncModule(modulePromise);
+  componentWillReceiveProps = ({ importFn }) => {
+    if (importFn !== this.props.importFn) {
+      this.loadAsyncModule(importFn);
     }
   };
 
-  loadAsyncModule = async (modulePromise) => {
+  loadAsyncModule = async (importFn) => {
     this.setState({ asyncModule: {}, loading: true });
-    const asyncModule = await modulePromise;
+    const asyncModule = await importFn();
     installModule(asyncModule);
     this.setState({ asyncModule, loading: false });
   }
 
   render() {
-    const { componentName } = this.props;
+    const { rootComponentName } = this.props;
     const { loading, asyncModule } = this.state;
 
     if (loading) {
       return <Spin delay={500} size="large" />;
     }
-    const Component = asyncModule[componentName];
+    const Component = asyncModule[rootComponentName];
     return <Component />;
   }
 }
@@ -67,8 +67,8 @@ const installEpics = (moduleName, epics) => {
 };
 
 ModuleLoader.propTypes = {
-  modulePromise: PropTypes.object.isRequired,
-  componentName: PropTypes.string.isRequired,
+  importFn: PropTypes.func.isRequired,
+  rootComponentName: PropTypes.string.isRequired,
 };
 
 export default ModuleLoader;

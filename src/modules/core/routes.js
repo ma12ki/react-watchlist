@@ -7,27 +7,29 @@ import { NOT_FOUND } from 'redux-first-router';
 import { routes as dashboardRoutes } from '../dashboard';
 import { routes as userRoutes } from '../user';
 import { NotFound } from '../shared';
-import { ModuleLoader } from './components';
 
-const importShows = () => import('../+shows');
-const importUsers = () => import('../+users');
+const importShowsModule = () => import('../+shows');
+const importUsersModule = () => import('../+users');
 
 export default {
   ...dashboardRoutes,
   ...userRoutes,
   'shows/ROUTE_SHOW_DETAILS': {
     path: '/shows/:slug',
-    component: () => <ModuleLoader importFn={importShows} rootComponentName="ShowPage" />,
+    component: importShowsModule,
+    componentName: 'ShowPage',
     roles: ['root', 'admin', 'user'],
   },
   'shows/ROUTE_ALL_SHOWS': {
     path: '/shows',
-    component: () => <ModuleLoader importFn={importShows} rootComponentName="ShowsPage" />,
+    component: importShowsModule,
+    componentName: 'ShowsPage',
     roles: ['root', 'admin', 'user'],
   },
   'users/ROUTE_USERS': {
     path: '/users',
-    component: () => <ModuleLoader importFn={importUsers} rootComponentName="UsersPage" />,
+    component: importUsersModule,
+    componentName: 'UsersPage',
     roles: ['root'],
   },
   [NOT_FOUND]: {

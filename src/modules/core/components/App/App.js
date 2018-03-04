@@ -8,6 +8,7 @@ import { EditShowModal, PostponeEpisodesModal } from '../../../showOperations';
 import LocaleProvider from '../LocaleProvider';
 import Layout from '../Layout';
 import ToastContainer from '../ToastContainer';
+import ModuleLoader from '../ModuleLoader';
 import styles from './App.css';
 
 // This is a class-based component because the current
@@ -17,7 +18,11 @@ import styles from './App.css';
 export class App extends Component {
   render() {
     const { page } = this.props;
-    const component = routes[page].component();
+    const pageProps = routes[page];
+    let component = pageProps.component();
+    if (component instanceof Promise) {
+      component = <ModuleLoader modulePromise={component} componentName={pageProps.componentName} />;
+    }
 
     return (
       <div className={styles.app}>
